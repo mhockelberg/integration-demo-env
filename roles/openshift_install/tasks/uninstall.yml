@@ -1,0 +1,26 @@
+---
+
+# - name: uninstall sso
+#   import_role:
+#     name: openshift_sso
+#     tasks_from: uninstall
+#   vars:
+#     namespace: "{{ namespace_sso }}"
+#     resources_dir: "{{ resources_base_dir }}/sso"
+#     work_dir_name: sso
+
+# - name: remove user {{ cluster_provisioner }} as project admin in namespace sso
+#   oc_adm_policy_user:
+#     state: absent
+#     oc_binary: "{{ openshift_cli }}"
+#     resource_kind: role
+#     user: "{{ cluster_provisioner }}"
+#     namespace: "{{ namespace_sso }}"
+#     rolebinding_name: "{{ cluster_provisioner }}-admin"
+#     resource_name: admin
+
+# - name: delete namespace sso
+#   oc_project:
+#     oc_binary: "{{ openshift_cli }}"
+#     state: absent
+#     name: "{{ namespace_sso }}"

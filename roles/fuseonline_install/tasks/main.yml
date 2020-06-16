@@ -1,0 +1,156 @@
+---
+
+- shell: |
+    {{ openshift_cli }} get deployment syndesis-operator -o template --template={{ replica_status }} -n {{ namespace_fuseonline_operator }}
+  register: resource_status
+  ignore_errors: true
+
+- block:
+  - name: "copy {{ resources_base_dir }}/fuseonline-install/operator-group-fuseonline.yml"
+    template:
+      src: "{{ resources_base_dir }}/fuseonline-install/operator-group-fuseonline.yml"
+      dest: "{{ work_dir }}/operator-group-fuseonline.yml"
+  - name: "Create Fuse Online operator group"
+    shell: "{{ openshift_cli }} create -f {{ work_dir }}/operator-group-fuseonline.yml -n {{ namespace_fuseonline_operator }}"
+
+  # - name: "copy {{ resources_base_dir }}/fuseonline-install/operator-group-camelk.yml"
+  #   template:
+  #     src: "{{ resources_base_dir }}/fuseonline-install/operator-group-camelk.yml"
+  #     dest: "{{ work_dir }}/operator-group-camelk.yml"
+  # - name: "Create Camel-K operator group"
+  #   shell: "{{ openshift_cli }}  create -f {{ work_dir }}/operator-group-camelk.yml -n {{ namespace_fuseonline_operator }}"
+
+  - name: "copy {{ resources_base_dir }}/fuseonline-install/subscription-camelk.yml"
+    template:
+      src: "{{ resources_base_dir }}/fuseonline-install/subscription-camelk.yml"
+      dest: "{{ work_dir }}/subscription-camelk.yml"
+  - name: "Create Camel-K operator subscription"
+    shell: "{{ openshift_cli }} create -f {{ work_dir }}/subscription-camelk.yml -n {{ namespace_fuseonline_operator }}"
+
+  - name: "Check if Camel-K operator CSV exists"
+    command:  oc get csv red-hat-camel-k-operator.v1.0.0 -n {{ namespace_fuseonline_operator }}
+    register: wait_for_camelk_csv
+    until: wait_for_camelk_csv.rc == 0
+    retries: 10
+    delay: 5
+
+  - name: "Update Camel-K operator CSV with correct container image"
+    shell: "{{ openshift_cli }} patch csv red-hat-camel-k-operator.v1.0.0 --type='json' -p='[{\"op\": \"replace\", \"path\": \"/metadata/annotations/containerImage\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"},{\"op\": \"replace\", \"path\": \"/spec/install/spec/deployments/0/spec/template/spec/containers/0/image\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"}]' -n {{ namespace_fuseonline_operator }}"
+
+  - name: "Check if Camel-K operator deployment exists"
+    command:  oc get deploy camel-k-operator -n {{ namespace_fuseonline_operator }}
+    register: wait_for_camelk_deploy
+    until: wait_for_camelk_deploy.rc == 0
+    retries: 10
+    delay: 5
+
+  - name: "Update Camel-K operator deployment with correct container image"
+    shell: "{{ openshift_cli }} patch deploy camel-k-operator --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/metadata/annotations/containerImage\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"},{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"}]' -n {{ namespace_fuseonline_operator }}"
+
+  - name: "Wait until Camel-K operator is active"
+    shell: "{{ openshift_cli }} get deploy camel-k-operator -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
+    vars:
+      json_template: '\{\{.status.readyReplicas\}\}'
+    register: result
+    until: result.stdout == "1"
+    retries: 30
+    delay: 20
+    changed_when: false
+  
+  - name: "Create Integration Platform custom resource"
+    template:
+      src: "{{ resources_base_dir }}/fuseonline-install/custom-resources/integration-platform.yml"
+      dest: "{{ work_dir }}/integration-platform.yml"
+  - shell: "{{ openshift_cli }} create -f {{ work_dir }}/integration-platform.yml -n {{ namespace_fuseonline_operator }}"
+  
+  - name: "Wait until Integration Platform is active"
+    shell: "{{ openshift_cli }} get integrationplatform camel-k -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
+    vars:
+      json_template: '\{\{.status.phase\}\}'
+    register: result
+    until: result.stdout == "Ready"
+    retries: 30
+    delay: 20
+    changed_when: false
+
+  # - name: "copy {{ resources_base_dir }}/fuseonline-install/operator-group-fuseonline.yml"
+  #   template:
+  #     src: "{{ resources_base_dir }}/fuseonline-install/operator-group-fuseonline.yml"
+  #     dest: "{{ work_dir }}/operator-group-fuseonline.yml"
+  # - name: "Create Fuse Online operator group"
+  #   shell: "{{ openshift_cli }} create -f {{ work_dir }}/operator-group-fuseonline.yml -n {{ namespace_fuseonline_operator }}"
+
+  - name: "copy {{ resources_base_dir }}/fuseonline-install/subscription-fuseonline.yml"
+    template:
+      src: "{{ resources_base_dir }}/fuseonline-install/subscription-fuseonline.yml"
+      dest: "{{ work_dir }}/subscription-fuseonline.yml"
+  - name: "Create Fuse Online operator subscription"
+    shell: "{{ openshift_cli }} create -f {{ work_dir }}/subscription-fuseonline.yml -n {{ namespace_fuseonline_operator }}"
+
+  - name: "Create Syndesis pull secret"
+    shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config --export -o yaml | sed 's/pull-secret/syndesis-pull-secret/' | sed '/selfLink/d' | {{ openshift_cli }} apply -n {{ namespace_fuseonline_operator }} -f -"
+
+  - name: "Wait until Syndesis operator is active"
+    shell: "{{ openshift_cli }} get deploy syndesis-operator -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
+    vars:
+      json_template: '\{\{.status.readyReplicas\}\}'
+    register: result
+    until: result.stdout == "1"
+    retries: 30
+    delay: 20
+    changed_when: false
+
+  # - name: "Wait until Syndesis operator is active"
+  #   shell: "oc get csv fuse-online-operator.v7.6.0 -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
+  #   vars:
+  #     json_template: '\{\{.status.phase\}\}'
+  #   register: result
+  #   until: result.stdout == "Succeeded"
+  #   retries: 30
+  #   delay: 20
+  #   changed_when: false
+
+  - name: "Link Syndesis pull secret to the Syndesis operator service account."
+    shell: "{{ openshift_cli }} secrets link syndesis-operator syndesis-pull-secret --for=pull -n {{ namespace_fuseonline_operator }}"
+
+  - name: "Create Syndesis service"
+    template:
+      src: "{{ resources_base_dir }}/fuseonline-install/custom-resources/syndesis.yml"
+      dest: "{{ work_dir }}/syndesis.yml"
+  - shell: "{{ openshift_cli }} create -f {{ work_dir }}/syndesis.yml -n {{ namespace_fuseonline_operator }}"
+  
+  - name: "Wait until Syndesis is active"
+    shell: "{{ openshift_cli }} get dc syndesis-server -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
+    vars:
+      json_template: '\{\{.status.readyReplicas\}\}'
+    register: result
+    until: result.stdout == "1"
+    retries: 30
+    delay: 20
+    changed_when: false
+
+  # - name: "Wait until Syndesis is active"
+  #   shell: "oc get dc syndesis-service -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
+  #   vars:
+  #     json_template: '\{\{.status.phase\}\}'
+  #   register: result
+  #   until: result.stdout == "Installed"
+  #   retries: 30
+  #   delay: 20
+  #   changed_when: false
+
+  # - name: "Link Syndesis pull secret to the Jaeger service account (jaeger-operator)"
+  #   shell: "{{ openshift_cli }} secrets link jaeger-operator syndesis-pull-secret --for=pull -n {{ namespace_fuseonline_operator }}"
+  #   register: result
+  #   until: result.ansible_module_results.stderr == ""
+  #   retries: 30
+  #   delay: 15
+  #   changed_when: true
+
+  # - name: "Link Syndesis pull secret to the Jaeger service account (syndesis-jaeger-ui-proxy)"
+  #   shell: "{{ openshift_cli }} secrets link syndesis-jaeger-ui-proxy syndesis-pull-secret --for=pull -n {{ namespace_fuseonline_operator }}"
+
+  when: >
+    resource_status.stdout is not defined or
+    resource_status.stdout is none or
+    resource_status.stdout != "1"

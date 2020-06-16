@@ -1,0 +1,716 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    certified: 'false'
+    olm.targetNamespaces: fuse-online-addons
+    repository: 'https://github.com/apache/camel-k'
+    support: Camel
+    alm-examples: |-
+      [{
+        "apiVersion": "camel.apache.org/v1",
+        "kind": "IntegrationPlatform",
+        "metadata": {
+          "name": "example"
+        },
+        "spec": {}
+      },
+      {
+        "apiVersion": "camel.apache.org/v1",
+        "kind": "Integration",
+        "metadata": {
+          "name": "example"
+        },
+        "spec": {
+          "sources": [
+            {
+              "content": "from('timer:groovy?period=1000')\n  .setBody().simple('Hello world from Camel K!')\n  .to('log:info?showAll=false')",
+              "name": "example.groovy"
+            }
+          ]
+        }
+      },
+      {
+        "apiVersion": "camel.apache.org/v1",
+        "kind": "IntegrationKit",
+        "metadata": {
+          "name": "example"
+        },
+        "spec": {}
+      },
+      {
+        "apiVersion": "camel.apache.org/v1",
+        "kind": "CamelCatalog",
+        "metadata": {
+          "name": "example"
+        },
+        "spec": {}
+      },
+      {
+        "apiVersion": "camel.apache.org/v1",
+        "kind": "Build",
+        "metadata": {
+          "name": "example"
+        },
+        "spec": {}
+      }]
+    capabilities: Basic Install
+    olm.operatorNamespace: fuse-online-addons
+    containerImage: integration-tech-preview/camel-k-rhel8-operator
+    createdAt: '2020-03-09T02:45:00Z'
+    categories: Integration & Delivery
+    description: >-
+      Red Hat Integration - Camel K is a lightweight integration platform, born
+      on Kubernetes, with serverless superpowers.
+    olm.operatorGroup: fuse-online-addons-xssf2
+  selfLink: >-
+    /apis/operators.coreos.com/v1alpha1/namespaces/fuse-online-addons/clusterserviceversions/red-hat-camel-k-operator.v1.0.0
+  resourceVersion: '1980125'
+  name: red-hat-camel-k-operator.v1.0.0
+  uid: 5d66a402-5e37-4d03-830b-0291321adfc8
+  creationTimestamp: '2020-06-04T13:02:06Z'
+  generation: 1
+  namespace: fuse-online-addons
+  labels:
+    olm.api.6050c8d5fc00a079: provided
+    olm.api.927e500d31f64ec6: provided
+    olm.api.b19a9d1839440e92: provided
+    olm.api.c766370cb4da0c0c: provided
+    olm.api.d7b5fca1b16f9ecb: provided
+spec:
+  customresourcedefinitions:
+    owned:
+      - description: A Camel K build
+        displayName: Build
+        kind: Build
+        name: builds.camel.apache.org
+        version: v1
+      - description: A Camel catalog
+        displayName: Camel Catalog
+        kind: CamelCatalog
+        name: camelcatalogs.camel.apache.org
+        version: v1
+      - description: A Camel K integration
+        displayName: Integration
+        kind: Integration
+        name: integrations.camel.apache.org
+        version: v1
+      - description: A Camel K integration kit
+        displayName: Integration Kit
+        kind: IntegrationKit
+        name: integrationkits.camel.apache.org
+        version: v1
+      - description: A Camel K integration platform
+        displayName: Integration Platform
+        kind: IntegrationPlatform
+        name: integrationplatforms.camel.apache.org
+        version: v1
+  apiservicedefinitions: {}
+  keywords:
+    - apache
+    - kamel
+    - kubernetes
+    - serverless
+    - microservices
+  displayName: Red Hat Integration - Camel K
+  provider:
+    name: Red Hat
+  maturity: alpha
+  installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+  version: 1.0.0
+  icon:
+    - base64data: >-
+        PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2Q3MWUwMDt9LmNscy0ye2ZpbGw6I2MyMWEwMDt9LmNscy0ze2ZpbGw6I2ZmZjt9LmNscy00e2ZpbGw6I2VhZWFlYTt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPkxvZ288L3RpdGxlPjxnIGlkPSJMYXllcl8xIiBkYXRhLW5hbWU9IkxheWVyIDEiPjxjaXJjbGUgY2xhc3M9ImNscy0xIiBjeD0iNTAiIGN5PSI1MCIgcj0iNTAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMC43MSA1MCkgcm90YXRlKC00NSkiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik04NS4zNiwxNC42NEE1MCw1MCwwLDAsMSwxNC42NCw4NS4zNloiLz48cGF0aCBkPSJNMzEsMzEuMzZhMS45NCwxLjk0LDAsMCwxLTMuNjItLjg5LjQzLjQzLDAsMCwxLC41My0uNDQsMy4zMiwzLjMyLDAsMCwwLDIuODEuN0EuNDMuNDMsMCwwLDEsMzEsMzEuMzZaIi8+PHBhdGggY2xhc3M9ImNscy0zIiBkPSJNNzcuNjMsNDQuNzZDNzcuMTIsNDEuMzQsNzMsMjEsNjYuMzIsMjFjLTIuNDQsMC00LjU5LDMuMzUtNiw2Ljg4LS40NCwxLjA2LTEuMjMsMS4wOC0xLjYzLDBDNTcuMjQsMjQuMTYsNTUuODgsMjEsNTMuMjgsMjEsNDMuMzQsMjEsNDcuODQsNDUuMTgsMzksNDUuMThjLTQuNTcsMC01LjM3LTEwLjU5LTUuNS0xNC43MiwyLjE5LjY1LDMuMy0xLDMuNTUtMi42MWEuNjMuNjMsMCwwLDAtLjQ4LS43MiwzLjM2LDMuMzYsMCwwLDAtMywuODlIMjcuMzFhMSwxLDAsMCwwLS42OC4yOGwtLjUzLjUzSDIyLjIxYS41NC41NCwwLDAsMC0uMzguMTZsLTMuOTUsMy45NWEuNTQuNTQsMCwwLDAsLjM4LjkxaC4zNmwwLDBIMjkuNzFjLjYsNi4yNiwxLjc1LDIyLDE2LjQyLDE3LjE5bC0uMzIsNUw0NC4zNyw3OC40NmExLDEsMCwwLDAsMSwxaDQuOWExLDEsMCwwLDAsMS0xbC0uNjEtMjMuMzMtLjE1LTUuODFjNi0yLjc4LDktNS42NiwxNi4xOS02Ljc1LTEuNTksMi42Mi0yLjA1LDYuODctMi4wNiw4LS4wNiw2LDIuNTUsOC43NCw1LDEzLjIyTDYzLjczLDc4YTEsMSwwLDAsMCwuODksMS4zMmg0LjY0YTEsMSwwLDAsMCwuOTMtLjc0TDc0LDYyLjZjLTQuODMtNy40MywxLjgzLTE1LjMxLDMuNDEtMTdBMSwxLDAsMCwwLDc3LjYzLDQ0Ljc2Wk0zMSwzMS4zNmExLjk0LDEuOTQsMCwwLDEtMy42Mi0uODkuNDMuNDMsMCwwLDEsLjUzLS40NCwzLjMyLDMuMzIsMCwwLDAsMi44MS43QS40My40MywwLDAsMSwzMSwzMS4zNloiLz48cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Ik00Ni4xMyw1MS4wN0MzMS40Niw1NS45MiwzMC4zMSw0MC4xNCwyOS43MSwzMy44OEgxOC42NUwyMC43NSwzNmExLDEsMCwwLDAsLjY4LjI4aDZjMCw1LjgsMS4xMywyMC4yLDE0LDIwLjJhMzEuMzQsMzEuMzQsMCwwLDAsNC40Mi0uMzVaIi8+PHBhdGggY2xhc3M9ImNscy00IiBkPSJNNTAuNDEsNDkuMzZsLjE1LDUuODFhMTA4LjIsMTA4LjIsMCwwLDAsMTQtNC41NCwxOS43OSwxOS43OSwwLDAsMSwyLjA2LThDNTkuNDYsNDMuNyw1Ni40NCw0Ni41OCw1MC40MSw0OS4zNloiLz48L2c+PC9zdmc+
+      mediatype: image/svg+xml
+  minKubeVersion: 1.14.0
+  links:
+    - name: Apache Camel K source code repository
+      url: 'https://github.com/apache/camel-k'
+  install:
+    spec:
+      clusterPermissions:
+        - rules:
+            - apiGroups:
+                - console.openshift.io
+              resources:
+                - consoleclidownloads
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - camel.apache.org
+              resources:
+                - '*'
+              verbs:
+                - '*'
+          serviceAccountName: camel-k-operator
+      deployments:
+        - name: camel-k-operator
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                name: camel-k-operator
+            strategy:
+              type: Recreate
+            template:
+              metadata:
+                creationTimestamp: null
+                labels:
+                  app: camel-k
+                  camel.apache.org/component: operator
+                  name: camel-k-operator
+              spec:
+                containers:
+                  - command:
+                      - kamel
+                      - operator
+                    env:
+                      - name: WATCH_NAMESPACE
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: 'metadata.annotations[''olm.targetNamespaces'']'
+                      - name: OPERATOR_NAME
+                        value: camel-k
+                      - name: POD_NAME
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: metadata.name
+                      - name: NAMESPACE
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: metadata.namespace
+                    image: integration-tech-preview/camel-k-rhel8-operator
+                    imagePullPolicy: IfNotPresent
+                    name: camel-k-operator
+                    resources: {}
+                serviceAccountName: camel-k-operator
+      permissions:
+        - rules:
+            - apiGroups:
+                - camel.apache.org
+              resources:
+                - '*'
+              verbs:
+                - '*'
+            - apiGroups:
+                - ''
+              resources:
+                - pods
+                - services
+                - endpoints
+                - persistentvolumeclaims
+                - configmaps
+                - secrets
+                - serviceaccounts
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - rbac.authorization.k8s.io
+              resources:
+                - roles
+                - rolebindings
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - ''
+              resources:
+                - events
+              verbs:
+                - create
+                - patch
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - apps
+              resources:
+                - deployments
+                - replicasets
+                - statefulsets
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - batch
+              resources:
+                - cronjobs
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - apps
+              resources:
+                - daemonsets
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - extensions
+              resources:
+                - ingresses
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - ''
+                - build.openshift.io
+              resources:
+                - buildconfigs
+                - buildconfigs/webhooks
+                - builds
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - ''
+                - image.openshift.io
+              resources:
+                - imagestreamimages
+                - imagestreammappings
+                - imagestreams
+                - imagestreams/secrets
+                - imagestreamtags
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - ''
+                - build.openshift.io
+              resources:
+                - buildconfigs/instantiate
+                - buildconfigs/instantiatebinary
+                - builds/clone
+              verbs:
+                - create
+            - apiGroups:
+                - ''
+                - route.openshift.io
+              resources:
+                - routes
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - ''
+                - route.openshift.io
+              resources:
+                - routes/custom-host
+              verbs:
+                - create
+            - apiGroups:
+                - serving.knative.dev
+              resources:
+                - services
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - eventing.knative.dev
+                - messaging.knative.dev
+              resources:
+                - '*'
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+            - apiGroups:
+                - monitoring.coreos.com
+              resources:
+                - servicemonitors
+              verbs:
+                - create
+                - delete
+                - deletecollection
+                - get
+                - list
+                - patch
+                - update
+                - watch
+          serviceAccountName: camel-k-operator
+    strategy: deployment
+  maintainers:
+    - email: janstey@redhat.com
+      name: Jon Anstey
+  description: >
+    Red Hat Integration - Camel K
+
+    ==============
+
+
+    **Red Hat Integration - Camel K** is a lightweight integration platform,
+    born on Kubernetes, with serverless superpowers.
+
+
+    ## Installation
+
+
+    To start using Camel K, install the operator and then create the following
+    `IntegrationPlatform`:
+
+    ```
+
+    apiVersion: camel.apache.org/v1
+
+    kind: IntegrationPlatform
+
+    metadata:
+      name: camel-k
+      labels:
+        app: "camel-k"
+    ```
+
+
+    ## Running an Integration
+
+
+    After the initial setup, you can run a Camel integration on the cluster by
+    creating an example `Integration`:
+
+    ```
+
+    apiVersion: camel.apache.org/v1
+
+    kind: Integration
+
+    metadata:
+      name: example
+    spec:
+      sources:
+      - content: |
+          import org.apache.camel.builder.RouteBuilder;
+
+          public class Example extends RouteBuilder {
+              @Override
+              public void configure() throws Exception {
+                  from("timer:tick")
+                      .setBody(constant("Hello World!"))
+                  .to("log:info?skipBodyLineSeparator=false");
+              }
+          }
+      name: Example.java
+    ```
+  selector:
+    matchLabels:
+      name: camel-k-operator
+  labels:
+    name: camel-k-operator
+status:
+  conditions:
+    - lastTransitionTime: '2020-06-04T13:02:06Z'
+      lastUpdateTime: '2020-06-04T13:02:06Z'
+      message: requirements not yet checked
+      phase: Pending
+      reason: RequirementsUnknown
+    - lastTransitionTime: '2020-06-04T13:02:06Z'
+      lastUpdateTime: '2020-06-04T13:02:06Z'
+      message: one or more requirements couldn't be found
+      phase: Pending
+      reason: RequirementsNotMet
+    - lastTransitionTime: '2020-06-04T13:02:08Z'
+      lastUpdateTime: '2020-06-04T13:02:08Z'
+      message: 'all requirements found, attempting install'
+      phase: InstallReady
+      reason: AllRequirementsMet
+    - lastTransitionTime: '2020-06-04T13:02:09Z'
+      lastUpdateTime: '2020-06-04T13:02:09Z'
+      message: waiting for install components to report healthy
+      phase: Installing
+      reason: InstallSucceeded
+    - lastTransitionTime: '2020-06-04T13:02:09Z'
+      lastUpdateTime: '2020-06-04T13:02:09Z'
+      message: >
+        installing: waiting for deployment camel-k-operator to become ready:
+        Waiting for deployment spec update to be observed...
+      phase: Installing
+      reason: InstallWaiting
+    - lastTransitionTime: '2020-06-04T13:07:09Z'
+      lastUpdateTime: '2020-06-04T13:07:09Z'
+      message: install timeout
+      phase: Failed
+      reason: InstallCheckFailed
+    - lastTransitionTime: '2020-06-04T13:07:09Z'
+      lastUpdateTime: '2020-06-04T13:07:09Z'
+      message: >
+        installing: waiting for deployment camel-k-operator to become ready:
+        Waiting for rollout to finish: 0 of 1 updated replicas are available...
+      phase: Pending
+      reason: NeedsReinstall
+    - lastTransitionTime: '2020-06-04T13:07:09Z'
+      lastUpdateTime: '2020-06-04T13:07:09Z'
+      message: 'all requirements found, attempting install'
+      phase: InstallReady
+      reason: AllRequirementsMet
+    - lastTransitionTime: '2020-06-04T13:07:10Z'
+      lastUpdateTime: '2020-06-04T13:07:10Z'
+      message: waiting for install components to report healthy
+      phase: Installing
+      reason: InstallSucceeded
+    - lastTransitionTime: '2020-06-04T13:07:10Z'
+      lastUpdateTime: '2020-06-04T13:07:10Z'
+      message: >
+        installing: waiting for deployment camel-k-operator to become ready:
+        Waiting for rollout to finish: 0 of 1 updated replicas are available...
+      phase: Installing
+      reason: InstallWaiting
+    - lastTransitionTime: '2020-06-04T13:10:05Z'
+      lastUpdateTime: '2020-06-04T13:10:05Z'
+      message: install strategy completed with no errors
+      phase: Succeeded
+      reason: InstallSucceeded
+  lastTransitionTime: '2020-06-04T13:10:05Z'
+  lastUpdateTime: '2020-06-04T13:10:05Z'
+  message: install strategy completed with no errors
+  phase: Succeeded
+  reason: InstallSucceeded
+  requirementStatus:
+    - group: operators.coreos.com
+      kind: ClusterServiceVersion
+      message: CSV minKubeVersion (1.14.0) less than server version (v1.17.1)
+      name: red-hat-camel-k-operator.v1.0.0
+      status: Present
+      version: v1alpha1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      message: CRD is present and Established condition is true
+      name: builds.camel.apache.org
+      status: Present
+      uuid: 3db0f0d9-3790-4aef-ad3d-666d75373b4f
+      version: v1beta1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      message: CRD is present and Established condition is true
+      name: camelcatalogs.camel.apache.org
+      status: Present
+      uuid: 9620aada-3633-4ce9-a35d-2892fe9145d1
+      version: v1beta1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      message: CRD is present and Established condition is true
+      name: integrationkits.camel.apache.org
+      status: Present
+      uuid: 36764c0f-692b-43cd-a926-0cee10f5e776
+      version: v1beta1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      message: CRD is present and Established condition is true
+      name: integrationplatforms.camel.apache.org
+      status: Present
+      uuid: 4cff37da-9f53-40c2-bf5b-6ef34914d93a
+      version: v1beta1
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      message: CRD is present and Established condition is true
+      name: integrations.camel.apache.org
+      status: Present
+      uuid: 6cd27f67-8f73-4316-a13f-22bc85b3eb84
+      version: v1beta1
+    - dependents:
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["*"],"apiGroups":["camel.apache.org"],"resources":["*"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":[""],"resources":["pods","services","endpoints","persistentvolumeclaims","configmaps","secrets","serviceaccounts"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":["rbac.authorization.k8s.io"],"resources":["roles","rolebindings"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","patch","get","list","watch"],"apiGroups":[""],"resources":["events"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":["apps"],"resources":["deployments","replicasets","statefulsets"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":["batch"],"resources":["cronjobs"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","watch"],"apiGroups":["apps"],"resources":["daemonsets"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":["extensions"],"resources":["ingresses"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":["","build.openshift.io"],"resources":["buildconfigs","buildconfigs/webhooks","builds"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":["","image.openshift.io"],"resources":["imagestreamimages","imagestreammappings","imagestreams","imagestreams/secrets","imagestreamtags"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create"],"apiGroups":["","build.openshift.io"],"resources":["buildconfigs/instantiate","buildconfigs/instantiatebinary","builds/clone"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":["","route.openshift.io"],"resources":["routes"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create"],"apiGroups":["","route.openshift.io"],"resources":["routes/custom-host"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":["serving.knative.dev"],"resources":["services"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":["eventing.knative.dev","messaging.knative.dev"],"resources":["*"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":["monitoring.coreos.com"],"resources":["servicemonitors"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["create","delete","deletecollection","get","list","patch","update","watch"],"apiGroups":["console.openshift.io"],"resources":["consoleclidownloads"]}
+          status: Satisfied
+          version: v1beta1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["*"],"apiGroups":["camel.apache.org"],"resources":["*"]}
+          status: Satisfied
+          version: v1beta1
+      group: ''
+      kind: ServiceAccount
+      message: ''
+      name: camel-k-operator
+      status: Present
+      version: v1

@@ -1,0 +1,104 @@
+---
+
+# # scale down process service
+# - name: scale down process service
+#   shell: "{{ openshift_cli }} scale --replicas=0 dc {{ process_service_application_name }} -n {{ namespace_services }}"
+
+
+# # uninstall kafka
+# - name: uninstall kafka topics
+#   import_role:
+#     name: openshift_kafka_topics
+#     tasks_from: uninstall
+#   vars:
+#     namespace: "{{ namespace_kafka_cluster }}"
+#     resources_dir: "{{ resources_base_dir }}/strimzi"
+#     work_dir_name: kafka-topics
+
+# - name: uninstall kafka cluster
+#   import_role:
+#     name: openshift_kafka_cluster
+#     tasks_from: uninstall
+#   vars:
+#     namespace: "{{ namespace_kafka_cluster }}"
+#     work_dir_name: kafka-cluster
+
+# # uninstall datagrid
+# - name: uninstall datagrid
+#   import_role:
+#     name: openshift_datagrid
+#     tasks_from: uninstall
+#   vars:
+#     namespace: "{{ namespace_datagrid }}"
+#     resources_dir: "{{ resources_base_dir }}/datagrid"
+#     work_dir_name: datagrid
+
+# # uninstall postgresql
+# - name: uninstall postgresql
+#   import_role:
+#     name: openshift_postgresql
+#     tasks_from: uninstall
+#   vars:
+#     namespace: "{{ namespace_postgresql }}"
+#     resources_dir: "{{ resources_base_dir }}/postgresql"
+#     work_dir_name: postgresql
+
+# # Recreate the SSO Realm
+# - name: recreate the SSO realm
+#   import_role:
+#     name: openshift_sso
+#     tasks_from: reset
+#   vars:
+#     namespace: "{{ namespace_sso }}"
+#     resources_dir: "{{ resources_base_dir }}/sso"
+#     work_dir_name: sso
+
+# # install kafka
+# - name: install kafka cluster
+#   import_role:
+#     name: openshift_kafka_cluster
+#   vars:
+#     namespace: "{{ namespace_kafka_cluster }}"
+#     resources_dir: "{{ resources_base_dir }}/strimzi"
+#     work_dir_name: kafka-cluster
+
+# - name: install kafka topics
+#   import_role:
+#     name: openshift_kafka_topics
+#   vars:
+#     namespace: "{{ namespace_kafka_cluster }}"
+#     resources_dir: "{{ resources_base_dir }}/strimzi"
+#     work_dir_name: kafka-topics
+
+# # install datagrid
+# - name: install datagrid
+#   import_role:
+#     name: openshift_datagrid
+#   vars:
+#     namespace: "{{ namespace_datagrid }}"
+#     resources_dir: "{{ resources_base_dir }}/datagrid"
+#     work_dir_name: datagrid
+
+# # install postgresql
+# - name: install postgresql
+#   import_role:
+#     name: openshift_postgresql
+#   vars:
+#     namespace: "{{ namespace_postgresql }}"
+#     resources_dir: "{{ resources_base_dir }}/postgresql"
+#     work_dir_name: postgresql
+
+# # install postgresql process service
+# - name: install process service
+#   import_role:
+#     name: openshift_process_service
+#     tasks_from: deploy_postgresql
+#   vars:
+#     namespace: "{{ namespace_services }}"
+#     resources_dir: "{{ resources_base_dir }}/process-service"
+#     work_dir_name: process-service
+
+# # scale up process service
+# - name: scale up process service
+#   shell: "{{ openshift_cli }} scale --replicas=1 dc {{ process_service_application_name }} -n {{ namespace_services }}"
+

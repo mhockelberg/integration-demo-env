@@ -1,0 +1,25 @@
+apiVersion: syndesis.io/v1beta1
+kind: Syndesis
+metadata:
+  name: syndesis-service
+  namespace: {{ namespace_fuseonline_operator }}
+spec:
+  components:
+    server:
+      features:
+        managementUrlFor3scale: "https://{{ threescale_tenant_name }}-admin.{{ ocp_domain }}"
+  addons:
+    camelk:
+      enabled: true
+    dv:
+      enabled: true
+      resources:
+        memory: 1024Mi
+    jaeger:
+      enabled: false
+    knative:
+      enabled: true
+    todo:
+      enabled: false
+    ops:
+      enabled: true

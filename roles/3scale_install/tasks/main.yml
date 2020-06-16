@@ -1,0 +1,80 @@
+---
+
+- shell: |
+    {{ openshift_cli }} get deployment 3scale-operator -o template --template={{ replica_status }} -n {{ namespace_threescale_operator }}
+  register: resource_status
+  ignore_errors: true
+
+- block:
+  - name: "copy {{ resources_base_dir }}/3scale-install/operator-group.yml"
+    template:
+      src: "{{ resources_base_dir }}/3scale-install/operator-group.yml"
+      dest: "{{ work_dir }}/operator-group.yml"
+  - name: "Create 3scale operator group"
+    shell: "oc create -f {{ work_dir }}/operator-group.yml -n {{ namespace_threescale_operator }}"
+
+  - name: "copy {{ resources_base_dir }}/3scale-install/subscription.yml"
+    template:
+      src: "{{ resources_base_dir }}/3scale-install/subscription.yml"
+      dest: "{{ work_dir }}/3scale-subscription.yml"
+  - name: "Create 3scale subscription"
+    shell: "oc create -f {{ work_dir }}/3scale-subscription.yml -n {{ namespace_threescale_operator }}"
+
+  - name: "Wait until 3scale operator is active"
+    shell: "oc get deployment 3scale-operator -o template --template={{ json_template }} -n {{ namespace_threescale_operator }}"
+    vars:
+      json_template: '\{\{.status.readyReplicas\}\}'
+    register: result
+    until: result.stdout == "1"
+    retries: 30
+    delay: 15
+    changed_when: false
+
+  - name: "Define 3scale AWS S3 Secret" # changed for 2.8 install
+    template:
+      src: "{{ resources_base_dir }}/3scale-install/secrets/aws-auth.yml" # changed from cm to secret for install 2.8
+      dest: "{{ work_dir }}/aws-auth.yml"
+  - shell: "oc create -f {{ work_dir }}/aws-auth.yml -n {{ namespace_threescale_operator }}"
+
+  - name: "Define 3scale system-smtp Secret" # new for 2.8 install
+    template:
+      src: "{{ resources_base_dir }}/3scale-install/secrets/system-smtp.yml" # changed from cm to secret for install 2.8
+      dest: "{{ work_dir }}/system-smtp.yml"
+  - shell: "oc create -f {{ work_dir }}/system-smtp.yml -n {{ namespace_threescale_operator }}"
+
+  - name: "Create 3scale Pull Secret"
+    shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config --export -o yaml | sed 's/pull-secret/threescale-registry-auth/' | sed '/selfLink/d' | {{ openshift_cli }} apply -n {{ namespace_threescale_operator }} -f -"
+
+  # - name: "Create 3scale SMTP config map" # needed for 2.7 install
+  #   template:
+  #     src: "{{ resources_base_dir }}/3scale-install/3scale_smtp_cm.yml"
+  #     dest: "{{ work_dir }}/3scale_smtp_cm.yml"
+  # - shell: "oc create -f {{ work_dir }}/3scale_smtp_cm.yml -n {{ namespace_threescale_operator }}"
+
+  - name: "Create 3scale system-seed secret"
+    template:
+      src: "{{ resources_base_dir }}/3scale-install/secrets/system-seed.yml"
+      dest: "{{ work_dir }}/system-seed.yml"
+  - shell: "oc create -f {{ work_dir }}/system-seed.yml -n {{ namespace_threescale_operator }}"
+  
+  - name: "Create 3scale API Manager"
+    template:
+      #src: "{{ resources_base_dir }}/3scale-install/custom-resources/api-manager-2.7.yml" # install 2.7
+      src: "{{ resources_base_dir }}/3scale-install/custom-resources/api-manager-2.8.yml" # install 2.8
+      dest: "{{ work_dir }}/api-manager.yml"
+  - shell: "oc create -f {{ work_dir }}/api-manager.yml -n {{ namespace_threescale_operator }}"
+  
+  - name: "Wait until 3scale API Manager is active"
+    shell: "oc get dc system-app -o template --template={{ json_template }} -n {{ namespace_threescale_operator }}"
+    vars:
+      json_template: '\{\{.status.availableReplicas\}\}'
+    register: result
+    until: result.stdout == "1"
+    retries: 30
+    delay: 20
+    changed_when: false
+
+  when: >
+    resource_status.stdout is not defined or
+    resource_status.stdout is none or
+    resource_status.stdout != "1"

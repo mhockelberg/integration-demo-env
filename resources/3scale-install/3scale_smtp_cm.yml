@@ -1,0 +1,17 @@
+apiVersion: v1
+data:
+  address: {{ smtp_host }}
+  authentication: {{ smtp_authentication }}
+  domain: ""
+  openssl.verify.mode: ""
+  password: {{ smtp_passwd }}
+  port: "{{ smtp_port }}"
+  username: {{ smtp_userid }}
+kind: ConfigMap
+metadata:
+  labels:
+    app: 3scale-api-management
+    threescale_component: system
+    threescale_component_element: smtp
+  name: smtp
+  namespace: {{ namespace_threescale_operator }}

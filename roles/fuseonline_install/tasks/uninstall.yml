@@ -1,0 +1,9 @@
+---
+
+- name: uninstall 3scale 
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "apim-apimanager"
+    kind: apimanager
+    namespace: "{{ namespace }}"

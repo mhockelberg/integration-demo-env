@@ -1,0 +1,32 @@
+---
+
+- name: Deploy 3scale demo environment
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  run_once: true
+  vars_files:
+    - group_vars/3scale.yml
+    - group_vars/apicurito.yml
+    - group_vars/fuseonline.yml
+
+  tasks:
+    - include_role:
+        name: ../roles/openshift_install
+      when: >
+        ACTION is not defined or
+        ACTION is none or
+        ACTION|trim() == "" or
+        ACTION|trim() == "install"
+    - include_role:
+        name: ../roles/openshift_install
+        tasks_from: uninstall
+      when: >
+        ACTION is defined and
+        ACTION|trim() == "uninstall"
+    - include_role:
+        name: ../roles/openshift_install
+        tasks_from: reset
+      when: >
+        ACTION is defined and
+        ACTION|trim() == "reset"

@@ -1,0 +1,7 @@
+[all:vars]
+
+# Non-admin user with project admin permissions for the 3scale demo env projects
+cluster_provisioner=developer
+
+# valid choices: image, source
+deploy_from=image

@@ -1,0 +1,44 @@
+---
+
+threescale_install: false # install 3scale (boolean)
+namespace_threescale_operator: 3scale-demo-apim # project namespace for 3scale operator and application
+#threescale_operator_version_label: v0.4.1 # community version of the 3scale operator | install 2.7
+threescale_operator_version_label: v0.5.2 # Red Hat version of the 3scale operator | install 2.8
+
+# start s3 configuration ... used only when s3 is positioned as RWX storage
+api-aws-region: changeme # s3 bucket region
+api-aws-bucket: changeme # s3 bucket name
+api-aws-auth: changeme # name of aws auth secret e.g., aws-auth
+api_aws_key: changeme # aws security key
+api_aws_secret: changeme # aws security secret
+# end s3 configuration
+
+api_resource_requirements_enabled: false # provision with pre-configured (OOTB) resource allocations
+
+# # start smtp custom resource - required for version 2.7
+# smtp_host: changeme # smtp host e.g., smtp.mailtrap.io
+# smtp_port: changeme # smtp port e.g., 2525
+# smtp_authentication: changeme # authentication type e.g., plain
+# smtp_userid: changeme # smtp user id
+# smtp_passwd: changeme # smtp password
+# # end smtp custom resource
+
+# start smtp secret - required for version 2.8+
+smtp_host: changeme # smtp host e.g., smtp.mailtrap.io
+smtp_port: changeme # smtp port e.g., 2525
+smtp_authentication: changeme # authentication type e.g., plain
+smtp_userid: changeme # smtp user id
+smtp_passwd: changeme # smtp password
+# end smtp custom resource
+
+# start system-seed secret ... values must be base64 encoded
+threescale_admin_access_token: changeme # 3scale admin access token (default=generated)
+threescale_admin_email: changeme # '' this isn't being used (yet) because @ character is not allowed character for base64 encoding
+threescale_admin_passwd: changeme # 3scale admin console password (default=generated)
+threescale_admin_userid: changeme # 3scale admin console user id (default=admin)
+threescale_master_access_token: changeme # 3scale master access token (default=generated)
+threescale_master_domain: changeme # 3scale master domain (default=master)
+threescale_master_passwd: changeme # 3scale master console password (default=generated)
+threescale_master_userid: changeme # 3scale master console user id (default=master)
+threescale_tenant_name: changeme # 3scale tenant domain (default=3scale)
+# end system-seed secret

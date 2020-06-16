@@ -1,0 +1,10 @@
+---
+
+dependencies:
+  - role: openshift_cluster_admin_access
+    when: >
+      ACTION is not defined or
+      ACTION is none or
+      ACTION|trim() == "" or
+      ACTION|trim() == "install" or
+      ACTION|trim() == "uninstall"

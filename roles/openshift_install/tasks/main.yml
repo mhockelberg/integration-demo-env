@@ -1,0 +1,46 @@
+---
+
+- name: install 3scale
+  import_role:
+    name: 3scale_install
+  vars:
+    namespace: "{{ namespace_threescale_operator }}"
+    resources_dir: "{{ resources_base_dir }}/3scale-install"
+    work_dir_name: 3scale
+  when: threescale_install
+
+- name: install API Designer
+  import_role:
+    name: apicurito_install
+  vars:
+    namespace: "{{ namespace_apicurito_operator }}"
+    resources_dir: "{{ resources_base_dir }}/apicurito-install"
+    work_dir_name: apicurito
+  when: apicurito_install
+
+- name: install Fuse Online
+  import_role:
+    name: fuseonline_install
+  vars:
+    namespace: "{{ namespace_fuseonline_operator }}"
+    resources_dir: "{{ resources_base_dir }}/fuseonline-install"
+    work_dir_name: fuseonline
+  when: fuseonline_install
+
+#- name: install sso
+#  import_role:
+#    name: openshift_sso
+#  vars:
+#    namespace: "{{ namespace_sso }}"
+#    resources_dir: "{{ resources_base_dir }}/sso"
+#    work_dir_name: sso
+#
+#- name: assign user {{ cluster_provisioner }} as project admin in namespace sso
+#  oc_adm_policy_user:
+#    state: present
+#    oc_binary: "{{ openshift_cli }}"
+#    resource_kind: role
+#    user: "{{ cluster_provisioner }}"
+#    namespace: "{{ namespace_sso }}"
+#    rolebinding_name: "{{ cluster_provisioner }}-admin"
+#    resource_name: admin

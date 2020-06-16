@@ -1,0 +1,17 @@
+---
+
+- name: check if {{ resource_type }} {{ resource }} exists
+  oc_obj:
+    state: list
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ resource }}"
+    kind: "{{ resource_type }}"
+  register: result
+
+- name: create {{ resource }}
+  oc_list:
+    state: present
+    oc_binary: "{{ openshift_cli }}"
+    files:
+      - "{{ resource_template }}"
+  when: result.ansible_module_results.stderr is defined and result.ansible_module_results.stderr != ""
