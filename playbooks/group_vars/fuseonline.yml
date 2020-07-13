@@ -1,8 +1,9 @@
 ---
 
-fuseonline_install: false # install fuse online (boolean)
+fuseonline_install: true # install fuse online (boolean)
 namespace_fuseonline_operator: fuseonline-demo # project namespace for fuse online operator and application
 fuseonline_operator_version_label: v7.6.0 # Red Hat version of the Fuse Online operator
 camelk_operator_version_label: v1.0.0 # red-hat-camel-k-operator.v1.0.0
-camelk_operator_container_image_label_bad: integration-tech-preview/camel-k-rhel8-operator # replace with correct label in the operator CSV
-camelk_operator_container_image_label_good: registry.redhat.io/integration-tech-preview/camel-k-rhel8-operator:1.0-12 # correct TP image label, see https://issues.redhat.com/browse/ENTESB-13959
+#camelk_operator_container_image_label_bad: integration-tech-preview/camel-k-rhel8-operator # replace with correct label in the operator CSV
+#camelk_operator_container_image_label_good: registry.redhat.io/integration-tech-preview/camel-k-rhel8-operator:1.0-12 # correct TP image label, see https://issues.redhat.com/browse/ENTESB-13959
+camelk_operator_container_image_label_good: registry.redhat.io/integration-tech-preview/camel-k-rhel8-operator:1.0-13 # correct TP image label

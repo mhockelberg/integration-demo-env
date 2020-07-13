@@ -9,6 +9,7 @@
     - group_vars/3scale.yml
     - group_vars/apicurito.yml
     - group_vars/fuseonline.yml
+    - group_vars/amqstreams.yml
 
   tasks:
     - include_role:

@@ -1,6 +1,6 @@
 ---
 
-threescale_install: True # install 3scale (boolean)
+threescale_install: false # install 3scale (boolean)
 namespace_threescale_operator: 3scale-demo # project namespace for 3scale operator and application
 threescale_operator_version_label: v0.4.1 # community version of the 3scale operator
 

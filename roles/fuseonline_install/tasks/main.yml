@@ -27,25 +27,25 @@
   - name: "Create Camel-K operator subscription"
     shell: "{{ openshift_cli }} create -f {{ work_dir }}/subscription-camelk.yml -n {{ namespace_fuseonline_operator }}"
 
-  - name: "Check if Camel-K operator CSV exists"
-    command:  oc get csv red-hat-camel-k-operator.v1.0.0 -n {{ namespace_fuseonline_operator }}
-    register: wait_for_camelk_csv
-    until: wait_for_camelk_csv.rc == 0
-    retries: 10
-    delay: 5
+  # - name: "Check if Camel-K operator CSV exists"
+  #   command:  oc get csv red-hat-camel-k-operator.v1.0.0 -n {{ namespace_fuseonline_operator }}
+  #   register: wait_for_camelk_csv
+  #   until: wait_for_camelk_csv.rc == 0
+  #   retries: 10
+  #   delay: 5
 
-  - name: "Update Camel-K operator CSV with correct container image"
-    shell: "{{ openshift_cli }} patch csv red-hat-camel-k-operator.v1.0.0 --type='json' -p='[{\"op\": \"replace\", \"path\": \"/metadata/annotations/containerImage\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"},{\"op\": \"replace\", \"path\": \"/spec/install/spec/deployments/0/spec/template/spec/containers/0/image\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"}]' -n {{ namespace_fuseonline_operator }}"
+  # - name: "Update Camel-K operator CSV with correct container image"
+  #   shell: "{{ openshift_cli }} patch csv red-hat-camel-k-operator.v1.0.0 --type='json' -p='[{\"op\": \"replace\", \"path\": \"/metadata/annotations/containerImage\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"},{\"op\": \"replace\", \"path\": \"/spec/install/spec/deployments/0/spec/template/spec/containers/0/image\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"}]' -n {{ namespace_fuseonline_operator }}"
 
-  - name: "Check if Camel-K operator deployment exists"
-    command:  oc get deploy camel-k-operator -n {{ namespace_fuseonline_operator }}
-    register: wait_for_camelk_deploy
-    until: wait_for_camelk_deploy.rc == 0
-    retries: 10
-    delay: 5
+  # - name: "Check if Camel-K operator deployment exists"
+  #   command:  oc get deploy camel-k-operator -n {{ namespace_fuseonline_operator }}
+  #   register: wait_for_camelk_deploy
+  #   until: wait_for_camelk_deploy.rc == 0
+  #   retries: 10
+  #   delay: 5
 
-  - name: "Update Camel-K operator deployment with correct container image"
-    shell: "{{ openshift_cli }} patch deploy camel-k-operator --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/metadata/annotations/containerImage\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"},{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"}]' -n {{ namespace_fuseonline_operator }}"
+  # - name: "Update Camel-K operator deployment with correct container image"
+  #   shell: "{{ openshift_cli }} patch deploy camel-k-operator --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/metadata/annotations/containerImage\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"},{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\": \"{{ camelk_operator_container_image_label_good }}\"}]' -n {{ namespace_fuseonline_operator }}"
 
   - name: "Wait until Camel-K operator is active"
     shell: "{{ openshift_cli }} get deploy camel-k-operator -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
