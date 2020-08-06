@@ -2,5 +2,5 @@
 
 amqstreams_install: false # install AMQ streams (boolean)
 namespace_amqstreams_operator: amqstreams-demo # project namespace for AMQ streams operator and application
-amqstreams_operator_version_label: v1.5.0 # Red Hat version of the AMQ streams operator
+amqstreams_operator_version_label: v1.5.1 # Red Hat version of the AMQ streams operator
 

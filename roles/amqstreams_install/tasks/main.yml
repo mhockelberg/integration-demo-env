@@ -1,0 +1,111 @@
+---
+
+- shell: |
+    {{ openshift_cli }} get deployment amq-streams-cluster-operator-{{ amqstreams_operator_version_label }} -o template --template={{ replica_status }} -n {{ namespace_amqstreams_operator }}
+  register: resource_status
+  ignore_errors: true
+
+- block:
+  - name: "copy {{ resources_base_dir }}/amqstreams-install/operator-group-amqstreams.yml"
+    template:
+      src: "{{ resources_base_dir }}/amqstreams-install/operator-group-amqstreams.yml"
+      dest: "{{ work_dir }}/operator-group-amqstreams.yml"
+  - name: "Create AMQ Streams operator group"
+    shell: "{{ openshift_cli }} create -f {{ work_dir }}/operator-group-amqstreams.yml -n {{ namespace_amqstreams_operator }}"
+
+  - name: "Create image pull secret"
+    shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config --export -o yaml | sed 's/pull-secret/imagestreamsecret/' | sed '/selfLink/d' | {{ openshift_cli }} apply -n {{ namespace_amqstreams_operator }} -f -"
+
+  - name: "Link image pull secret to builder and deployer service accounts"
+    shell: "{{ openshift_cli }} secrets link deployer imagestreamsecret | {{ openshift_cli }} secrets link builder imagestreamsecret"
+
+  - name: "copy {{ resources_base_dir }}/amqstreams-install/subscription-amqstreams.yml"
+    template:
+      src: "{{ resources_base_dir }}/amqstreams-install/subscription-amqstreams.yml"
+      dest: "{{ work_dir }}/subscription-amqstreams.yml"
+  - name: "Create AMQ Streams operator subscription"
+    shell: "{{ openshift_cli }} create -f {{ work_dir }}/subscription-amqstreams.yml -n {{ namespace_amqstreams_operator }}"
+
+  - name: "Wait until AMQ Streams operator is active"
+    shell: "{{ openshift_cli }} get deploy amq-streams-cluster-operator-{{ amqstreams_operator_version_label }} -o template --template={{ go_template }} -n {{ namespace_amqstreams_operator }}"
+    vars:
+      go_template: '\{\{.status.readyReplicas\}\}'
+    register: result
+    until: result.stdout == "1"
+    retries: 30
+    delay: 20
+    changed_when: false
+  
+  - name: "Create Kafka custom resource"
+    template:
+      src: "{{ resources_base_dir }}/amqstreams-install/custom-resources/kafka.yml"
+      dest: "{{ work_dir }}/kafka.yml"
+  - shell: "{{ openshift_cli }} create -f {{ work_dir }}/kafka.yml -n {{ namespace_amqstreams_operator }}"
+  
+  - name: "Wait until Kafka is active"
+    shell: "{{ openshift_cli }} get kafka kafka-cluster -o template --template={{ go_template }} -n {{ namespace_amqstreams_operator }}"
+    vars:
+      go_template: '\{\{\(index\ .status.conditions\ 0\).type\}\}'
+    register: result
+    until: result.stdout == "Ready"
+    retries: 30
+    delay: 20
+    changed_when: false
+    # ignore_errors: true
+
+  - name: "Print Kafka status result variable info to console"
+    debug:
+      var: result
+    
+  - name: "Create Kafka Connect custom resource"
+    template:
+      src: "{{ resources_base_dir }}/amqstreams-install/custom-resources/kafka-connect.yml"
+      dest: "{{ work_dir }}/kafka-connect.yml"
+  - shell: "{{ openshift_cli }} create -f {{ work_dir }}/kafka-connect.yml -n {{ namespace_amqstreams_operator }}"
+  
+  - name: "Wait until Kafka Connect is active"
+    shell: "{{ openshift_cli }} get kafkaconnect kafka-connect-cluster -o template --template={{ go_template }} -n {{ namespace_amqstreams_operator }}"
+    vars:
+      go_template: '\{\{\(index\ .status.conditions\ 0\).type\}\}'
+    register: result
+    until: result.stdout == "Ready"
+    retries: 30
+    delay: 20
+    changed_when: false
+
+  - name: "Create Kafka Connect S2I custom resource"
+    template:
+      src: "{{ resources_base_dir }}/amqstreams-install/custom-resources/kafka-connect-s2i.yml"
+      dest: "{{ work_dir }}/kafka-connect-s2i.yml"
+  - shell: "{{ openshift_cli }} create -f {{ work_dir }}/kafka-connect-s2i.yml -n {{ namespace_amqstreams_operator }}"
+  
+  - name: "Wait until Kafka Connect S2I is active"
+    shell: "{{ openshift_cli }} get kafkaconnects2i kafka-connect-s2i-cluster -o template --template={{ go_template }} -n {{ namespace_amqstreams_operator }}"
+    vars:
+      go_template: '\{\{\(index\ .status.conditions\ 0\).type\}\}'
+    register: result
+    until: result.stdout == "Ready"
+    retries: 30
+    delay: 20
+    changed_when: false
+
+  - name: "Create Kafka Bridge custom resource"
+    template:
+      src: "{{ resources_base_dir }}/amqstreams-install/custom-resources/kafka-bridge.yml"
+      dest: "{{ work_dir }}/kafka-bridge.yml"
+  - shell: "{{ openshift_cli }} create -f {{ work_dir }}/kafka-bridge.yml -n {{ namespace_amqstreams_operator }}"
+  
+  - name: "Wait until Kafka Bridge is active"
+    shell: "{{ openshift_cli }} get kafkabridge kafka-bridge -o template --template={{ go_template }} -n {{ namespace_amqstreams_operator }}"
+    vars:
+      go_template: '\{\{\(index\ .status.conditions\ 0\).type\}\}'
+    register: result
+    until: result.stdout == "Ready"
+    retries: 30
+    delay: 20
+    changed_when: false  
+  
+  when: >
+    resource_status.stdout is not defined or
+    resource_status.stdout is none or
+    resource_status.stdout != "1"

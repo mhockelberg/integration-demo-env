@@ -10,6 +10,7 @@
     - group_vars/apicurito.yml
     - group_vars/fuseonline.yml
     - group_vars/amqstreams.yml
+    - group_vars/mysql.yml
 
   tasks:
     - include_role:

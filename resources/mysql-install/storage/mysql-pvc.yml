@@ -1,0 +1,17 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mysql57-pvc
+  namespace: {{ namespace_mysql }}
+  finalizers:
+    - kubernetes.io/pvc-protection
+  labels:
+    app: mysql57
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: gp2
+  volumeMode: Filesystem

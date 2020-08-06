@@ -1,0 +1,62 @@
+---
+
+- shell: |
+    {{ openshift_cli }} get dc mysql57 -o template --template={{ json_template }} -n {{ namespace_mysql }}
+  vars:
+      json_template: '\{\{.status.readyReplicas\}\}'
+  register: resource_status
+  ignore_errors: true
+
+- block:
+  - name: "copy {{ resources_base_dir }}/mysql-install/storage/mysql-pvc.yml"
+    template:
+      src: "{{ resources_base_dir }}/mysql-install/storage/mysql-pvc.yml"
+      dest: "{{ work_dir }}/mysql-pvc.yml"
+  - name: "Create persistent volume claim (PVC) for MySQL"
+    shell: "{{ openshift_cli }} apply -f {{ work_dir }}/mysql-pvc.yml -n {{ namespace_mysql }}"
+  
+  - name: "Create MySQL application"
+    shell: "oc new-app --name=mysql57 {{ mysql_image }} -n {{ namespace_mysql }}"
+
+  - name: "Configure MySQL credentials"
+    shell: "oc set env dc/mysql57 MYSQL_ROOT_PASSWORD=password  MYSQL_USER=dbuser MYSQL_PASSWORD=password -n {{ namespace_mysql }}"
+
+  - name: "Add persistent volume to MySQL deployment config"
+    shell: "oc set volume dc/mysql57 --add --type=persistentVolumeClaim --claim-name=mysql57-pvc --mount-path=/var/lib/mysql/data -n {{ namespace_mysql }}"
+
+  - name: "Wait until MySQL deployment is active"
+    shell: "oc get dc mysql57 -o template --template={{ json_template }} -n {{ namespace_mysql }}"
+    vars:
+      json_template: '\{\{.status.readyReplicas\}\}'
+    register: result
+    until: result.stdout == "1"
+    retries: 20
+    delay: 15
+    changed_when: false
+
+  - name: "Get MySQL pod name and store in mysql_pod variable"
+    shell: "oc get pods -o jsonpath='{{ jsonpath_template }}' --field-selector=status.phase=Running -n {{ namespace_mysql }} | grep mysql57"
+    register: mysql_pod
+    vars:
+      jsonpath_template: '{range .items[*]}{.metadata.name}{"\n"}{end}'
+    until: mysql_pod.rc == 0
+    retries: 5
+    delay: 5
+  
+  - name: "Print mysql_pod variable info to console"
+    debug:
+      var: mysql_pod
+
+  - name: "Run SQL scripts to create Employee DB inside the running MySQL pod"
+    loop:  "{{ mysql_pod.stdout_lines }}"
+    shell: "{{ openshift_cli }} exec {{ item }} -- bash -c 'cd /var/lib/mysql/sample-dbscripts && mysql -uroot -ppassword -P3306 --protocol=tcp -t < employees.sql' -n {{ namespace_mysql }}"
+    register: employeedb_sql_result
+
+  - name: "Print Employee DB SQL scripts execution result to console"
+    debug:
+      var: employeedb_sql_result 
+
+  when: >
+    resource_status.stdout is not defined or
+    resource_status.stdout is none or
+    resource_status.stdout != "1"

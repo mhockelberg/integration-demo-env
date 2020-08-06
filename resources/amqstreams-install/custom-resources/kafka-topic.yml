@@ -1,0 +1,13 @@
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: topic-1
+  labels:
+    strimzi.io/cluster: kafka-cluster
+  namespace: {{ namespace_amqstreams_operator }}
+spec:
+  partitions: 10
+  replicas: 3
+  config:
+    retention.ms: 604800000
+    segment.bytes: 1073741824

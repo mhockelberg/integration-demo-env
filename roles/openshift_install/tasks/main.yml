@@ -27,6 +27,25 @@
     work_dir_name: fuseonline
   when: fuseonline_install
 
+- name: install AMQ Streams
+  import_role:
+    name: amqstreams_install
+  vars:
+    namespace: "{{ namespace_amqstreams_operator }}"
+    resources_dir: "{{ resources_base_dir }}/amqstreams-install"
+    work_dir_name: amqstreams
+  when: amqstreams_install
+
+- name: install MySQL
+  import_role:
+    name: mysql_install
+  vars:
+    namespace: "{{ namespace_mysql }}"
+    resources_dir: "{{ resources_base_dir }}/mysql-install"
+    work_dir_name: mysql
+  when: mysql_install
+
+
 #- name: install sso
 #  import_role:
 #    name: openshift_sso

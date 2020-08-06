@@ -44,7 +44,7 @@
     delay: 5
 
   - name: "Get list of Apicurito pods and store in apicurito_pods variable"
-    shell: "{{ openshift_cli }} get pods -o jsonpath='{{ jsonpath_template }}' | grep apicurito-service"
+    shell: "{{ openshift_cli }} get pods -o jsonpath='{{ jsonpath_template }}' -n {{ namespace_apicurito_operator }} | grep apicurito-service"
     register: apicurito_pods
     vars:
       jsonpath_template: '{range .items[*]}{.metadata.name}{"\n"}{end}'
