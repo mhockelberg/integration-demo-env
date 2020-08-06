@@ -3,7 +3,9 @@
 A set of Ansible roles and playbooks that install an Integration Demo environment project on top of OpenShift 4.2+ using operators.  This installer can be used to install the following components:
 * 3scale API Management
 * API Designer (Apicurito)
-* Fuse Online  
+* Fuse Online
+* AMQ Streams (Kafka, Connect, Connect S2I, Bridge)  
+* MySQL 5.7 (Employee sample DB)
 
 Prerequisites:
 * access to an OpenShift cluster 
