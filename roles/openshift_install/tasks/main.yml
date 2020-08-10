@@ -45,6 +45,15 @@
     work_dir_name: mysql
   when: mysql_install
 
+- name: install SSO
+  import_role:
+    name: sso_install
+  vars:
+    namespace: "{{ namespace_sso_operator }}"
+    resources_dir: "{{ resources_base_dir }}/sso-install"
+    work_dir_name: sso
+  when: sso_install  
+
 
 #- name: install sso
 #  import_role:

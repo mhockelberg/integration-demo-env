@@ -1,0 +1,63 @@
+---
+
+- shell: |
+    {{ openshift_cli }} get deployment rhsso-operator -o template --template={{ replica_status }} -n {{ namespace_sso_operator }}
+  register: resource_status
+  ignore_errors: true
+
+- block:
+  - name: "copy {{ resources_base_dir }}/sso-install/operator-group-sso.yml"
+    template:
+      src: "{{ resources_base_dir }}/sso-install/operator-group-sso.yml"
+      dest: "{{ work_dir }}/operator-group-sso.yml"
+  - name: "Create SSO operator group"
+    shell: "{{ openshift_cli }} create -f {{ work_dir }}/operator-group-sso.yml -n {{ namespace_sso_operator }}"
+
+  - name: "copy {{ resources_base_dir }}/sso-install/subscription-sso.yml"
+    template:
+      src: "{{ resources_base_dir }}/sso-install/subscription-sso.yml"
+      dest: "{{ work_dir }}/subscription-sso.yml"
+  - name: "Create SSO operator subscription"
+    shell: "{{ openshift_cli }} create -f {{ work_dir }}/subscription-sso.yml -n {{ namespace_sso_operator }}"
+
+  - name: "Wait until SSO operator is active"
+    shell: "{{ openshift_cli }} get deploy rhsso-operator -o template --template={{ go_template }} -n {{ namespace_sso_operator }}"
+    vars:
+      go_template: '\{\{.status.readyReplicas\}\}'
+    register: result
+    until: result.stdout == "1"
+    retries: 30
+    delay: 20
+    changed_when: false
+  
+  # - name: "Create SSO credential-sso-keycloak secret"
+  #   template:
+  #     src: "{{ resources_base_dir }}/sso-install/secrets/credential-sso-keycloak.yml"
+  #     dest: "{{ work_dir }}/credential-sso-keycloak.yml"
+  # - shell: "oc create -f {{ work_dir }}/credential-sso-keycloak.yml -n {{ namespace_sso_operator }}"
+
+  - name: "Create Keycloak custom resource"
+    template:
+      src: "{{ resources_base_dir }}/sso-install/custom-resources/keycloak.yml"
+      dest: "{{ work_dir }}/keycloak.yml"
+  - shell: "{{ openshift_cli }} create -f {{ work_dir }}/keycloak.yml -n {{ namespace_sso_operator }}"
+  
+  - name: "Wait until Keycloak is active"
+    shell: "{{ openshift_cli }} get keycloak sso-keycloak -o template --template={{ go_template }} -n {{ namespace_sso_operator }}"
+    vars:
+      go_template: '\{\{.status.ready\}\}'
+    register: result
+    until: result.stdout == "true"
+    retries: 30
+    delay: 20
+    changed_when: false
+    # ignore_errors: true
+
+  - name: "Print Keycloak status result variable info to console"
+    debug:
+      var: result
+  
+  when: >
+    resource_status.stdout is not defined or
+    resource_status.stdout is none or
+    resource_status.stdout != "1"

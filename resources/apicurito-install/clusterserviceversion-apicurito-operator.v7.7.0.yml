@@ -1,0 +1,122 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: '2'
+  selfLink: /apis/apps/v1/namespaces/apicurito-demo/deployments/apicurito-operator
+  resourceVersion: '4352296'
+  name: apicurito-operator
+  uid: 125888b0-ad83-4547-be99-54b111965e7f
+  creationTimestamp: '2020-08-07T16:05:39Z'
+  generation: 4
+  namespace: apicurito-demo
+  ownerReferences:
+    - apiVersion: operators.coreos.com/v1alpha1
+      kind: ClusterServiceVersion
+      name: apicuritooperator.v7.7.0
+      uid: 5bc5d252-1074-446d-a575-284d325ec1df
+      controller: false
+      blockOwnerDeletion: false
+  labels:
+    olm.deployment-spec-hash: b96467b68
+    olm.owner: apicuritooperator.v7.7.0
+    olm.owner.kind: ClusterServiceVersion
+    olm.owner.namespace: apicurito-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apicurito
+      name: apicurito-operator
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: apicurito
+        name: apicurito-operator
+      annotations:
+        certified: 'false'
+        olm.targetNamespaces: apicurito-demo
+        repository: 'https://github.com/Apicurio/apicurio-operators/tree/master/apicurito'
+        support: Apicurito Project
+        alm-examples: |-
+          [{
+                  "apiVersion": "apicur.io/v1alpha1",
+                  "kind": "Apicurito",
+                  "metadata": {
+                    "name": "apicurito-service"
+                  },
+                  "spec": {
+                    "size": 2
+                  }
+                }]
+        capabilities: Seamless Upgrades
+        olm.operatorNamespace: apicurito-demo
+        containerImage: 'registry.redhat.io/fuse7-tech-preview/fuse-apicurito-operator:1.7'
+        createdAt: '2020-06-09 10:50:34'
+        categories: Integration & Delivery
+        description: >-
+          Manages the installation and upgrades of the API Designer, a
+          small/minimal version of Apicurio
+        olm.operatorGroup: fuse-apicurito-operator-group
+    spec:
+      containers:
+        - name: apicurito-operator
+          image: 'registry.redhat.io/fuse7-tech-preview/fuse-apicurito-operator:1.7'
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: RELATED_IMAGE_APICURITO_OPERATOR
+              value: >-
+                registry.redhat.io/fuse7-tech-preview/fuse-apicurito-operator:1.7
+            - name: RELATED_IMAGE_APICURITO
+              value: 'registry.redhat.io/fuse7/fuse-apicurito:1.7'
+            - name: RELATED_IMAGE_GENERATOR
+              value: 'registry.redhat.io/fuse7/fuse-apicurito-generator:1.7'
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: apicurito-operator
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      serviceAccountName: apicurito
+      serviceAccount: apicurito
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+status:
+  observedGeneration: 4
+  replicas: 1
+  updatedReplicas: 1
+  readyReplicas: 1
+  availableReplicas: 1
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2020-08-07T16:05:47Z'
+      lastTransitionTime: '2020-08-07T16:05:47Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2020-08-07T16:06:03Z'
+      lastTransitionTime: '2020-08-07T16:05:39Z'
+      reason: NewReplicaSetAvailable
+      message: ReplicaSet "apicurito-operator-867f9fbd7d" has successfully progressed.

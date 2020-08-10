@@ -4,4 +4,4 @@ metadata:
   name: apicurito-service
   namespace: {{ namespace_apicurito_operator }}
 spec:
-  size: 3
+  size: 2

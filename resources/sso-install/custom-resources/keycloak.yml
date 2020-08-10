@@ -1,0 +1,11 @@
+apiVersion: keycloak.org/v1alpha1
+kind: Keycloak
+metadata:
+  name: sso-keycloak
+  namespace: {{ namespace_sso_operator }}
+  labels:
+    app: sso
+spec:
+  instances: 1
+  externalAccess:
+    enabled: true

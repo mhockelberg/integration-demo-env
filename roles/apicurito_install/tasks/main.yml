@@ -36,39 +36,49 @@
       dest: "{{ work_dir }}/apicurito.yml"
   - shell: "oc create -f {{ work_dir }}/apicurito.yml -n {{ namespace_apicurito_operator }}"
   
-  - name: "Check if Apicurito deployment exists"
-    command:  oc get deploy apicurito-service -n {{ namespace_apicurito_operator }}
-    register: wait_for_apicurito_deploy
-    until: wait_for_apicurito_deploy.rc == 0
-    retries: 5
-    delay: 5
+  # - name: "Check if Apicurito deployment exists"
+  #   command:  oc get deploy apicurito-service-generator -n {{ namespace_apicurito_operator }}
+  #   register: wait_for_apicurito_deploy
+  #   until: wait_for_apicurito_deploy.rc == 0
+  #   retries: 5
+  #   delay: 5
 
-  - name: "Get list of Apicurito pods and store in apicurito_pods variable"
-    shell: "{{ openshift_cli }} get pods -o jsonpath='{{ jsonpath_template }}' -n {{ namespace_apicurito_operator }} | grep apicurito-service"
-    register: apicurito_pods
-    vars:
-      jsonpath_template: '{range .items[*]}{.metadata.name}{"\n"}{end}'
-    until: apicurito_pods.rc == 0
-    retries: 5
-    delay: 5
+  # - name: "Get list of Apicurito pods and store in apicurito_pods variable"
+  #   shell: "{{ openshift_cli }} get pods -o jsonpath='{{ jsonpath_template }}' -n {{ namespace_apicurito_operator }} | grep apicurito-service"
+  #   register: apicurito_pods
+  #   vars:
+  #     jsonpath_template: '{range .items[*]}{.metadata.name}{"\n"}{end}'
+  #   until: apicurito_pods.rc == 0
+  #   retries: 5
+  #   delay: 5
   
-  - name: "Print apicurito_pods variable info to console"
-    debug:
-      var: apicurito_pods
+  # - name: "Print apicurito_pods variable info to console"
+  #   debug:
+  #     var: apicurito_pods
 
-  - name: "Update Apicurito pods with correct container image"
-    loop:  "{{ apicurito_pods.stdout_lines }}"
-    shell: "{{ openshift_cli }} patch pod {{ item }} --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/containers/0/image\", \"value\": \"{{ apicurito_service_container_image_label_good }}\"}]' -n {{ namespace_apicurito_operator }}"
+  # - name: "Update Apicurito pods with correct container image"
+  #   loop:  "{{ apicurito_pods.stdout_lines }}"
+  #   shell: "{{ openshift_cli }} patch pod {{ item }} --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/containers/0/image\", \"value\": \"{{ apicurito_service_container_image_label_good }}\"}]' -n {{ namespace_apicurito_operator }}"
 
-  - name: "Wait until Apicurito is active"
-    shell: "oc get deploy apicurito-service -o template --template={{ json_template }} -n {{ namespace_apicurito_operator }}"
+  - name: "Wait until Apicurito Service Generator is active"
+    shell: "oc get deploy apicurito-service-generator -o template --template={{ json_template }} -n {{ namespace_apicurito_operator }}"
     vars:
       json_template: '\{\{.status.availableReplicas\}\}'
     register: result
-    until: result.stdout == "3"
-    retries: 30
+    until: result.stdout == "2"
+    retries: 20
     delay: 20
     changed_when: false
+
+  - name: "Wait until Apicurito Service UI is active"
+    shell: "oc get deploy apicurito-service-ui -o template --template={{ json_template }} -n {{ namespace_apicurito_operator }}"
+    vars:
+      json_template: '\{\{.status.availableReplicas\}\}'
+    register: result
+    until: result.stdout == "2"
+    retries: 20
+    delay: 20
+    changed_when: false  
 
   when: >
     resource_status.stdout is not defined or

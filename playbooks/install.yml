@@ -11,6 +11,7 @@
     - group_vars/fuseonline.yml
     - group_vars/amqstreams.yml
     - group_vars/mysql.yml
+    - group_vars/sso.yml
 
   tasks:
     - include_role:

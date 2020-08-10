@@ -1,0 +1,9 @@
+---
+
+sso_install: true # install SSO (boolean)
+namespace_sso_operator: sso-demo # project namespace for SSO operator and application
+sso_operator_version_label: 7.4.1 # Red Hat version of the SSO operator
+
+# start credential-sso-keycloak secret ... values will be base64 encoded in secret
+sso_admin_passwd: changeme # sso admin console password (default=generated)
+sso_admin_userid: changeme # sso admin console user id (default=admin)

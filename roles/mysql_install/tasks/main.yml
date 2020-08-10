@@ -51,6 +51,8 @@
     loop:  "{{ mysql_pod.stdout_lines }}"
     shell: "{{ openshift_cli }} exec {{ item }} -- bash -c 'cd /var/lib/mysql/sample-dbscripts && mysql -uroot -ppassword -P3306 --protocol=tcp -t < employees.sql' -n {{ namespace_mysql }}"
     register: employeedb_sql_result
+    until: employeedb_sql_result.rc == 0
+    retries: 5
 
   - name: "Print Employee DB SQL scripts execution result to console"
     debug:

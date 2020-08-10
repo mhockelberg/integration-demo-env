@@ -1,6 +1,6 @@
 ---
 
-threescale_install: false # install 3scale (boolean)
+threescale_install: true # install 3scale (boolean)
 namespace_threescale_operator: 3scale-demo # project namespace for 3scale operator and application
 #threescale_operator_version_label: v0.4.1 # community version of the 3scale operator | install 2.7
 #threescale_operator_version_label: v0.5.2 # Red Hat version of the 3scale operator | install 2.8
@@ -32,7 +32,7 @@ smtp_userid: changeme # smtp user id
 smtp_passwd: changeme # smtp password
 # end smtp custom resource
 
-# start system-seed secret ... values must be base64 encoded
+# start system-seed secret ... values will be base64 encoded in secret
 threescale_admin_access_token: changeme # 3scale admin access token (default=generated)
 threescale_admin_email: changeme # '' this isn't being used (yet) because @ character is not allowed character for base64 encoding
 threescale_admin_passwd: changeme # 3scale admin console password (default=generated)

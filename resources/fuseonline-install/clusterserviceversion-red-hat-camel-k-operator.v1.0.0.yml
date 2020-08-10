@@ -3,6 +3,7 @@ kind: ClusterServiceVersion
 metadata:
   annotations:
     certified: 'false'
+    olm.targetNamespaces: fuseonline
     repository: 'https://github.com/apache/camel-k'
     support: Camel
     alm-examples: |-
@@ -61,20 +62,20 @@ metadata:
         "spec": {}
       }]
     capabilities: Basic Install
-    olm.operatorNamespace: openshift-operators
+    olm.operatorNamespace: fuseonline
     containerImage: 'registry.redhat.io/integration-tech-preview/camel-k-rhel8-operator:1.0-13'
     createdAt: '2020-03-09T02:45:00Z'
     categories: Integration & Delivery
     description: >-
       Red Hat Integration - Camel K is a lightweight integration platform, born
       on Kubernetes, with serverless superpowers.
-    olm.operatorGroup: global-operators
+    olm.operatorGroup: fuseonline-fmrtj
   selfLink: >-
     /apis/operators.coreos.com/v1alpha1/namespaces/fuseonline/clusterserviceversions/red-hat-camel-k-operator.v1.0.0
-  resourceVersion: '180759'
+  resourceVersion: '4363909'
   name: red-hat-camel-k-operator.v1.0.0
-  uid: 1932b7dd-0004-4c65-abe9-9a61e54f0264
-  creationTimestamp: '2020-07-13T12:57:56Z'
+  uid: 4d532193-6a53-4a31-8c83-35c1312968dd
+  creationTimestamp: '2020-08-07T16:41:36Z'
   generation: 1
   namespace: fuseonline
   labels:
@@ -83,7 +84,6 @@ metadata:
     olm.api.b19a9d1839440e92: provided
     olm.api.c766370cb4da0c0c: provided
     olm.api.d7b5fca1b16f9ecb: provided
-    olm.copiedFrom: openshift-operators
 spec:
   customresourcedefinitions:
     owned:
@@ -485,45 +485,43 @@ spec:
     name: camel-k-operator
 status:
   conditions:
-    - lastTransitionTime: '2020-07-13T12:57:34Z'
-      lastUpdateTime: '2020-07-13T12:57:34Z'
+    - lastTransitionTime: '2020-08-07T16:41:36Z'
+      lastUpdateTime: '2020-08-07T16:41:36Z'
       message: requirements not yet checked
       phase: Pending
       reason: RequirementsUnknown
-    - lastTransitionTime: '2020-07-13T12:57:34Z'
-      lastUpdateTime: '2020-07-13T12:57:34Z'
+    - lastTransitionTime: '2020-08-07T16:41:36Z'
+      lastUpdateTime: '2020-08-07T16:41:36Z'
       message: one or more requirements couldn't be found
       phase: Pending
       reason: RequirementsNotMet
-    - lastTransitionTime: '2020-07-13T12:57:36Z'
-      lastUpdateTime: '2020-07-13T12:57:36Z'
+    - lastTransitionTime: '2020-08-07T16:41:38Z'
+      lastUpdateTime: '2020-08-07T16:41:38Z'
       message: 'all requirements found, attempting install'
       phase: InstallReady
       reason: AllRequirementsMet
-    - lastTransitionTime: '2020-07-13T12:57:37Z'
-      lastUpdateTime: '2020-07-13T12:57:37Z'
+    - lastTransitionTime: '2020-08-07T16:41:38Z'
+      lastUpdateTime: '2020-08-07T16:41:38Z'
       message: waiting for install components to report healthy
       phase: Installing
       reason: InstallSucceeded
-    - lastTransitionTime: '2020-07-13T12:57:37Z'
-      lastUpdateTime: '2020-07-13T12:57:37Z'
+    - lastTransitionTime: '2020-08-07T16:41:38Z'
+      lastUpdateTime: '2020-08-07T16:41:38Z'
       message: >
         installing: waiting for deployment camel-k-operator to become ready:
-        Waiting for rollout to finish: 0 of 1 updated replicas are available...
+        Waiting for deployment spec update to be observed...
       phase: Installing
       reason: InstallWaiting
-    - lastTransitionTime: '2020-07-13T12:57:52Z'
-      lastUpdateTime: '2020-07-13T12:57:52Z'
+    - lastTransitionTime: '2020-08-07T16:42:18Z'
+      lastUpdateTime: '2020-08-07T16:42:18Z'
       message: install strategy completed with no errors
       phase: Succeeded
       reason: InstallSucceeded
-  lastTransitionTime: '2020-07-13T12:57:52Z'
-  lastUpdateTime: '2020-07-13T12:58:42Z'
-  message: >-
-    The operator is running in openshift-operators but is managing this
-    namespace
+  lastTransitionTime: '2020-08-07T16:42:18Z'
+  lastUpdateTime: '2020-08-07T16:42:18Z'
+  message: install strategy completed with no errors
   phase: Succeeded
-  reason: Copied
+  reason: InstallSucceeded
   requirementStatus:
     - group: operators.coreos.com
       kind: ClusterServiceVersion
@@ -536,35 +534,35 @@ status:
       message: CRD is present and Established condition is true
       name: builds.camel.apache.org
       status: Present
-      uuid: c06f760b-c107-458a-9f7a-a5aa5048ea48
+      uuid: 29036571-9a22-4830-83c5-698de68c13e8
       version: v1beta1
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       message: CRD is present and Established condition is true
       name: camelcatalogs.camel.apache.org
       status: Present
-      uuid: 184f2e7f-b16a-49c8-abea-8e67e46e9bd2
+      uuid: c4304e5b-d72a-48fa-9e8f-06f56d737462
       version: v1beta1
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       message: CRD is present and Established condition is true
       name: integrationkits.camel.apache.org
       status: Present
-      uuid: 1e5556ca-d778-4b80-8fcf-ef146cc99b2c
+      uuid: 803dc97d-f5c3-48a2-9301-69c2c2fd73fb
       version: v1beta1
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       message: CRD is present and Established condition is true
       name: integrationplatforms.camel.apache.org
       status: Present
-      uuid: 7bc23d4a-b38c-4d97-992b-545f1915c7d1
+      uuid: 57bc2748-9b6c-42c0-a5d2-8931bb3ee742
       version: v1beta1
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       message: CRD is present and Established condition is true
       name: integrations.camel.apache.org
       status: Present
-      uuid: 9d742d02-f1f3-4ad5-910b-c2a2dafe21f7
+      uuid: 771bc5ae-d7e1-4092-ba55-34c2f14343a3
       version: v1beta1
     - dependents:
         - group: rbac.authorization.k8s.io
