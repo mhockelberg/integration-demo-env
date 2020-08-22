@@ -5,7 +5,8 @@ A set of Ansible roles and playbooks that install an Integration Demo environmen
 * API Designer (Apicurito)
 * Fuse Online
 * AMQ Streams (Kafka, Connect, Connect S2I, Bridge)  
-* MySQL 5.7 (Employee sample DB)
+* MySQL (Employee sample DB)
+* Red Hat Single Sign-On
 
 Prerequisites:
 * access to an OpenShift cluster 
