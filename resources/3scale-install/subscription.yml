@@ -4,7 +4,7 @@ metadata:
   name: 3scale-operator
   namespace: {{ namespace_threescale_operator }}
 spec:
-  channel: threescale-2.8
+  channel: threescale-2.9
   installPlanApproval: Automatic
   name: 3scale-operator
   source: redhat-operators

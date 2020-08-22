@@ -101,7 +101,7 @@
     changed_when: false
 
   # - name: "Wait until Syndesis operator is active"
-  #   shell: "oc get csv fuse-online-operator.v7.6.0 -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
+  #   shell: "oc get csv fuse-online-operator.v7.7.0 -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
   #   vars:
   #     json_template: '\{\{.status.phase\}\}'
   #   register: result
@@ -119,25 +119,25 @@
       dest: "{{ work_dir }}/syndesis.yml"
   - shell: "{{ openshift_cli }} create -f {{ work_dir }}/syndesis.yml -n {{ namespace_fuseonline_operator }}"
   
-  - name: "Wait until Syndesis is active"
-    shell: "{{ openshift_cli }} get dc syndesis-server -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
-    vars:
-      json_template: '\{\{.status.readyReplicas\}\}'
-    register: result
-    until: result.stdout == "1"
-    retries: 30
-    delay: 20
-    changed_when: false
-
   # - name: "Wait until Syndesis is active"
-  #   shell: "oc get dc syndesis-service -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
+  #   shell: "{{ openshift_cli }} get dc syndesis-server -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
   #   vars:
-  #     json_template: '\{\{.status.phase\}\}'
+  #     json_template: '\{\{.status.readyReplicas\}\}'
   #   register: result
-  #   until: result.stdout == "Installed"
+  #   until: result.stdout == "1"
   #   retries: 30
   #   delay: 20
   #   changed_when: false
+
+  - name: "Wait until Syndesis is active"
+    shell: "oc get syndesis syndesis-service -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
+    vars:
+      json_template: '\{\{.status.phase\}\}'
+    register: result
+    until: result.stdout == "Installed"
+    retries: 30
+    delay: 20
+    changed_when: false
 
   # - name: "Link Syndesis pull secret to the Jaeger service account (jaeger-operator)"
   #   shell: "{{ openshift_cli }} secrets link jaeger-operator syndesis-pull-secret --for=pull -n {{ namespace_fuseonline_operator }}"

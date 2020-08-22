@@ -60,7 +60,7 @@
   - name: "Create 3scale API Manager"
     template:
       #src: "{{ resources_base_dir }}/3scale-install/custom-resources/api-manager-2.7.yml" # install 2.7
-      src: "{{ resources_base_dir }}/3scale-install/custom-resources/api-manager-2.8.yml" # install 2.8
+      src: "{{ resources_base_dir }}/3scale-install/custom-resources/api-manager.yml" # install 2.8
       dest: "{{ work_dir }}/api-manager.yml"
   - shell: "oc create -f {{ work_dir }}/api-manager.yml -n {{ namespace_threescale_operator }}"
   
