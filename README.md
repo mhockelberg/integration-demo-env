@@ -1,6 +1,6 @@
 # Integration Demo Environment - Installer
 
-A set of Ansible roles and playbooks that install an Integration Demo environment project on top of OpenShift 4.2+ using operators.  This installer can be used to install the following components:
+A set of Ansible roles and playbooks that install an Integration Demo environment project on top of OpenShift 4.4+ using operators.  This installer can be used to install the following components:
 * 3scale API Management
 * API Designer (Apicurito)
 * Fuse Online
