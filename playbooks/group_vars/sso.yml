@@ -1,6 +1,6 @@
 ---
 
-sso_install: true # install SSO (boolean)
+#sso_install: true # install SSO (boolean)
 namespace_sso_operator: sso-demo # project namespace for SSO operator and application
 sso_operator_version_label: 7.4.2 # Red Hat version of the SSO operator
 

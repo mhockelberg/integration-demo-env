@@ -6,6 +6,7 @@
   gather_facts: false
   run_once: true
   vars_files:
+    - group_vars/all.yml
     - group_vars/3scale.yml
     - group_vars/apicurito.yml
     - group_vars/fuseonline.yml

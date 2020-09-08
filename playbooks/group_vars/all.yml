@@ -10,6 +10,15 @@ resources_base_dir: "{{ home_dir }}/resources"
 # oc executable
 openshift_cli: oc
 
-project_name: "{{ project_admin }}-3scale-demo"
+#project_name: "{{ project_admin }}-3scale-demo"
 
 monitoring_label: prometheus
+
+# components to install
+threescale_install: true # install 3scale (boolean)
+amqstreams_install: true # install AMQ streams (boolean)
+apicurito_install: true # install API designer (boolean)
+fuseonline_install: true # install fuse online (boolean)
+microcks_install: false # install microcks (boolean) - not implemented yet
+mysql_install: true # install MySQL (boolean)
+sso_install: true # install SSO (boolean)

@@ -1,6 +1,6 @@
 ---
 
-fuseonline_install: true # install fuse online (boolean)
+#fuseonline_install: true # install fuse online (boolean)
 namespace_fuseonline_operator: fuseonline-demo # project namespace for fuse online operator and application
 fuseonline_operator_version_label: v7.7.0 # Red Hat version of the Fuse Online operator
 camelk_operator_version_label: v1.0.0 # red-hat-camel-k-operator.v1.0.0

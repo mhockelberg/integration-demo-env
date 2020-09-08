@@ -16,12 +16,26 @@ Prerequisites:
 * (optional) SMTP server to configure 3scale email notifications
 * 3scale install requires AWS credentials and an existing s3 bucket for storage
 
-## Installing (TODO)
 
+## Installing
 
 Create a copy of the inventory template file:
 ```
 $ cp inventories/inventory.template inventories/inventory
+```
+
+Select the components to install in the playbooks/group_vars/all.yml file:
+```
+...
+
+# components to install
+threescale_install: true # install 3scale (boolean)
+amqstreams_install: true # install AMQ streams (boolean)
+apicurito_install: true # install API designer (boolean)
+fuseonline_install: true # install fuse online (boolean)
+microcks_install: false # install microcks (boolean) - not implemented yet
+mysql_install: true # install MySQL (boolean)
+sso_install: true # install SSO (boolean)
 ```
 
 Set environment variables:
@@ -49,7 +63,7 @@ export sso_admin_userid=admin \
 export sso_admin_passwd=password
 ```
 
-To provision all of the components with 3scale using AWS S3 for RWX storage:
+To provision all of the selected components with 3scale using AWS S3 for RWX storage:
 ```
 $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e api_aws_region=$api_aws_region \
@@ -59,7 +73,7 @@ $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e api_aws_secret=$api_aws_secret
 ```
 
-To provision all of the components with 3scale using AWS S3 for RWX storage, 3scale SMTP configured (see 3scale system-smtp secret) and other 3scale specific system values configured (see 3scale system-seed secret):
+To provision all of the selected components with 3scale using AWS S3 for RWX storage, 3scale SMTP configured (see 3scale system-smtp secret) and other 3scale specific system values configured (see 3scale system-seed secret):
 ```
 $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e api_aws_region=$api_aws_region \
@@ -83,7 +97,7 @@ $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e threescale_tenant_name=$threescale_tenant_name
 ```
 
-Installation takes approximately 10-15 minutes.
+Installation takes approximately 10-15 minutes depending on selected components.
 
 
 ## Uninstalling (TODO)
