@@ -24,9 +24,63 @@ Create a copy of the inventory template file:
 $ cp inventories/inventory.template inventories/inventory
 ```
 
-To provision all the components:
+Set environment variables:
 ```
-$ ansible-playbook -i inventories/inventory playbooks/install.yml
+export api_aws_region=<< your aws region >> \
+export api_aws_bucket=<< your aws s3 bucket name >> \
+export api_aws_auth=aws-auth \
+export api_aws_key=<< your aws key id >> \
+export api_aws_secret=<< your aws key secret >> \
+export smtp_host=<< your smtp server host >> \ 
+export smtp_port=<< your smtp port >> \
+export smtp_authentication=plain \
+export smtp_userid=<< your smtp user id >> \
+export smtp_passwd=<< your smtp password >> \
+export threescale_admin_access_token=yQmehFcTN19P2N6V \
+export threescale_admin_email='' \
+export threescale_admin_passwd=password \
+export threescale_admin_userid=admin \
+export threescale_master_access_token=i5npMTPY \
+export threescale_master_domain=3scale-master \
+export threescale_master_passwd=password \
+export threescale_master_userid=master \
+export threescale_tenant_name=3scale \
+export sso_admin_userid=admin \
+export sso_admin_passwd=password
+```
+
+To provision all of the components with 3scale using AWS S3 for RWX storage:
+```
+$ ansible-playbook -i inventories/inventory playbooks/install.yml \
+    -e api_aws_region=$api_aws_region \
+    -e api_aws_bucket=$api_aws_bucket \
+    -e api_aws_auth=$api_aws_auth \
+    -e api_aws_key=$api_aws_key \
+    -e api_aws_secret=$api_aws_secret
+```
+
+To provision all of the components with 3scale using AWS S3 for RWX storage, 3scale SMTP configured (see 3scale system-smtp secret) and other 3scale specific system values configured (see 3scale system-seed secret):
+```
+$ ansible-playbook -i inventories/inventory playbooks/install.yml \
+    -e api_aws_region=$api_aws_region \
+    -e api_aws_bucket=$api_aws_bucket \
+    -e api_aws_auth=$api_aws_auth \
+    -e api_aws_key=$api_aws_key \
+    -e api_aws_secret=$api_aws_secret \
+    -e smtp_host=$smtp_host \
+    -e smtp_port=$smtp_port \
+    -e smtp_authentication=$smtp_authentication \
+    -e smtp_userid=$smtp_userid \
+    -e smtp_passwd=$smtp_passwd \
+    -e threescale_admin_access_token=$threescale_admin_access_token \
+    -e threescale_admin_email=$threescale_admin_email \
+    -e threescale_admin_passwd=$threescale_admin_passwd \
+    -e threescale_admin_userid=$threescale_admin_userid \
+    -e threescale_master_access_token=$threescale_master_access_token \
+    -e threescale_master_domain=$threescale_master_domain \
+    -e threescale_master_passwd=$threescale_master_passwd \
+    -e threescale_master_userid=$threescale_master_userid \
+    -e threescale_tenant_name=$threescale_tenant_name
 ```
 
 Installation takes approximately 10-15 minutes.
