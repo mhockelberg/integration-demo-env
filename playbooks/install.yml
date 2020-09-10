@@ -1,6 +1,6 @@
 ---
 
-- name: Deploy 3scale demo environment
+- name: Deploy integration demo environment
   hosts: localhost
   connection: local
   gather_facts: false
@@ -12,6 +12,7 @@
     - group_vars/fuseonline.yml
     - group_vars/amqstreams.yml
     - group_vars/mysql.yml
+    - group_vars/noobaa.yml
     - group_vars/sso.yml
 
   tasks:

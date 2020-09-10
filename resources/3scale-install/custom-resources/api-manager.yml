@@ -2,6 +2,7 @@ apiVersion: apps.3scale.net/v1alpha1
 kind: APIManager
 metadata:
   name: apim-apimanager
+  namespace: {{ namespace_threescale_operator }}
 spec:
   tenantName: {{ threescale_tenant_name }}
   wildcardDomain: {{ ocp_domain }}
