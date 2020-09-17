@@ -6,7 +6,7 @@ A set of Ansible roles and playbooks that install an Integration Demo environmen
 * Fuse Online
 * AMQ Streams (Kafka, Connect, Connect S2I, Bridge)  
 * MySQL (Employee sample DB)
-* Noobaa S3 storage (not implemented yet)
+* Noobaa S3 storage (s3 compatible option for 3scale RWX storage)
 * Red Hat Single Sign-On
 
 Prerequisites:
@@ -32,21 +32,22 @@ Select the components to install in the playbooks/group_vars/all.yml file:
 
 # components to install
 threescale_install: true # install 3scale (boolean)
-amqstreams_install: true # install AMQ streams (boolean)
-apicurito_install: true # install API designer (boolean)
-fuseonline_install: true # install fuse online (boolean)
+amqstreams_install: false # install AMQ streams (boolean)
+apicurito_install: false # install API designer (boolean)
+fuseonline_install: false # install fuse online (boolean)
 microcks_install: false # install microcks (boolean) - not implemented yet
-mysql_install: true # install MySQL (boolean)
-sso_install: true # install SSO (boolean)
+mysql_install: false # install MySQL (boolean)
+noobaa_install: true # install noobaa (boolean)
+sso_install: false # install SSO (boolean)
 ```
 
 Set environment variables:
 ```
 export api_aws_region=<< your aws region >> \
 export api_aws_bucket=<< your aws s3 bucket name >> \
-export api_aws_auth=aws-auth \
 export api_aws_key=<< your aws key id >> \
 export api_aws_secret=<< your aws key secret >> \
+export api_aws_auth=aws-auth \
 export smtp_host=<< your smtp server host >> \ 
 export smtp_port=<< your smtp port >> \
 export smtp_authentication=plain \
@@ -62,27 +63,29 @@ export threescale_master_passwd=password \
 export threescale_master_userid=master \
 export threescale_tenant_name=3scale \
 export sso_admin_userid=admin \
-export sso_admin_passwd=password
+export sso_admin_passwd=password \
+export noobaa_aws_key=<< noobaa s3 bucket aws key>> \ # only if Noobaa and 3scale installed separately
+export noobaa_aws_secret=<< noobaa s3 bucket aws secret>> # only if Noobaa and 3scale installed separately
 ```
 
-To provision all of the selected components with 3scale using AWS S3 for RWX storage:
+To provision selected components with 3scale using AWS S3 for RWX storage:
 ```
 $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e api_aws_region=$api_aws_region \
     -e api_aws_bucket=$api_aws_bucket \
-    -e api_aws_auth=$api_aws_auth \
-    -e api_aws_key=$api_aws_key \
-    -e api_aws_secret=$api_aws_secret
-```
-
-To provision all of the selected components with 3scale using AWS S3 for RWX storage, 3scale SMTP configured (see 3scale system-smtp secret) and other 3scale specific system values configured (see 3scale system-seed secret):
-```
-$ ansible-playbook -i inventories/inventory playbooks/install.yml \
-    -e api_aws_region=$api_aws_region \
-    -e api_aws_bucket=$api_aws_bucket \
-    -e api_aws_auth=$api_aws_auth \
     -e api_aws_key=$api_aws_key \
     -e api_aws_secret=$api_aws_secret \
+    -e api_aws_auth=$api_aws_auth \
+```
+
+To provision selected components with 3scale using AWS S3 for RWX storage, 3scale SMTP configured (see 3scale system-smtp secret) and other 3scale specific system values configured (see 3scale system-seed secret):
+```
+$ ansible-playbook -i inventories/inventory playbooks/install.yml \
+    -e api_aws_region=$api_aws_region \
+    -e api_aws_bucket=$api_aws_bucket \
+    -e api_aws_key=$api_aws_key \
+    -e api_aws_secret=$api_aws_secret \
+    -e api_aws_auth=$api_aws_auth \
     -e smtp_host=$smtp_host \
     -e smtp_port=$smtp_port \
     -e smtp_authentication=$smtp_authentication \
@@ -97,6 +100,28 @@ $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e threescale_master_passwd=$threescale_master_passwd \
     -e threescale_master_userid=$threescale_master_userid \
     -e threescale_tenant_name=$threescale_tenant_name
+```
+
+To provision selected components with 3scale using Noobaa S3 for RWX storage, 3scale SMTP configured (see 3scale system-smtp secret) and other 3scale specific system values configured (see 3scale system-seed secret):
+```
+$ ansible-playbook -i inventories/inventory playbooks/install.yml \
+    -e api_aws_auth=$api_aws_auth \
+    -e smtp_host=$smtp_host \
+    -e smtp_port=$smtp_port \
+    -e smtp_authentication=$smtp_authentication \
+    -e smtp_userid=$smtp_userid \
+    -e smtp_passwd=$smtp_passwd \
+    -e threescale_admin_access_token=$threescale_admin_access_token \
+    -e threescale_admin_email=$threescale_admin_email \
+    -e threescale_admin_passwd=$threescale_admin_passwd \
+    -e threescale_admin_userid=$threescale_admin_userid \
+    -e threescale_master_access_token=$threescale_master_access_token \
+    -e threescale_master_domain=$threescale_master_domain \
+    -e threescale_master_passwd=$threescale_master_passwd \
+    -e threescale_master_userid=$threescale_master_userid \
+    -e threescale_tenant_name=$threescale_tenant_name \
+    -e noobaa_aws_key=$noobaa_aws_key \ # only if Noobaa and 3scale installed separately
+    -e noobaa_aws_secret=$noobaa_aws_secret # only if Noobaa and 3scale installed separately
 ```
 
 Installation takes approximately 10-15 minutes depending on selected components.

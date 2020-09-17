@@ -1,0 +1,129 @@
+---
+- shell: |
+    {{ openshift_cli }} get deployment noobaa-operator -o template --template={{ replica_status }} -n {{ namespace_noobaa_operator }}
+  register: resource_status
+  ignore_errors: true
+
+- name: "Check operatorhubio-catalog status"
+  shell: "{{ openshift_cli }} get catalogsources operatorhubio-catalog -o template --template={{ json_template }} -n openshift-marketplace"
+  vars:
+    json_template: '\{\{.status.connectionState.lastObservedState\}\}'
+  register: operatorhubio_status
+  ignore_errors: true
+
+- block:
+    
+  - name: "Install operatorhubio-catalog catalog source"
+    block:
+      - debug:
+          var: operatorhubio_status
+
+      - name: "copy {{ resources_base_dir }}/noobaa-install/catalog-sources/operatorhubio-catalog.yml"
+        template:
+          src: "{{ resources_base_dir }}/noobaa-install/catalog-sources/operatorhubio-catalog.yml"
+          dest: "{{ work_dir }}/operatorhubio-catalog.yml"
+
+      - name: "Create operatorhubio-catalog Catalog Source"
+        shell: "{{ openshift_cli }} create -f {{ work_dir }}/operatorhubio-catalog.yml"
+    when: >
+      (operatorhubio_status.stderr is defined and operatorhubio_status.stderr != "" and operatorhubio_status.rc != "0")
+
+
+  - name: "Wait until operatorhubio-catalog Catalog Source is ready"
+    shell: "{{ openshift_cli }} get catalogsources operatorhubio-catalog -o template --template={{ json_template }} -n openshift-marketplace"
+    vars:
+      json_template: '\{\{.status.connectionState.lastObservedState\}\}'
+    register: result
+    until: result.stdout == "READY"
+    retries: 30
+    delay: 15
+    changed_when: false  
+
+  - name: "copy {{ resources_base_dir }}/noobaa-install/operator-group.yml"
+    template:
+      src: "{{ resources_base_dir }}/noobaa-install/operator-group.yml"
+      dest: "{{ work_dir }}/operator-group.yml"
+  - name: "Create Noobaa operator group"
+    shell: "{{ openshift_cli }} create -f {{ work_dir }}/operator-group.yml -n {{ namespace_noobaa_operator }}"
+
+  - name: "copy {{ resources_base_dir }}/noobaa-install/subscription.yml"
+    template:
+      src: "{{ resources_base_dir }}/noobaa-install/subscription.yml"
+      dest: "{{ work_dir }}/noobaa-subscription.yml"
+  - name: "Create Noobaa subscription"
+    shell: "{{ openshift_cli }} create -f {{ work_dir }}/noobaa-subscription.yml -n {{ namespace_noobaa_operator }}"
+
+  - name: "Wait until Noobaa operator is installed"
+    shell: "{{ openshift_cli }} get csv noobaa-operator.{{ noobaa_operator_version_label }} -o template --template={{ json_template }} -n {{ namespace_noobaa_operator }}"
+    vars:
+      json_template: '\{\{.status.phase\}\}'
+    register: result
+    until: result.stdout == "Succeeded"
+    retries: 30
+    delay: 15
+    changed_when: false
+
+  - name: "Create Noobaa"
+    template:
+      src: "{{ resources_base_dir }}/noobaa-install/custom-resources/noobaa.yml"
+      dest: "{{ work_dir }}/noobaa.yml"
+  - shell: "{{ openshift_cli }} create -f {{ work_dir }}/noobaa.yml -n {{ namespace_noobaa_operator }}"
+  
+  - name: "Wait until Noobaa is active"
+    shell: "{{ openshift_cli }} get noobaa -o jsonpath='{{ jsonpath_template }}' -n {{ namespace_noobaa_operator }}"
+    vars:
+      jsonpath_template: '{range .items[*]}{.status.phase}{"\n"}{end}'
+    register: result
+    until: result.stdout == "Ready"
+    retries: 30
+    delay: 20
+    changed_when: false
+
+  - name: "Create Bucket"
+    template:
+      src: "{{ resources_base_dir }}/noobaa-install/object-bucket-claims/local-s3-bucket.yml"
+      dest: "{{ work_dir }}/local-s3-bucket.yml"
+  - shell: "{{ openshift_cli }} create -f {{ work_dir }}/local-s3-bucket.yml -n {{ namespace_noobaa_operator }}"  
+
+  - name: "Wait until Bucket is bound"
+    shell: "{{ openshift_cli }} get obc {{ noobaa_bucket_name }}-claim -o template --template={{ json_template }} -n {{ namespace_noobaa_operator }}"
+    vars:
+      json_template: '\{\{.status.phase\}\}'
+    register: result
+    until: result.stdout == "Bound"
+    retries: 10
+    delay: 20
+    changed_when: false  
+
+  - name: "Get Noobaa S3 Bucket AWS Access Key ID"
+    shell: "{{ openshift_cli }} get secret {{ noobaa_bucket_name }}-claim -o template --template={{ json_template }} -n {{ namespace_noobaa_operator }} | base64 --decode"
+    vars:
+      json_template: '\{\{.data.AWS_ACCESS_KEY_ID\}\}'
+    register: noobaa_aws_access_key_id
+
+  - name: "debug noobaa_aws_access_key_id variable" 
+    debug:
+      var: noobaa_aws_access_key_id
+
+  - name: "Set noobaa_aws_key fact"
+    set_fact: 
+      noobaa_aws_key: "{{ noobaa_aws_access_key_id.stdout }}"  
+
+  - name: "Get Noobaa S3 Bucket AWS Secret Access Key"
+    shell: "{{ openshift_cli }} get secret {{ noobaa_bucket_name }}-claim -o template --template={{ json_template }} -n {{ namespace_noobaa_operator }} | base64 --decode"
+    vars:
+      json_template: '\{\{.data.AWS_SECRET_ACCESS_KEY\}\}'
+    register: noobaa_aws_secret_access_key
+
+  - name: "debug noobaa_aws_secret_access_key variable" 
+    debug:
+      var: noobaa_aws_secret_access_key
+
+  - name: "Set noobaa_aws_secret fact"
+    set_fact: 
+      noobaa_aws_secret: "{{ noobaa_aws_secret_access_key.stdout }}"      
+
+  when: >
+    resource_status.stdout is not defined or
+    resource_status.stdout is none or
+    resource_status.stdout != "1"

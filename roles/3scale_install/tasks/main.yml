@@ -1,5 +1,20 @@
 ---
 
+- name: "Check if Noobaa is installed and ready"
+  shell: "{{ openshift_cli }} get noobaa -o jsonpath='{{ jsonpath_template }}' -n {{ namespace_noobaa_operator }}"
+  vars:
+    jsonpath_template: '{range .items[*]}{.status.phase}{"\n"}{end}'
+  register: noobaa_status
+  ignore_errors: true
+
+- name: "debug noobaa_install variable, use noobaa s3 if noobaa_install == true" 
+  debug:
+    var: noobaa_install
+
+- name: "debug noobaa_status variable, noobaa is installed and in ready state if noobaa_status == Ready" 
+  debug:
+    var: noobaa_install    
+
 - shell: |
     {{ openshift_cli }} get deployment 3scale-operator -o template --template={{ replica_status }} -n {{ namespace_threescale_operator }}
   register: resource_status
@@ -30,15 +45,27 @@
     delay: 15
     changed_when: false
 
-  - name: "Define 3scale AWS S3 Secret" # changed for 2.8 install
-    template:
-      src: "{{ resources_base_dir }}/3scale-install/secrets/aws-auth.yml" # changed from cm to secret for install 2.8
-      dest: "{{ work_dir }}/aws-auth.yml"
-  - shell: "oc create -f {{ work_dir }}/aws-auth.yml -n {{ namespace_threescale_operator }}"
+  - name: "3scale AWS S3 Secret" # changed for 2.8+ install
+    block:
+      - name: "Create 3scale AWS S3 Secret"
+        template:
+          src: "{{ resources_base_dir }}/3scale-install/secrets/aws-auth.yml" # changed from cm to secret for install 2.8
+          dest: "{{ work_dir }}/aws-auth.yml"
+      - shell: "oc create -f {{ work_dir }}/aws-auth.yml -n {{ namespace_threescale_operator }}"
+    when: noobaa_install|bool != true  
 
-  - name: "Define 3scale system-smtp Secret" # new for 2.8 install
+  - name: "3scale Noobaa S3 Secret" # changed for 2.8+ install
+    block:
+      - name: "Create 3scale Noobaa S3 Secret"
+        template:
+          src: "{{ resources_base_dir }}/3scale-install/secrets/aws-auth-noobaa.yml" # changed from cm to secret for install 2.8
+          dest: "{{ work_dir }}/aws-auth.yml"
+      - shell: "oc create -f {{ work_dir }}/aws-auth.yml -n {{ namespace_threescale_operator }}"
+    when: noobaa_install|bool == true        
+
+  - name: "Define 3scale system-smtp Secret" # new for 2.8+ install
     template:
-      src: "{{ resources_base_dir }}/3scale-install/secrets/system-smtp.yml" # changed from cm to secret for install 2.8
+      src: "{{ resources_base_dir }}/3scale-install/secrets/system-smtp.yml" # changed from cm to secret for 2.8+ install
       dest: "{{ work_dir }}/system-smtp.yml"
   - shell: "oc create -f {{ work_dir }}/system-smtp.yml -n {{ namespace_threescale_operator }}"
 
@@ -60,7 +87,7 @@
   - name: "Create 3scale API Manager"
     template:
       #src: "{{ resources_base_dir }}/3scale-install/custom-resources/api-manager-2.7.yml" # install 2.7
-      src: "{{ resources_base_dir }}/3scale-install/custom-resources/api-manager.yml" # install 2.8
+      src: "{{ resources_base_dir }}/3scale-install/custom-resources/api-manager.yml" # install 2.9
       dest: "{{ work_dir }}/api-manager.yml"
   - shell: "oc create -f {{ work_dir }}/api-manager.yml -n {{ namespace_threescale_operator }}"
   

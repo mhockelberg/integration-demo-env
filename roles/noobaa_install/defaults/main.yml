@@ -1,0 +1,3 @@
+---
+
+replica_status: '\{\{.status.readyReplicas\}\}'

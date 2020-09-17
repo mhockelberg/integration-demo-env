@@ -5,6 +5,5 @@ metadata:
   labels:
     app: noobaa
   namespace: {{ namespace_noobaa_operator }}
-spec: 
-  region: {{ noobaa-region }}
+spec: {}
 status: {}

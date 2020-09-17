@@ -1,8 +1,9 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: local-s3-bucket-claim
+  name: {{ noobaa_bucket_name }}-claim
+  namespace: {{ namespace_noobaa_operator }}
 spec:
   storageClassName: {{ namespace_noobaa_operator }}.noobaa.io
-  bucketName: local-s3-bucket
+  bucketName: {{ noobaa_bucket_name | default('local-s3-bucket') }}
   additionalConfig: {}

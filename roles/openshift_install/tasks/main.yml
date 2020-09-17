@@ -1,4 +1,12 @@
 ---
+- name: install Noobaa
+  import_role:
+    name: noobaa_install
+  vars:
+    namespace: "{{ namespace_noobaa_operator }}"
+    resources_dir: "{{ resources_base_dir }}/noobaa-install"
+    work_dir_name: noobaa
+  when: noobaa_install
 
 - name: install 3scale
   import_role:
