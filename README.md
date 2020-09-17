@@ -1,22 +1,22 @@
 # Integration Demo Environment - Installer
 
-A set of Ansible roles and playbooks that install an Integration Demo environment project on top of OpenShift 4.4+ using operators.  This installer can be used to install the following components:
+A set of Ansible roles and playbooks that install an Integration Demo environment project on top of OpenShift 4.5 using operators.  This installer can be used to install the following components:
 * 3scale API Management
 * API Designer (Apicurito)
 * Fuse Online
 * AMQ Streams (Kafka, Connect, Connect S2I, Bridge)  
 * MySQL (Employee sample DB)
-* Noobaa S3 storage (s3 compatible option for 3scale RWX storage)
+* Noobaa S3 storage (s3 compatible option for 3scale RWX storage deployed with Noobaa community operator)
 * Red Hat Single Sign-On
 
 Prerequisites:
 * Ansible 2.9.11+
-* access to an OpenShift 4.4+ cluster 
+* access to an OpenShift 4.5 cluster 
 * the appropriate version of the OpenShift command-line `oc` client on the PATH
 * logged in into the cluster with a user with cluster admin rights
 * a Registry Credentials Secret with access to `registry.redhat.io` named `pull-secret` should exist in the `openshift-config` namespace. See https://access.redhat.com/RegistryAuthentication for more details.
 * (optional) SMTP server to configure 3scale email notifications
-* 3scale install requires AWS credentials and an existing s3 bucket for storage
+* 3scale install requires RWX storage.  If using s3 for RWX you have two options.  Option 1 - Provide AWS s3 credentials and an existing s3 bucket.  Option 2 - deploy Noobaa s3 role for s3 compatible storage.
 
 
 ## Installing
@@ -62,10 +62,11 @@ export threescale_master_domain=3scale-master \
 export threescale_master_passwd=password \
 export threescale_master_userid=master \
 export threescale_tenant_name=3scale \
-export sso_admin_userid=admin \
-export sso_admin_passwd=password \
 export noobaa_aws_key=<< noobaa s3 bucket aws key>> \ # only if Noobaa and 3scale installed separately
-export noobaa_aws_secret=<< noobaa s3 bucket aws secret>> # only if Noobaa and 3scale installed separately
+export noobaa_aws_secret=<< noobaa s3 bucket aws secret>> \ # only if Noobaa and 3scale installed separately
+export sso_admin_userid=admin \ # setting not implemented yet
+export sso_admin_passwd=password # setting not implemented yet
+
 ```
 
 To provision selected components with 3scale using AWS S3 for RWX storage:
