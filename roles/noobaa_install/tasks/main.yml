@@ -35,8 +35,8 @@
       json_template: '\{\{.status.connectionState.lastObservedState\}\}'
     register: result
     until: result.stdout == "READY"
-    retries: 30
-    delay: 15
+    retries: 50
+    delay: 20
     changed_when: false  
 
   - name: "copy {{ resources_base_dir }}/noobaa-install/operator-group.yml"
