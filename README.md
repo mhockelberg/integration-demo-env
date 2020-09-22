@@ -43,10 +43,10 @@ sso_install: false # install SSO (boolean)
 
 Set environment variables:
 ```
-export api_aws_region=<< your aws region >> \
-export api_aws_bucket=<< your aws s3 bucket name >> \
-export api_aws_key=<< your aws key id >> \
-export api_aws_secret=<< your aws key secret >> \
+export api_aws_region=<< your aws region >> \ # only if using AWS S3
+export api_aws_bucket=<< your aws s3 bucket name >> \ # only if using AWS S3
+export api_aws_key=<< your aws key id >> \ # only if using AWS S3
+export api_aws_secret=<< your aws key secret >> \ # only if using AWS S3
 export api_aws_auth=aws-auth \
 export smtp_host=<< your smtp server host >> \ 
 export smtp_port=<< your smtp port >> \
