@@ -28,7 +28,6 @@ $ cp inventories/inventory.template inventories/inventory
 
 Select the components to install in the playbooks/group_vars/all.yml file:
 ```
-...
 
 # set components to install to true
 threescale_install: false # install 3scale (boolean)
@@ -41,16 +40,17 @@ mysql_install: false # install MySQL (boolean)
 noobaa_install: false # install noobaa (boolean)
 sso_install: false # install SSO (boolean)
 ```
-```
+
 
 To provision selected components without 3scale run:
 ```
-$ ansible-playbook -i inventories/inventory playbooks/install.yml
 
+$ ansible-playbook -i inventories/inventory playbooks/install.yml
 ```
 
 To provision 3scale, set environment variables:
 ```
+
 export api_aws_region=<< your aws region >> \ # only if using AWS S3
 export api_aws_bucket=<< your aws s3 bucket name >> \ # only if using AWS S3
 export api_aws_key=<< your aws key id >> \ # only if using AWS S3
@@ -74,7 +74,6 @@ export noobaa_aws_key=<< noobaa s3 bucket aws key>> \ # only if Noobaa and 3scal
 export noobaa_aws_secret=<< noobaa s3 bucket aws secret>> \ # only if Noobaa and 3scale installed separately
 export sso_admin_userid=admin \ # setting not implemented yet
 export sso_admin_passwd=password # setting not implemented yet
-
 ```
 
 To provision selected components with 3scale using AWS S3 for RWX storage run:
