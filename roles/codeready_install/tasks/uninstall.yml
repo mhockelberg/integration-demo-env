@@ -1,0 +1,9 @@
+---
+
+- name: uninstall codeready 
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "codeready-workspaces"
+    kind: CheCluster
+    namespace: "{{ namespace_codeready_operator }}"

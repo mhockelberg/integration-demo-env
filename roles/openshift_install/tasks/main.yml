@@ -26,6 +26,15 @@
     work_dir_name: apicurito
   when: apicurito_install
 
+- name: install CodeReady Workspaces
+  import_role:
+    name: codeready_install
+  vars:
+    namespace: "{{ namespace_codeready_operator }}"
+    resources_dir: "{{ resources_base_dir }}/codeready-install"
+    work_dir_name: codeready
+  when: codeready_install
+
 - name: install Fuse Online
   import_role:
     name: fuseonline_install

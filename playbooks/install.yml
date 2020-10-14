@@ -9,6 +9,7 @@
     - group_vars/all.yml
     - group_vars/3scale.yml
     - group_vars/apicurito.yml
+    - group_vars/codeready.yml
     - group_vars/fuseonline.yml
     - group_vars/amqstreams.yml
     - group_vars/mysql.yml

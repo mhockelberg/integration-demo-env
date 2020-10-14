@@ -1,0 +1,52 @@
+---
+
+- shell: |
+    {{ openshift_cli }} get deployment codeready-operator -o template --template={{ replica_status }} -n {{ namespace_codeready_operator }}
+  register: resource_status
+  ignore_errors: true
+
+- block:
+  - name: "copy {{ resources_base_dir }}/codeready-install/operator-group.yml"
+    template:
+      src: "{{ resources_base_dir }}/codeready-install/operator-group.yml"
+      dest: "{{ work_dir }}/operator-group.yml"
+  - name: "Create CodeReady Workspaces operator group"
+    shell: "oc create -f {{ work_dir }}/operator-group.yml -n {{ namespace_codeready_operator }}"
+
+  - name: "copy {{ resources_base_dir }}/codeready-install/subscription.yml"
+    template:
+      src: "{{ resources_base_dir }}/codeready-install/subscription.yml"
+      dest: "{{ work_dir }}/codeready-subscription.yml"
+  - name: "Create CodeReady Workspaces subscription"
+    shell: "oc create -f {{ work_dir }}/codeready-subscription.yml -n {{ namespace_codeready_operator }}"
+
+  - name: "Wait until CodeReady Workspaces operator is active"
+    shell: "oc get deployment codeready-operator -o template --template={{ json_template }} -n {{ namespace_codeready_operator }}"
+    vars:
+      json_template: '\{\{.status.readyReplicas\}\}'
+    register: result
+    until: result.stdout == "1"
+    retries: 30
+    delay: 15
+    changed_when: false
+
+  - name: "Create CodeReady Workspaces Cluster"
+    template:
+      src: "{{ resources_base_dir }}/codeready-install/custom-resources/codeready-workspaces-cluster.yml"
+      dest: "{{ work_dir }}/codeready-workspaces-cluster.yml"
+  - shell: "oc create -f {{ work_dir }}/codeready-workspaces-cluster.yml -n {{ namespace_codeready_operator }}"
+  
+  - name: "Wait until CodeReady Workspaces Cluster is active"
+    shell: "oc get checluster codeready-workspaces -o template --template={{ json_template }} -n {{ namespace_codeready_operator }}"
+    vars:
+      json_template: '\{\{.status.cheClusterRunning\}\}'
+    register: result
+    until: result.stdout == "Available"
+    retries: 50
+    delay: 20
+    changed_when: false
+
+  when: >
+    resource_status.stdout is not defined or
+    resource_status.stdout is none or
+    resource_status.stdout != "1"

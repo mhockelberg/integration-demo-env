@@ -1,13 +1,13 @@
 # Integration Demo Environment - Installer
 
 A set of Ansible roles and playbooks that install an Integration Demo environment project on top of OpenShift 4.5 using operators.  This installer can be used to install the following components:
-* 3scale API Management
-* API Designer (Apicurito)
-* Fuse Online
-* AMQ Streams (Kafka, Connect, Connect S2I, Bridge)  
-* MySQL (Employee sample DB)
-* Noobaa S3 storage (s3 compatible option for 3scale RWX storage deployed with Noobaa community operator)
-* Red Hat Single Sign-On
+* Red Hat 3scale API Management | 3scale 2.9
+* Red Hat API Designer (Apicurito) | API Designer 1.2.2, Fuse 7.7.0
+* Red Hat Fuse Online | Fuse Online 1.10.0, Fuse 7.7.0
+* Red Hat AMQ Streams (Kafka, Connect, Connect S2I, Bridge) | AMQ Streams 1.5.3 
+* MySQL (Employee sample DB) | MySQL 5.7
+* Noobaa S3 storage (s3 compatible option for 3scale RWX storage deployed with Noobaa community operator) | Noobaa Core 5.5.0
+* Red Hat Single Sign-On | Single-Sign On Server 7.4.2
 
 Prerequisites:
 * Ansible 2.9.11+
@@ -30,18 +30,26 @@ Select the components to install in the playbooks/group_vars/all.yml file:
 ```
 ...
 
-# components to install
-threescale_install: true # install 3scale (boolean)
+# set components to install to true
+threescale_install: false # install 3scale (boolean)
 amqstreams_install: false # install AMQ streams (boolean)
 apicurito_install: false # install API designer (boolean)
+codeready_install: false # install CodeReady Workspaces(boolean)
 fuseonline_install: false # install fuse online (boolean)
 microcks_install: false # install microcks (boolean) - not implemented yet
 mysql_install: false # install MySQL (boolean)
-noobaa_install: true # install noobaa (boolean)
+noobaa_install: false # install noobaa (boolean)
 sso_install: false # install SSO (boolean)
 ```
+```
 
-Set environment variables:
+To provision selected components without 3scale run:
+```
+$ ansible-playbook -i inventories/inventory playbooks/install.yml
+
+```
+
+To provision 3scale, set environment variables:
 ```
 export api_aws_region=<< your aws region >> \ # only if using AWS S3
 export api_aws_bucket=<< your aws s3 bucket name >> \ # only if using AWS S3
@@ -69,7 +77,7 @@ export sso_admin_passwd=password # setting not implemented yet
 
 ```
 
-To provision selected components with 3scale using AWS S3 for RWX storage:
+To provision selected components with 3scale using AWS S3 for RWX storage run:
 ```
 $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e api_aws_region=$api_aws_region \
@@ -79,7 +87,7 @@ $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e api_aws_auth=$api_aws_auth \
 ```
 
-To provision selected components with 3scale using AWS S3 for RWX storage, 3scale SMTP configured (see 3scale system-smtp secret) and other 3scale specific system values configured (see 3scale system-seed secret):
+To provision selected components with 3scale using AWS S3 for RWX storage, 3scale SMTP configured (see 3scale system-smtp secret) and other 3scale specific system values configured (see 3scale system-seed secret) run:
 ```
 $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e api_aws_region=$api_aws_region \
@@ -103,7 +111,7 @@ $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e threescale_tenant_name=$threescale_tenant_name
 ```
 
-To provision selected components with 3scale using Noobaa S3 for RWX storage, 3scale SMTP configured (see 3scale system-smtp secret) and other 3scale specific system values configured (see 3scale system-seed secret):
+To provision selected components with 3scale using Noobaa S3 for RWX storage, 3scale SMTP configured (see 3scale system-smtp secret) and other 3scale specific system values configured (see 3scale system-seed secret) run:
 ```
 $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e api_aws_auth=$api_aws_auth \
@@ -125,7 +133,7 @@ $ ansible-playbook -i inventories/inventory playbooks/install.yml \
     -e noobaa_aws_secret=$noobaa_aws_secret # only if Noobaa and 3scale installed separately
 ```
 
-Installation takes approximately 10-15 minutes depending on selected components.
+Installation takes approximately 10-15 minutes (or slightly longer) depending on selected installation components.
 
 
 ## Uninstalling (TODO)
