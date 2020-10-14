@@ -3,6 +3,7 @@
 A set of Ansible roles and playbooks that install an Integration Demo environment project on top of OpenShift 4.5 using operators.  This installer can be used to install the following components:
 * Red Hat 3scale API Management | 3scale 2.9
 * Red Hat API Designer (Apicurito) | API Designer 1.2.2, Fuse 7.7.0
+* Red Hat CodeReady Workspaces | CodeReady Workspaces 2.4.0
 * Red Hat Fuse Online | Fuse Online 1.10.0, Fuse 7.7.0
 * Red Hat AMQ Streams (Kafka, Connect, Connect S2I, Bridge) | AMQ Streams 1.5.3 
 * MySQL (Employee sample DB) | MySQL 5.7
