@@ -2,4 +2,4 @@
 
 #microcks_install: false # install microcks (boolean) - not implemented yet
 namespace_microcks_operator: microcks-demo # project namespace for microcks operator and application
-microcks_operator_version_label: v0.4.1 # community version of the microcks operator
+microcks_operator_version_label: v1.1.0 # community version of the microcks operator
