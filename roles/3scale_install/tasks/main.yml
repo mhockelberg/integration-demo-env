@@ -70,7 +70,8 @@
   - shell: "oc create -f {{ work_dir }}/system-smtp.yml -n {{ namespace_threescale_operator }}"
 
   - name: "Create 3scale Pull Secret"
-    shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config --export -o yaml | sed 's/pull-secret/threescale-registry-auth/' | sed '/selfLink/d' | {{ openshift_cli }} apply -n {{ namespace_threescale_operator }} -f -"
+    # shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config --export -o yaml | sed 's/pull-secret/threescale-registry-auth/' | sed '/selfLink/d' | {{ openshift_cli }} apply -n {{ namespace_threescale_operator }} -f -"
+    shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config -o yaml | sed 's/namespace: openshift-config/namespace: {{ namespace_threescale_operator }}/' | sed 's/pull-secret/threescale-registry-auth/' | oc create -n {{ namespace_threescale_operator }} -f -"
 
   # - name: "Create 3scale SMTP config map" # needed for 2.7 install
   #   template:

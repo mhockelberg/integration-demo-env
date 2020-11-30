@@ -16,11 +16,11 @@ monitoring_label: prometheus
 
 # components to install
 threescale_install: false # install 3scale (boolean)
-amqstreams_install: true # install AMQ streams (boolean)
+amqstreams_install: false # install AMQ streams (boolean)
 apicurito_install: false # install API designer (boolean)
 codeready_install: false # install CodeReady Workspaces(boolean)
-fuseonline_install: false # install fuse online (boolean)
+fuseonline_install: true # install fuse online (boolean)
 microcks_install: false # install microcks (boolean) - not implemented yet
-mysql_install: false # install MySQL (boolean)
-noobaa_install: false # install noobaa (boolean)
-sso_install: false # install SSO (boolean)
+mysql_install: true # install MySQL (boolean)
+noobaa_install: true # install noobaa (boolean)
+sso_install: true # install SSO (boolean)

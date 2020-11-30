@@ -10,15 +10,15 @@ spec:
         managementUrlFor3scale: "https://{{ threescale_tenant_name }}-admin.{{ ocp_domain }}"
   addons:
     camelk:
-      enabled: true
+      enabled: false
     dv:
-      enabled: true
+      enabled: false
       resources:
         memory: 1024Mi
     jaeger:
       enabled: false
     knative:
-      enabled: true
+      enabled: false
     todo:
       enabled: false
     ops:

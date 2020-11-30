@@ -4,7 +4,7 @@ metadata:
   name: fuse-apicurito
   namespace: {{ namespace_apicurito_operator }}
 spec:
-  channel: alpha
+  channel: fuse-apicurito-7.7.x
   installPlanApproval: Automatic
   name: fuse-apicurito
   source: redhat-operators

@@ -36,6 +36,11 @@
     retries: 20
     delay: 15
     changed_when: false
+  
+  - name: Sleep for 30 seconds and continue install
+    wait_for:
+      timeout: 30
+    delegate_to: localhost
 
   - name: "Get MySQL pod name and store in mysql_pod variable"
     shell: "oc get pods -o jsonpath='{{ jsonpath_template }}' --field-selector=status.phase=Running -n {{ namespace_mysql }} | grep mysql57"

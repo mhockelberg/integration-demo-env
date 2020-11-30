@@ -88,17 +88,18 @@
     shell: "{{ openshift_cli }} create -f {{ work_dir }}/subscription-fuseonline.yml -n {{ namespace_fuseonline_operator }}"
 
   - name: "Create Syndesis pull secret"
-    shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config --export -o yaml | sed 's/pull-secret/syndesis-pull-secret/' | sed '/selfLink/d' | {{ openshift_cli }} apply -n {{ namespace_fuseonline_operator }} -f -"
+    # shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config --export -o yaml | sed 's/pull-secret/syndesis-pull-secret/' | sed '/selfLink/d' | {{ openshift_cli }} apply -n {{ namespace_fuseonline_operator }} -f -"
+    shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config -o yaml | sed 's/namespace: openshift-config/namespace: {{ namespace_fuseonline_operator }}/' | sed 's/pull-secret/syndesis-pull-secret/' | oc create -n {{ namespace_fuseonline_operator }} -f -"
 
-  - name: "Wait until Syndesis operator is active"
-    shell: "{{ openshift_cli }} get deploy syndesis-operator -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
-    vars:
-      json_template: '\{\{.status.readyReplicas\}\}'
-    register: result
-    until: result.stdout == "1"
-    retries: 30
-    delay: 20
-    changed_when: false
+  # - name: "Wait until Syndesis operator is active"
+  #   shell: "{{ openshift_cli }} get deploy syndesis-operator -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
+  #   vars:
+  #     json_template: '\{\{.status.readyReplicas\}\}'
+  #   register: result
+  #   until: result.stdout == "1"
+  #   retries: 30
+  #   delay: 20
+  #   changed_when: false
 
   # - name: "Wait until Syndesis operator is active"
   #   shell: "oc get csv fuse-online-operator.v7.7.0 -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
@@ -109,6 +110,16 @@
   #   retries: 30
   #   delay: 20
   #   changed_when: false
+  
+  - name: "Wait until Fuse Online operator is installed"
+    shell: "{{ openshift_cli }} get csv fuse-online-operator.{{ fuseonline_operator_version_label }} -o template --template={{ json_template }} -n {{ namespace_fuseonline_operator }}"
+    vars:
+      json_template: '\{\{.status.phase\}\}'
+    register: result
+    until: result.stdout == "Succeeded"
+    retries: 30
+    delay: 20
+    changed_when: false
 
   - name: "Link Syndesis pull secret to the Syndesis operator service account."
     shell: "{{ openshift_cli }} secrets link syndesis-operator syndesis-pull-secret --for=pull -n {{ namespace_fuseonline_operator }}"
