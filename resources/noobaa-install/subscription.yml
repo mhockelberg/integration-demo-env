@@ -4,7 +4,7 @@ metadata:
   name: noobaa-operator
   namespace: {{ namespace_noobaa_operator }}
 spec:
-  channel: alpha
+  channel: {{ noobaa_operator_channel }}
   installPlanApproval: Automatic
   name: noobaa-operator
   source: operatorhubio-catalog

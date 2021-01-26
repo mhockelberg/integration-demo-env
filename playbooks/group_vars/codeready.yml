@@ -1,4 +1,5 @@
 ---
 
 namespace_codeready_operator: codeready-demo # project namespace for CodeReady Workspaces operator and application
-codeready_operator_version_label: v2.5.0 # Red Hat version of the CodeReady Workspaces operator
+codeready_operator_version_label: v2.5.1 # Red Hat version of the CodeReady Workspaces operator
+codeready_operator_channel: latest

@@ -2,5 +2,6 @@
 
 #amqstreams_install: true # install AMQ streams (boolean)
 namespace_amqstreams_operator: amqstreams-demo # project namespace for AMQ streams operator and application
-amqstreams_operator_version_label: v1.5.3 # Red Hat version of the AMQ streams operator
-
+amqstreams_operator_version_label: v1.6.1 # Red Hat version of the AMQ streams operator
+amqstreams_supported_kafka_version: 2.6.0 # Supported Apache Kafka version
+amqstreams_operator_channel: stable

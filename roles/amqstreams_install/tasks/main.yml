@@ -14,7 +14,8 @@
     shell: "{{ openshift_cli }} create -f {{ work_dir }}/operator-group-amqstreams.yml -n {{ namespace_amqstreams_operator }}"
 
   - name: "Create image pull secret"
-    shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config --export -o yaml | sed 's/pull-secret/imagestreamsecret/' | sed '/selfLink/d' | {{ openshift_cli }} apply -n {{ namespace_amqstreams_operator }} -f -"
+    # shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config --export -o yaml | sed 's/pull-secret/imagestreamsecret/' | sed '/selfLink/d' | {{ openshift_cli }} apply -n {{ namespace_amqstreams_operator }} -f -"
+    shell: "{{ openshift_cli }} get secret pull-secret -n openshift-config -o yaml | sed 's/namespace: openshift-config/namespace: {{ namespace_amqstreams_operator }}/' | sed 's/pull-secret/imagestreamsecret/' | oc create -n {{ namespace_amqstreams_operator }} -f -"
 
   - name: "Link image pull secret to builder and deployer service accounts"
     shell: "{{ openshift_cli }} secrets link deployer imagestreamsecret | {{ openshift_cli }} secrets link builder imagestreamsecret"

@@ -21,7 +21,7 @@
     shell: "oc create -f {{ work_dir }}/apicurito-subscription.yml -n {{ namespace_apicurito_operator }}"
 
   - name: "Wait until Apicurito operator is active"
-    shell: "oc get deployment apicurito-operator -o template --template={{ json_template }} -n {{ namespace_apicurito_operator }}"
+    shell: "oc get deployment fuse-apicurito -o template --template={{ json_template }} -n {{ namespace_apicurito_operator }}"
     vars:
       json_template: '\{\{.status.readyReplicas\}\}'
     register: result
@@ -65,7 +65,7 @@
     vars:
       json_template: '\{\{.status.availableReplicas\}\}'
     register: result
-    until: result.stdout == "2"
+    until: result.stdout == "3"
     retries: 20
     delay: 20
     changed_when: false
@@ -75,7 +75,7 @@
     vars:
       json_template: '\{\{.status.availableReplicas\}\}'
     register: result
-    until: result.stdout == "2"
+    until: result.stdout == "3"
     retries: 20
     delay: 20
     changed_when: false  

@@ -16,10 +16,12 @@ spec:
       resources:
         memory: 1024Mi
     jaeger:
-      enabled: false
+      enabled: true
     knative:
       enabled: false
     todo:
-      enabled: false
-    ops:
       enabled: true
+    ops:
+      enabled: false
+    publicApi:
+      enabled: false

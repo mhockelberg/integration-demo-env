@@ -4,9 +4,9 @@ metadata:
   name: fuse-apicurito
   namespace: {{ namespace_apicurito_operator }}
 spec:
-  channel: fuse-apicurito-7.7.x
+  channel: {{ apicurito_operator_channel }}
   installPlanApproval: Automatic
   name: fuse-apicurito
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: apicuritooperator.{{ apicurito_operator_version_label }}
+  startingCSV: fuse-apicurito.{{ apicurito_operator_version_label }}

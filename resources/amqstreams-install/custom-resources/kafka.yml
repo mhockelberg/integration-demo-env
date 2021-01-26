@@ -5,20 +5,22 @@ metadata:
   namespace: {{ namespace_amqstreams_operator }}
 spec:
   kafka:
-    version: 2.5.0
+    version: {{ amqstreams_supported_kafka_version }}
     replicas: 3
     listeners:
-      plain:
-        authentiation:
-          type: scram-sha-512
-      tls:
-        authentiation:
-          type: tls
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
     config:
       offsets.topic.replication.factor: 3
       transaction.state.log.replication.factor: 3
       transaction.state.log.min.isr: 2
-      log.message.format.version: "2.5"
+      log.message.format.version: "2.6"
     storage:
       type: jbod
       volumes:

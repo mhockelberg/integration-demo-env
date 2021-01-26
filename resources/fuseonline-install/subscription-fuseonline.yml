@@ -4,7 +4,7 @@ metadata:
   name: fuse-online
   namespace: {{ namespace_fuseonline_operator }}
 spec:
-  channel: fuse-online-7.7.x
+  channel: {{ fuseonline_operator_channel }}
   installPlanApproval: Automatic
   name: fuse-online
   source: redhat-operators
