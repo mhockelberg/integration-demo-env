@@ -1,6 +1,5 @@
 ---
 
-#apicurito_install: true # install API designer (boolean)
 namespace_apicurito_operator: apicurito-demo # project namespace for API designer operator and application
 apicurito_operator_version_label: v7.8.0 # Red Hat version of the API designer operator
 # apicurito_service_container_image_label_bad: registry.redhat.io/fuse7-fuse-apicurito:1.5 # replace with correct label in the apicurito service deployment

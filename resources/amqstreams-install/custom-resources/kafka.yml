@@ -20,7 +20,8 @@ spec:
       offsets.topic.replication.factor: 3
       transaction.state.log.replication.factor: 3
       transaction.state.log.min.isr: 2
-      log.message.format.version: "2.6"
+      log.message.format.version: {{ amqstreams_log_message_format_version }}
+      inter.broker.protocol.version: {{ amqstreams_inter_broker_protocol_version }}
     storage:
       type: jbod
       volumes:
@@ -36,6 +37,8 @@ spec:
       deleteClaim: false
   entityOperator:
     topicOperator:
+      watchedNamespace: {{ namespace_amqstreams_operator }}
       reconciliationIntervalSeconds: 90
     userOperator:
+      watchedNamespace: {{ namespace_amqstreams_operator }}
       reconciliationIntervalSeconds: 120

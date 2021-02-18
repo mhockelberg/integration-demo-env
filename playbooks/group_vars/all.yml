@@ -20,7 +20,7 @@ amqstreams_install: true # install AMQ streams (boolean)
 apicurito_install: true # install API designer (boolean)
 codeready_install: true # install CodeReady Workspaces(boolean)
 fuseonline_install: true # install fuse online (boolean)
-microcks_install: true # install microcks (boolean) - not implemented yet
+microcks_install: false # install microcks (boolean) - not implemented yet
 mysql_install: true # install MySQL (boolean)
 noobaa_install: true # install noobaa (boolean)
 sso_install: true # install SSO (boolean)

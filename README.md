@@ -1,14 +1,14 @@
 # Integration Demo Environment - Installer
 
 A set of Ansible roles and playbooks that install an Integration Demo environment project on top of OpenShift 4.6 using operators.  This installer can be used to install the following components:
-* Red Hat 3scale API Management 2.9 (Operator 0.6.1) 
-* Red Hat API Designer 7.8 (Operator 7.8.0)
-* Red Hat CodeReady Workspaces 2.5 (Operator 2.5.1)
-* Red Hat Fuse Online 7.8 (Operator 7.8.0)
-* Red Hat AMQ Streams 1.6 (Operator 1.6.1)
+* Red Hat 3scale API Management 2.9.1 (Operator 0.6.1) 
+* Red Hat API Designer 7.8.0 (Operator 7.8.0)
+* Red Hat CodeReady Workspaces 2.6.0 (Operator 2.6.0)
+* Red Hat Fuse Online 7.8.0 (Operator 7.8.0)
+* Red Hat AMQ Streams 1.6.2 (Operator 1.6.2)
 * MySQL 5.7 (Employee sample DB)
-* Noobaa S3 storage 5.6 (Community Operator 5.6.0) s3 compatible option for 3scale RWX storage 
-* Red Hat Single Sign-On 7.4 (Operator 7.4.4)
+* Noobaa S3 storage 5.6.0 (Community Operator 5.6.0) s3 compatible option for 3scale RWX storage 
+* Red Hat Single Sign-On 7.4.5 (Operator 7.4.5)
 
 Prerequisites:
 * Ansible 2.9.11+

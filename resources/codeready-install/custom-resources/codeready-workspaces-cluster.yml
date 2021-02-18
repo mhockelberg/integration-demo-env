@@ -7,11 +7,16 @@ spec:
   auth:
     identityProviderURL: ''
     identityProviderRealm: ''
+    oAuthSecret: ''
+    identityProviderPassword: ''
     identityProviderImage: ''
+    oAuthClientName: ''
     identityProviderClientId: ''
+    identityProviderAdminUserName: ''
     externalIdentityProvider: false
     openShiftoAuth: true
   database:
+    postgresImage: ''
     chePostgresUser: ''
     externalDb: false
     chePostgresHostName: ''
@@ -21,13 +26,34 @@ spec:
   metrics:
     enable: true
   server:
+    proxyURL: ''
+    cheClusterRoles: ''
+    singleHostGatewayConfigMapLabels: {}
+    singleHostGatewayImage: ''
+    proxyPassword: ''
+    nonProxyHosts: ''
     pluginRegistryImage: ''
-    selfSignedCert: false
+    serverMemoryRequest: ''
     devfileRegistryImage: ''
-    tlsSupport: true
+    proxyPort: ''
+    singleHostGatewayConfigSidecarImage: ''
+    tlsSupport: true # docs say deprecated in 2.6, but the operator is still using it
+    serverMemoryLimit: ''
+    allowUserDefinedWorkspaceNamespaces: false
+    serverTrustStoreConfigMapName: ''
+    proxyUser: ''
+    cheImage: ''
+    cheWorkspaceClusterRole: ''
+    workspaceNamespaceDefault: ''
+    serverExposureStrategy: ''
+    gitSelfSignedCert: false
+    useInternalClusterSVCNames: true
     cheFlavor: codeready
     cheImageTag: ''
   storage:
+    postgresPVCStorageClassName: ''
     preCreateSubPaths: true
     pvcClaimSize: 1Gi
-    pvcStrategy: per-workspace
+    pvcJobsImage: ''
+    pvcStrategy: common
+    workspacePVCStorageClassName: ''
