@@ -1,6 +1,5 @@
 ---
 
-#noobaa_install: true # install noobaa (boolean)
 namespace_noobaa_operator: noobaa-demo # project namespace for noobaa operator and application
 noobaa_operator_version_label: v5.6.0 # Community version of the noobaa operator
 noobaa_region: local-s3-region # (optional) provide a region for the location info of the s3 storage endpoints

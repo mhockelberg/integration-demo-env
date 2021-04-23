@@ -1,6 +1,5 @@
 ---
 
-#mysql_install: true # install MySQL (boolean)
 namespace_mysql: mysql-demo # project namespace for MySQL application
 mysql_image: mhockelberg/mysql57:sqlscripts # MySQL image
 mysql_version: 5.7 # MySQL version

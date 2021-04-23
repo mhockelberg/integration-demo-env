@@ -44,7 +44,7 @@ spec:
     proxyUser: ''
     cheImage: ''
     cheWorkspaceClusterRole: ''
-    workspaceNamespaceDefault: ''
+    workspaceNamespaceDefault: <username>-codeready
     serverExposureStrategy: ''
     gitSelfSignedCert: false
     useInternalClusterSVCNames: true
