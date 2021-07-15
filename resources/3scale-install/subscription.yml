@@ -5,7 +5,7 @@ metadata:
   namespace: {{ namespace_threescale_operator }}
 spec:
   channel: {{ threescale_operator_channel }}
-  installPlanApproval: Automatic
+  installPlanApproval: {{ threescale_operator_approval_strategy }}
   name: 3scale-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace

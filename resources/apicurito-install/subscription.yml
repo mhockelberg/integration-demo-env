@@ -5,7 +5,7 @@ metadata:
   namespace: {{ namespace_apicurito_operator }}
 spec:
   channel: {{ apicurito_operator_channel }}
-  installPlanApproval: Automatic
+  installPlanApproval: {{ apicurito_operator_approval_strategy }}
   name: fuse-apicurito
   source: redhat-operators
   sourceNamespace: openshift-marketplace

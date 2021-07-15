@@ -5,51 +5,54 @@ metadata:
   namespace: {{ namespace_codeready_operator }}
 spec:
   auth:
-    identityProviderURL: ''
-    identityProviderRealm: ''
-    oAuthSecret: ''
-    identityProviderPassword: ''
-    identityProviderImage: ''
-    oAuthClientName: ''
-    identityProviderClientId: ''
-    identityProviderAdminUserName: ''
     externalIdentityProvider: false
+    identityProviderAdminUserName: ''
+    identityProviderClientId: ''
+    identityProviderPassword: ''
+    identityProviderRealm: ''
+    identityProviderURL: ''
+    initialOpenShiftOAuthUser: true
+    oAuthClientName: ''
+    oAuthSecret: ''
     openShiftoAuth: true
   database:
-    postgresImage: ''
-    chePostgresUser: ''
-    externalDb: false
+    chePostgresDb: ''
     chePostgresHostName: ''
     chePostgresPassword: ''
-    chePostgresDb: ''
     chePostgresPort: ''
+    chePostgresUser: ''
+    externalDb: false
+    postgresImage: ''
   metrics:
     enable: true
   server:
-    proxyURL: ''
+    allowUserDefinedWorkspaceNamespaces: false
     cheClusterRoles: ''
-    singleHostGatewayConfigMapLabels: {}
-    singleHostGatewayImage: ''
-    proxyPassword: ''
+    cheFlavor: codeready
+    cheImage: ''
+    cheImageTag: ''
+    cheLogLevel: INFO
+    cheWorkspaceClusterRole: ''
+    customCheProperties: 
+      CHE_LIMITS_USER_WORKSPACES_RUN_COUNT: '3' # number of workspaces each user can create
+    devfileRegistryImage: ''
+    gitSelfSignedCert: false
     nonProxyHosts: ''
     pluginRegistryImage: ''
-    serverMemoryRequest: ''
-    devfileRegistryImage: ''
+    proxyPassword: ''
     proxyPort: ''
-    singleHostGatewayConfigSidecarImage: ''
-    tlsSupport: true # docs say deprecated in 2.6, but the operator is still using it
-    serverMemoryLimit: ''
-    allowUserDefinedWorkspaceNamespaces: false
-    serverTrustStoreConfigMapName: ''
+    proxyURL: ''
     proxyUser: ''
-    cheImage: ''
-    cheWorkspaceClusterRole: ''
-    workspaceNamespaceDefault: <username>-codeready
     serverExposureStrategy: ''
-    gitSelfSignedCert: false
+    serverMemoryLimit: ''
+    serverMemoryRequest: ''
+    serverTrustStoreConfigMapName: ''
+    singleHostGatewayConfigMapLabels: {}
+    singleHostGatewayConfigSidecarImage: ''
+    singleHostGatewayImage: ''
+    # tlsSupport: true # docs say deprecated in 2.6, but the operator is still using it
     useInternalClusterSVCNames: true
-    cheFlavor: codeready
-    cheImageTag: ''
+    workspaceNamespaceDefault: <username>-codeready
   storage:
     postgresPVCStorageClassName: ''
     preCreateSubPaths: true

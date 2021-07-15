@@ -1,5 +1,10 @@
 ---
 
 namespace_codeready_operator: codeready-demo # project namespace for CodeReady Workspaces operator and application
-codeready_operator_version_label: v2.6.0 # Red Hat version of the CodeReady Workspaces operator
+codeready_operator_version_label: v2.9.0 # Red Hat version of the CodeReady Workspaces operator
 codeready_operator_channel: latest
+codeready_operator_approval_strategy: Automatic
+# Additional Info
+# the codeready projects that host the workspaces limit range configurations must support
+# the workspace types that are being created - not sure if/where this can be configured in the 
+# CheCluster customer resource itself, need to verify

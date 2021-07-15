@@ -1,9 +1,16 @@
 ---
 
 namespace_fuseonline_operator: fuseonline-demo # project namespace for fuse online operator and application
-fuseonline_operator_version_label: v7.8.0 # Red Hat version of the Fuse Online operator
-camelk_operator_version_label: v1.2.1 # red-hat-camel-k-operator.v1.0.0
+fuseonline_operator_version_label: v7.8.1 # Red Hat version of the Fuse Online operator
+fuseonline_operator_channel: fuse-online-v7.8.x
+fuseonline_operator_approval_strategy: Automatic
+
+# camelk configurations, need to separate these out into their own role, etc
+camelk_operator_version_label: v1.3.3 # red-hat-camel-k-operator
+camelk_operator_channel: techpreview
+camelk_operator_approval_strategy: Automatic
+
+# the next 3 variables are probably not needed now - were used to work around a bug that's since been fixed
 #camelk_operator_container_image_label_bad: integration-tech-preview/camel-k-rhel8-operator # replace with correct label in the operator CSV
 #camelk_operator_container_image_label_good: registry.redhat.io/integration-tech-preview/camel-k-rhel8-operator:1.0-12 # correct TP image label, see https://issues.redhat.com/browse/ENTESB-13959
 camelk_operator_container_image_label_good: registry.redhat.io/integration-tech-preview/camel-k-rhel8-operator:1.0-13 # correct TP image label
-fuseonline_operator_channel: fuse-online-v7.8.x

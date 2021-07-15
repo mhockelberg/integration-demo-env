@@ -5,7 +5,7 @@ metadata:
   namespace: {{ namespace_noobaa_operator }}
 spec:
   channel: {{ noobaa_operator_channel }}
-  installPlanApproval: Automatic
+  installPlanApproval: {{ noobaa_operator_approval_strategy }}
   name: noobaa-operator
   source: operatorhubio-catalog
   sourceNamespace: openshift-marketplace

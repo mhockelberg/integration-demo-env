@@ -3,3 +3,4 @@
 namespace_microcks_operator: microcks-demo # project namespace for microcks operator and application
 microcks_operator_version_label: v1.2.0 # community version of the microcks operator
 microcks_operator_channel: stable
+microcks_operator_approval_strategy: Automatic

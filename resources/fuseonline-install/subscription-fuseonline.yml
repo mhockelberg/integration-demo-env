@@ -5,7 +5,7 @@ metadata:
   namespace: {{ namespace_fuseonline_operator }}
 spec:
   channel: {{ fuseonline_operator_channel }}
-  installPlanApproval: Automatic
+  installPlanApproval: {{ fuseonline_operator_approval_strategy }}
   name: fuse-online
   source: redhat-operators
   sourceNamespace: openshift-marketplace

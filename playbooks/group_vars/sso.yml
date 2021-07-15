@@ -1,8 +1,9 @@
 ---
 
 namespace_sso_operator: sso-demo # project namespace for SSO operator and application
-sso_operator_version_label: 7.4.6 # Red Hat version of the SSO operator
+sso_operator_version_label: 7.4.7 # Red Hat version of the SSO operator
 sso_operator_channel: alpha
+sso_operator_approval_strategy: Automatic
 
 # credential-sso-keycloak secret ... values will be base64 encoded in secret
 sso_admin_passwd: changeme # sso admin console password (default=generated)

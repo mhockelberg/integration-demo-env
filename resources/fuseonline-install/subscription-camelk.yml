@@ -4,8 +4,8 @@ metadata:
   name: red-hat-camel-k
   namespace: {{ namespace_fuseonline_operator }}
 spec:
-  channel: techpreview
-  installPlanApproval: Automatic
+  channel: {{ camelk_operator_channel }}
+  installPlanApproval: {{ camelk_operator_approval_strategy }}
   name: red-hat-camel-k
   source: redhat-operators
   sourceNamespace: openshift-marketplace
