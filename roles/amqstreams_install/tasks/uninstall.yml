@@ -1,9 +1,49 @@
 ---
 
-- name: uninstall 3scale 
+- name: uninstall amqstreams kafka-bridge 
   oc_obj:
     state: absent
     oc_binary: "{{ openshift_cli }}"
-    name: "apim-apimanager"
-    kind: apimanager
-    namespace: "{{ namespace }}"
+    name: "kafka-bridge"
+    kind: KafkaBridge
+    namespace: "{{ namespace_amqstreams_operator }}"
+
+- name: uninstall amqstreams kafka-connect
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "kafka-connect-cluster"
+    kind: KafkaConnect
+    namespace: "{{ namespace_amqstreams_operator }}"
+
+- name: uninstall amqstreams kafka-connect-s2i
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "kafka-connect-s2i-cluster"
+    kind: KafkaConnectS2I
+    namespace: "{{ namespace_amqstreams_operator }}"
+
+- name: uninstall amqstreams kafka
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "kafka-cluster"
+    kind: Kafka
+    namespace: "{{ namespace_amqstreams_operator }}"    
+
+- name: uninstall amqstreams operator subscription
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ amqstreams_operator_package_name }}"
+    kind: Subscription
+    namespace: "{{ namespace_amqstreams_operator }}"
+
+- name: uninstall amqstreams project
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ namespace_amqstreams_operator }}"
+    kind: Project
+      

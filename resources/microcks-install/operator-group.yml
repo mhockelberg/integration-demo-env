@@ -1,0 +1,8 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: microcks-operator-group
+  namespace: {{ namespace_microcks_operator }}
+spec:
+  targetNamespaces:
+  - {{ namespace_microcks_operator }}

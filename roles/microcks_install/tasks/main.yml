@@ -1,0 +1,57 @@
+---
+
+- shell: |
+    {{ openshift_cli }} get deployment microcks-ansible-operator -o template --template={{ replica_status }} -n {{ namespace_microcks_operator }}
+  register: resource_status
+  ignore_errors: true
+
+- block:
+  - name: "copy {{ resources_base_dir }}/microcks-install/operator-group.yml"
+    template:
+      src: "{{ resources_base_dir }}/microcks-install/operator-group.yml"
+      dest: "{{ work_dir }}/operator-group.yml"
+  - name: "Create Microcks operator group"
+    shell: "{{ openshift_cli }} create -f {{ work_dir }}/operator-group.yml -n {{ namespace_microcks_operator }}"
+
+  - name: "copy {{ resources_base_dir }}/microcks-install/subscription.yml"
+    template:
+      src: "{{ resources_base_dir }}/microcks-install/subscription.yml"
+      dest: "{{ work_dir }}/subscription.yml"
+  - name: "Create Microcks operator subscription"
+    shell: "{{ openshift_cli }} create -f {{ work_dir }}/subscription.yml -n {{ namespace_microcks_operator }}"
+
+  - name: "Wait until Microcks operator is installed"
+    shell: "{{ openshift_cli }} get csv {{ microcks_operator_name }}.{{ microcks_operator_version_label }} -o template --template={{ json_template }} -n {{ namespace_microcks_operator }}"
+    vars:
+      json_template: '\{\{.status.phase\}\}'
+    register: result
+    until: result.stdout == "Succeeded"
+    retries: 30
+    delay: 20
+    changed_when: false
+  
+  - name: "Create Microcks custom resource"
+    template:
+      src: "{{ resources_base_dir }}/microcks-install/custom-resources/microcksinstall.yml"
+      dest: "{{ work_dir }}/microcksinstall.yml"
+  - shell: "{{ openshift_cli }} create -f {{ work_dir }}/microcksinstall.yml -n {{ namespace_microcks_operator }}"
+  
+  - name: "Wait until Microcks is active"
+    shell: "{{ openshift_cli }} get microcksinstall microcks -o template --template={{ go_template }} -n {{ namespace_microcks_operator }}"
+    vars:
+      go_template: '\{\{\(index\ .status.conditions\ 0\).type\}\}'
+    register: result
+    until: result.stdout == "Running"
+    retries: 30
+    delay: 20
+    changed_when: false
+    # ignore_errors: true
+
+  - name: "Print Microcks status result variable info to console"
+    debug:
+      var: result
+  
+  when: >
+    resource_status.stdout is not defined or
+    resource_status.stdout is none or
+    resource_status.stdout != "1"

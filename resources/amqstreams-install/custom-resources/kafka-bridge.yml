@@ -1,4 +1,4 @@
-apiVersion: kafka.strimzi.io/v1alpha1
+apiVersion: {{ amqstreams_api_version }}
 kind: KafkaBridge
 metadata:
   name: kafka-bridge

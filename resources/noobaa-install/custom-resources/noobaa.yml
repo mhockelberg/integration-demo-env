@@ -1,9 +1,10 @@
-apiVersion: noobaa.io/v1alpha1
+apiVersion: {{ noobaa_api_version }}
 kind: NooBaa
 metadata:
   name: noobaa
-  labels:
-    app: noobaa
   namespace: {{ namespace_noobaa_operator }}
-spec: {}
+spec:
+  security:
+    kms: {}
+  cleanupPolicy: {}
 status: {}

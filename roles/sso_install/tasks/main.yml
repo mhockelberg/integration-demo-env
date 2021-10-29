@@ -20,17 +20,17 @@
   - name: "Create SSO operator subscription"
     shell: "{{ openshift_cli }} create -f {{ work_dir }}/subscription-sso.yml -n {{ namespace_sso_operator }}"
 
-  - name: "Wait until SSO operator is active"
-    shell: "{{ openshift_cli }} get deploy rhsso-operator -o template --template={{ go_template }} -n {{ namespace_sso_operator }}"
+  - name: "Wait until SSO operator is installed"
+    shell: "{{ openshift_cli }} get csv {{ sso_operator_name }}.{{ sso_operator_version_label }} -o template --template={{ json_template }} -n {{ namespace_sso_operator }}"
     vars:
-      go_template: '\{\{.status.readyReplicas\}\}'
+      json_template: '\{\{.status.phase\}\}'
     register: result
-    until: result.stdout == "1"
+    until: result.stdout == "Succeeded"
     retries: 30
     delay: 20
     changed_when: false
   
-  # - name: "Create SSO credential-sso-keycloak secret"
+  # - name: "Create SSO credential-sso-keycloak secret" # not implemented
   #   template:
   #     src: "{{ resources_base_dir }}/sso-install/secrets/credential-sso-keycloak.yml"
   #     dest: "{{ work_dir }}/credential-sso-keycloak.yml"
@@ -51,7 +51,6 @@
     retries: 30
     delay: 20
     changed_when: false
-    # ignore_errors: true
 
   - name: "Print Keycloak status result variable info to console"
     debug:

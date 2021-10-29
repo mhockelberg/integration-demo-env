@@ -1,4 +1,4 @@
-apiVersion: apicur.io/v1alpha1
+apiVersion: {{ apicurito_api_version }}
 kind: Apicurito
 metadata:
   name: apicurito-service

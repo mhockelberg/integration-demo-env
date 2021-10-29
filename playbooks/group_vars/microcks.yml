@@ -1,6 +1,9 @@
 ---
 
 namespace_microcks_operator: microcks-demo # project namespace for microcks operator and application
-microcks_operator_version_label: v1.2.0 # community version of the microcks operator
+microcks_operator_name: microcks-operator
+microcks_operator_package_name: microcks
+microcks_operator_version_label: v1.4.1 # community version of the microcks operator
 microcks_operator_channel: stable
 microcks_operator_approval_strategy: Automatic
+microcks_api_version: microcks.github.io/v1alpha1

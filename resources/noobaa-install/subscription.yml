@@ -1,12 +1,12 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: noobaa-operator
+  name: {{ noobaa_operator_package_name }}
   namespace: {{ namespace_noobaa_operator }}
 spec:
   channel: {{ noobaa_operator_channel }}
   installPlanApproval: {{ noobaa_operator_approval_strategy }}
-  name: noobaa-operator
+  name: {{ noobaa_operator_package_name }}
   source: operatorhubio-catalog
   sourceNamespace: openshift-marketplace
-  startingCSV: noobaa-operator.{{ noobaa_operator_version_label }}
+  startingCSV: {{ noobaa_operator_name }}.{{ noobaa_operator_version_label }}

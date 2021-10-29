@@ -1,0 +1,1532 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    operators.operatorframework.io/builder: operator-sdk-v1.5.0
+    operators.operatorframework.io/project_layout: go.kubebuilder.io/v2
+    certified: 'false'
+    olm.targetNamespaces: fuseonline-demo
+    operatorframework.io/properties: >-
+      {"properties":[{"type":"olm.gvk","value":{"group":"syndesis.io","kind":"Syndesis","version":"v1alpha1"}},{"type":"olm.gvk","value":{"group":"syndesis.io","kind":"Syndesis","version":"v1beta1"}},{"type":"olm.gvk","value":{"group":"syndesis.io","kind":"Syndesis","version":"v1beta2"}},{"type":"olm.package","value":{"packageName":"fuse-online","version":"7.9.1"}}]}
+    repository: 'https://github.com/syndesisio/syndesis/'
+    support: Fuse Online
+    alm-examples: |-
+      [
+        {
+          "apiVersion": "syndesis.io/v1beta2",
+          "kind": "Syndesis",
+          "metadata": {
+            "labels": {
+              "app": "syndesis"
+            },
+            "name": "app"
+          },
+          "spec": {
+            "addons": {
+              "jaeger": {
+                "enabled": true
+              },
+              "ops": {
+                "enabled": false
+              },
+              "publicApi": {
+                "enabled": false
+              },
+              "todo": {
+                "enabled": false
+              }
+            }
+          },
+          "status": {}
+        }
+      ]
+    capabilities: Seamless Upgrades
+    olm.operatorNamespace: fuseonline-demo
+    containerImage: >-
+      registry.redhat.io/fuse7/fuse-online-rhel8-operator@sha256:c70c5e76dc3db559c722bea2a767eb7dcba1eda786e1ef3a45c4cf32e1aca9ee
+    createdAt: '2021-07-21 12:25:15 UTC'
+    categories: Integration & Delivery
+    description: >-
+      Manages the installation of Fuse Online, a flexible and customizable open
+      source platform that provides core integration capabilities as a service.
+    olm.operatorGroup: fuse-online-operator-group
+  selfLink: >-
+    /apis/operators.coreos.com/v1alpha1/namespaces/fuseonline-demo/clusterserviceversions/fuse-online.v7.9.1
+  resourceVersion: '296765'
+  name: fuse-online.v7.9.1
+  uid: e9df1e1e-05c7-47c7-9636-e18318c2a71d
+  creationTimestamp: '2021-10-28T22:05:18Z'
+  generation: 1
+  managedFields:
+    - apiVersion: operators.coreos.com/v1alpha1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:createdAt': {}
+            'f:alm-examples': {}
+            'f:description': {}
+            'f:capabilities': {}
+            .: {}
+            'f:containerImage': {}
+            'f:categories': {}
+            'f:operators.operatorframework.io/project_layout': {}
+            'f:certified': {}
+            'f:operatorframework.io/properties': {}
+            'f:operators.operatorframework.io/builder': {}
+            'f:support': {}
+            'f:repository': {}
+        'f:spec':
+          'f:version': {}
+          'f:maturity': {}
+          'f:provider':
+            .: {}
+            'f:name': {}
+            'f:url': {}
+          'f:links': {}
+          'f:install':
+            .: {}
+            'f:spec':
+              .: {}
+              'f:clusterPermissions': {}
+              'f:permissions': {}
+            'f:strategy': {}
+          'f:maintainers': {}
+          'f:description': {}
+          'f:installModes': {}
+          'f:icon': {}
+          'f:customresourcedefinitions':
+            .: {}
+            'f:owned': {}
+          .: {}
+          'f:apiservicedefinitions': {}
+          'f:selector':
+            .: {}
+            'f:matchLabels':
+              .: {}
+              'f:name': {}
+          'f:replaces': {}
+          'f:labels':
+            .: {}
+            'f:name': {}
+          'f:displayName': {}
+          'f:keywords': {}
+      manager: catalog
+      operation: Update
+      time: '2021-10-28T22:05:18Z'
+    - apiVersion: operators.coreos.com/v1alpha1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:olm.operatorGroup': {}
+            'f:olm.operatorNamespace': {}
+            'f:olm.targetNamespaces': {}
+          'f:labels':
+            .: {}
+            'f:olm.api.e847a3695e31b59c': {}
+            'f:operators.coreos.com/fuse-online.fuseonline-demo': {}
+        'f:spec':
+          'f:install':
+            'f:spec':
+              'f:deployments': {}
+        'f:status':
+          .: {}
+          'f:conditions': {}
+          'f:lastTransitionTime': {}
+          'f:lastUpdateTime': {}
+          'f:message': {}
+          'f:phase': {}
+          'f:reason': {}
+          'f:requirementStatus': {}
+      manager: olm
+      operation: Update
+      time: '2021-10-28T22:05:21Z'
+  namespace: fuseonline-demo
+  labels:
+    olm.api.e847a3695e31b59c: provided
+    operators.coreos.com/fuse-online.fuseonline-demo: ''
+spec:
+  customresourcedefinitions:
+    owned:
+      - description: Syndesis is the Schema for the Syndeses API
+        displayName: Syndesis
+        kind: Syndesis
+        name: syndesises.syndesis.io
+        resources:
+          - kind: ClusterRole
+            name: ''
+            version: rbac.authorization.k8s.io/v1
+          - kind: Deployment
+            name: ''
+            version: apps/v1
+          - kind: Role
+            name: ''
+            version: rbac.authorization.k8s.io/v1
+          - kind: Secret
+            name: ''
+            version: v1
+          - kind: ServiceAccount
+            name: ''
+            version: v1
+          - kind: Subscription
+            name: ''
+            version: operators.coreos.com/v1alpha1
+        version: v1beta2
+  apiservicedefinitions: {}
+  keywords:
+    - camel
+    - integration
+    - syndesis
+    - fuse
+    - online
+  displayName: Red Hat Integration - Fuse Online
+  provider:
+    name: Red Hat
+    url: 'https://access.redhat.com/products/red-hat-fuse'
+  maturity: beta
+  installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: true
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: false
+      type: AllNamespaces
+  version: 7.9.1
+  icon:
+    - base64data: >-
+        PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2Q3MWUwMDt9LmNscy0ye2ZpbGw6I2MyMWEwMDt9LmNscy0ze2ZpbGw6I2ZmZjt9LmNscy00e2ZpbGw6I2VhZWFlYTt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPnByb2R1Y3RpY29uc18xMDE3X1JHQl9JbnRlZ3JhdGlvbiBmaW5hbCBjb2xvcjwvdGl0bGU+PGcgaWQ9IkxheWVyXzEiIGRhdGEtbmFtZT0iTGF5ZXIgMSI+PGNpcmNsZSBjbGFzcz0iY2xzLTEiIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTIwLjcxIDUwKSByb3RhdGUoLTQ1KSIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTg1LjM2LDE0LjY0QTUwLDUwLDAsMCwxLDE0LjY0LDg1LjM2WiIvPjxwYXRoIGQ9Ik0zMSwzMS4zNmExLjk0LDEuOTQsMCwwLDEtMy42Mi0uODkuNDMuNDMsMCwwLDEsLjUzLS40NCwzLjMyLDMuMzIsMCwwLDAsMi44MS43QS40My40MywwLDAsMSwzMSwzMS4zNloiLz48cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Ik03Ny42Myw0NC43NkM3Ny4xMiw0MS4zNCw3MywyMSw2Ni4zMiwyMWMtMi40NCwwLTQuNTksMy4zNS02LDYuODgtLjQ0LDEuMDYtMS4yMywxLjA4LTEuNjMsMEM1Ny4yNCwyNC4xNiw1NS44OCwyMSw1My4yOCwyMSw0My4zNCwyMSw0Ny44NCw0NS4xOCwzOSw0NS4xOGMtNC41NywwLTUuMzctMTAuNTktNS41LTE0LjcyLDIuMTkuNjUsMy4zLTEsMy41NS0yLjYxYS42My42MywwLDAsMC0uNDgtLjcyLDMuMzYsMy4zNiwwLDAsMC0zLC44OUgyNy4zMWExLDEsMCwwLDAtLjY4LjI4bC0uNTMuNTNIMjIuMjFhLjU0LjU0LDAsMCwwLS4zOC4xNmwtMy45NSwzLjk1YS41NC41NCwwLDAsMCwuMzguOTFoLjM2bDAsMEgyOS43MWMuNiw2LjI2LDEuNzUsMjIsMTYuNDIsMTcuMTlsLS4zMiw1TDQ0LjM3LDc4LjQ2YTEsMSwwLDAsMCwxLDFoNC45YTEsMSwwLDAsMCwxLTFsLS42MS0yMy4zMy0uMTUtNS44MWM2LTIuNzgsOS01LjY2LDE2LjE5LTYuNzUtMS41OSwyLjYyLTIuMDUsNi44Ny0yLjA2LDgtLjA2LDYsMi41NSw4Ljc0LDUsMTMuMjJMNjMuNzMsNzhhMSwxLDAsMCwwLC44OSwxLjMyaDQuNjRhMSwxLDAsMCwwLC45My0uNzRMNzQsNjIuNmMtNC44My03LjQzLDEuODMtMTUuMzEsMy40MS0xN0ExLDEsMCwwLDAsNzcuNjMsNDQuNzZaTTMxLDMxLjM2YTEuOTQsMS45NCwwLDAsMS0zLjYyLS44OS40My40MywwLDAsMSwuNTMtLjQ0LDMuMzIsMy4zMiwwLDAsMCwyLjgxLjdBLjQzLjQzLDAsMCwxLDMxLDMxLjM2WiIvPjxwYXRoIGNsYXNzPSJjbHMtNCIgZD0iTTQ2LjEzLDUxLjA3QzMxLjQ2LDU1LjkyLDMwLjMxLDQwLjE0LDI5LjcxLDMzLjg4SDE4LjY1TDIwLjc1LDM2YTEsMSwwLDAsMCwuNjguMjhoNmMwLDUuOCwxLjEzLDIwLjIsMTQsMjAuMmEzMS4zNCwzMS4zNCwwLDAsMCw0LjQyLS4zNVoiLz48cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Ik01MC40MSw0OS4zNmwuMTUsNS44MWExMDguMiwxMDguMiwwLDAsMCwxNC00LjU0LDE5Ljc5LDE5Ljc5LDAsMCwxLDIuMDYtOEM1OS40Niw0My43LDU2LjQ0LDQ2LjU4LDUwLjQxLDQ5LjM2WiIvPjwvZz48L3N2Zz4=
+      mediatype: image/svg+xml
+  links:
+    - name: Red Hat Fuse Online Documentation
+      url: 'https://access.redhat.com/documentation/en-us/red-hat-fuse'
+    - name: Upstream project Syndesis
+      url: 'https://github.com/syndesisio/syndesis'
+    - name: Upstream Syndesis Operator
+      url: 'https://github.com/syndesisio/syndesis/tree/master/install/operator'
+  install:
+    spec:
+      clusterPermissions:
+        - rules:
+            - apiGroups:
+                - authentication.k8s.io
+              resources:
+                - tokenreviews
+              verbs:
+                - create
+            - apiGroups:
+                - authorization.k8s.io
+              resources:
+                - subjectaccessreviews
+              verbs:
+                - create
+            - apiGroups:
+                - rbac.authorization.k8s.io
+              resources:
+                - clusterroles
+                - clusterrolebindings
+                - '*/finalizers'
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+            - apiGroups:
+                - syndesis.io
+              resources:
+                - '*'
+                - '*/finalizers'
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - console.openshift.io
+              resources:
+                - consolelinks
+              verbs:
+                - get
+                - create
+                - update
+                - delete
+            - apiGroups:
+                - kafka.strimzi.io
+              resources:
+                - kafkas
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - packages.operators.coreos.com
+              resources:
+                - packagemanifests
+              verbs:
+                - get
+                - list
+            - apiGroups:
+                - operators.coreos.com
+              resources:
+                - operatorgroups
+                - subscriptions
+                - installplans
+              verbs:
+                - create
+                - delete
+                - update
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - operators.coreos.com
+              resources:
+                - clusterserviceversions
+              verbs:
+                - get
+                - list
+                - watch
+          serviceAccountName: syndesis-operator
+      deployments:
+        - name: fuse-online-operator
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                name: syndesis-operator
+                syndesis.io/app: syndesis
+                syndesis.io/component: syndesis-operator
+                syndesis.io/type: operator
+            strategy: {}
+            template:
+              metadata:
+                creationTimestamp: null
+                labels:
+                  rht.comp_ver: '7.9'
+                  rht.prod_name: Red_Hat_Integration
+                  syndesis.io/type: operator
+                  rht.prod_ver: '7.9'
+                  name: syndesis-operator
+                  syndesis.io/component: syndesis-operator
+                  com.company: Red_Hat
+                  syndesis.io/app: syndesis
+                  rht.subcomp_t: infrastructure
+                  rht.subcomp: syndesis-operator
+                  rht.comp: Fuse
+              spec:
+                containers:
+                  - env:
+                      - name: WATCH_NAMESPACE
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: 'metadata.annotations[''olm.targetNamespaces'']'
+                      - name: POD_NAME
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: metadata.name
+                      - name: OPERATOR_NAME
+                        value: syndesis-operator
+                      - name: RELATED_IMAGE_TODO
+                        value: >-
+                          registry.redhat.io/rhel8/php-72@sha256:48a5e695139a2ee45ee562960324b2e6875ad2689c7f102da7128936153adfd4
+                      - name: RELATED_IMAGE_OAUTH
+                        value: >-
+                          registry.redhat.io/openshift4/ose-oauth-proxy@sha256:41ef178766910ce62514d070e86686927cacd78e2f60f289ececb082adb50cdc
+                      - name: RELATED_IMAGE_UI
+                        value: >-
+                          registry.redhat.io/fuse7/fuse-online-ui-rhel8@sha256:eff9f8edf28ccbadcacab2022fff9e6bc93926af97521b49e3968eaf7b6fda65
+                      - name: RELATED_IMAGE_S2I
+                        value: >-
+                          registry.redhat.io/fuse7/fuse-online-builder-rhel8@sha256:d163a3c4b0e2245c27ad2f8671432dd206e040b9ddb4adefaf38ec7e8eeb316a
+                      - name: RELATED_IMAGE_PROMETHEUS
+                        value: >-
+                          registry.redhat.io/openshift4/ose-prometheus@sha256:1d3af6767c6018e785962fdabb9c262f183194bea14cbc262e0ec8145b19e2af
+                      - name: RELATED_IMAGE_UPGRADE
+                        value: >-
+                          registry.redhat.io/fuse7/fuse-online-upgrade-rhel8@sha256:3ee2ff7f4e1f21c614935260a9699acb8641fb5dfa7ebf3e173617bd67bf0161
+                      - name: RELATED_IMAGE_META
+                        value: >-
+                          registry.redhat.io/fuse7/fuse-online-meta-rhel8@sha256:a2f5794b25fefa9e3ff64f1deac47bfd9934d0e06b5a393cbfbe439b2b057071
+                      - name: RELATED_IMAGE_DATABASE
+                        value: >-
+                          registry.redhat.io/rhscl/postgresql-12-rhel7@sha256:83a71b713287cd4516715107e7b45fa3af27046410b7b3a1d0f5ee9f3b7a43bf
+                      - name: RELATED_IMAGE_PSQL_EXPORTER
+                        value: >-
+                          registry.redhat.io/fuse7/fuse-postgres-exporter-rhel8@sha256:f65600506db985689e5b7cd8b838e646d4268a0c4e272e19d7db3577a8dd7ac4
+                      - name: RELATED_IMAGE_SERVER
+                        value: >-
+                          registry.redhat.io/fuse7/fuse-online-server-rhel8@sha256:f9de5cc23dd2d76a7d371f3e0bf9983627893138536f494dd05b806db4989141
+                      - name: RELATED_IMAGE_AMQ
+                        value: >-
+                          registry.redhat.io/amq7/amq-broker-rhel8@sha256:67ae74e72927557c55611d0248347b2099b117ac1aa245dac05856fe782fb59c
+                    image: >-
+                      registry.redhat.io/fuse7/fuse-online-rhel8-operator@sha256:c70c5e76dc3db559c722bea2a767eb7dcba1eda786e1ef3a45c4cf32e1aca9ee
+                    imagePullPolicy: Always
+                    name: syndesis-operator
+                    ports:
+                      - containerPort: 60000
+                        name: metrics
+                        protocol: TCP
+                    resources: {}
+                    volumeMounts:
+                      - mountPath: /data
+                        name: syndesis-operator-data
+                initContainers:
+                  - command:
+                      - bash
+                      - '-c'
+                      - postgres -V > /data/postgresql.txt
+                    image: >-
+                      registry.redhat.io/rhscl/postgresql-12-rhel7@sha256:83a71b713287cd4516715107e7b45fa3af27046410b7b3a1d0f5ee9f3b7a43bf
+                    imagePullPolicy: Always
+                    name: postgres-version
+                    resources: {}
+                    volumeMounts:
+                      - mountPath: /data
+                        name: syndesis-operator-data
+                serviceAccountName: syndesis-operator
+                volumes:
+                  - emptyDir: {}
+                    name: syndesis-operator-data
+      permissions:
+        - rules:
+            - apiGroups:
+                - ''
+              resources:
+                - serviceaccounts
+              verbs:
+                - impersonate
+            - apiGroups:
+                - ''
+              resources:
+                - namespaces
+              verbs:
+                - get
+            - apiGroups:
+                - ''
+                - project.openshift.io
+              resources:
+                - projects
+              verbs:
+                - get
+            - apiGroups:
+                - batch
+                - extensions
+              resources:
+                - jobs
+              verbs:
+                - get
+                - list
+                - create
+                - delete
+                - update
+                - watch
+                - deletecollection
+            - apiGroups:
+                - ''
+              resources:
+                - pods
+                - pods/exec
+                - services
+                - endpoints
+                - persistentvolumeclaims
+                - configmaps
+                - secrets
+                - serviceaccounts
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+            - apiGroups:
+                - ''
+              resources:
+                - replicationcontrollers
+                - replicationcontrollers/scale
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - apps
+              resources:
+                - daemonsets
+                - deployments
+                - deployments/scale
+                - replicasets
+                - replicasets/scale
+                - statefulsets
+                - statefulsets/scale
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - extensions
+              resources:
+                - daemonsets
+                - deployments
+                - deployments/scale
+                - ingresses
+                - networkpolicies
+                - replicasets
+                - replicasets/scale
+                - replicationcontrollers/scale
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - networking.k8s.io
+              resources:
+                - ingresses
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - ''
+              resources:
+                - bindings
+                - events
+                - limitranges
+                - namespaces/status
+                - pods/log
+                - pods/status
+                - replicationcontrollers/status
+                - resourcequotas
+                - resourcequotas/status
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - ''
+                - build.openshift.io
+              resources:
+                - buildconfigs
+                - buildconfigs/webhooks
+                - builds
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - ''
+                - build.openshift.io
+              resources:
+                - buildconfigs/instantiate
+                - buildconfigs/instantiatebinary
+                - builds/clone
+              verbs:
+                - create
+            - apiGroups:
+                - ''
+                - build.openshift.io
+              resources:
+                - builds/details
+              verbs:
+                - update
+            - apiGroups:
+                - ''
+                - build.openshift.io
+              resources:
+                - builds/log
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - ''
+                - apps.openshift.io
+              resources:
+                - deploymentconfigs
+                - deploymentconfigs/scale
+                - deploymentconfigs/finalizers
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - ''
+              resources:
+                - services
+                - services/finalizers
+              verbs:
+                - list
+                - get
+                - watch
+                - create
+                - update
+            - apiGroups:
+                - monitoring.coreos.com
+              resources:
+                - servicemonitors
+              verbs:
+                - get
+                - create
+            - apiGroups:
+                - apps
+              resources:
+                - deployments/finalizers
+              verbs:
+                - update
+            - apiGroups:
+                - ''
+                - apps.openshift.io
+              resources:
+                - deploymentconfigrollbacks
+                - deploymentconfigs/instantiate
+                - deploymentconfigs/rollback
+              verbs:
+                - create
+            - apiGroups:
+                - ''
+                - apps.openshift.io
+              resources:
+                - deploymentconfigs/log
+                - deploymentconfigs/status
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - ''
+                - image.openshift.io
+              resources:
+                - imagestreams
+                - imagestreamimages
+                - imagestreammappings
+                - imagestreams/secrets
+                - imagestreamtags
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - ''
+                - image.openshift.io
+              resources:
+                - imagestreamimports
+              verbs:
+                - create
+            - apiGroups:
+                - ''
+                - image.openshift.io
+              resources:
+                - imagestreams/status
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - route.openshift.io
+              resources:
+                - routes
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - ''
+                - template.openshift.io
+              resources:
+                - processedtemplates
+                - templateconfigs
+                - templateinstances
+                - templates
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - ''
+                - build.openshift.io
+              resources:
+                - buildlogs
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - syndesis.io
+              resources:
+                - '*'
+                - '*/finalizers'
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - ''
+              resources:
+                - pods
+                - services
+                - endpoints
+                - persistentvolumeclaims
+                - configmaps
+                - secrets
+                - serviceaccounts
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+            - apiGroups:
+                - ''
+              resources:
+                - pods/log
+              verbs:
+                - get
+            - apiGroups:
+                - ''
+              resources:
+                - replicationcontrollers
+                - replicationcontrollers/scale
+                - replicationcontrollers/status
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+            - apiGroups:
+                - ''
+                - build.openshift.io
+              resources:
+                - builds
+                - buildconfigs
+                - builds/details
+                - buildconfigs/webhooks
+                - buildconfigs/instantiatebinary
+                - builds/log
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+            - apiGroups:
+                - ''
+                - apps.openshift.io
+              resources:
+                - deploymentconfigs
+                - deploymentconfigs/scale
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - ''
+                - apps.openshift.io
+              resources:
+                - deploymentconfigrollbacks
+                - deploymentconfigs/instantiate
+                - deploymentconfigs/rollback
+              verbs:
+                - create
+            - apiGroups:
+                - ''
+                - apps.openshift.io
+              resources:
+                - deploymentconfigs/log
+                - deploymentconfigs/status
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - ''
+                - image.openshift.io
+              resources:
+                - imagestreams
+                - imagestreamimages
+                - imagestreammappings
+                - imagestreams/secrets
+                - imagestreamtags
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - ''
+                - image.openshift.io
+              resources:
+                - imagestreams/status
+                - imagestreamimports
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - ''
+              resources:
+                - events
+              verbs:
+                - get
+                - list
+            - apiGroups:
+                - rbac.authorization.k8s.io
+              resources:
+                - roles
+                - rolebindings
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+            - apiGroups:
+                - ''
+                - template.openshift.io
+              resources:
+                - processedtemplates
+                - templateconfigs
+                - templateinstances
+                - templates
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - authorization.openshift.io
+              resources:
+                - roles
+                - rolebindings
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+            - apiGroups:
+                - route.openshift.io
+              resources:
+                - routes
+                - routes/custom-host
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+                - patch
+            - apiGroups:
+                - camel.apache.org
+              resources:
+                - '*'
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+            - apiGroups:
+                - monitoring.coreos.com
+              resources:
+                - alertmanagers
+                - prometheuses
+                - servicemonitors
+                - prometheusrules
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+            - apiGroups:
+                - integreatly.org
+              resources:
+                - grafanadashboards
+              verbs:
+                - get
+                - list
+                - create
+                - update
+                - delete
+                - deletecollection
+                - watch
+            - apiGroups:
+                - serving.knative.dev
+              resources:
+                - services
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - eventing.knative.dev
+              resources:
+                - channels
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - jaegertracing.io
+              resources:
+                - '*'
+              verbs:
+                - '*'
+          serviceAccountName: syndesis-operator
+    strategy: deployment
+  maintainers:
+    - email: janstey@redhat.com
+      name: Jon Anstey
+    - email: parichar@redhat.com
+      name: Paul Richardson
+  description: >
+    ### Fuse-Online operator
+
+    Fuse Online is a flexible and customizable, open source platform that
+    provides core integration capabilities as a service.
+
+
+    This operator installs as well as configures the following Fuse Online
+    components:
+
+    - syndesis-server
+
+    - syndesis-meta
+
+    - syndesis-ui
+
+    - syndesis-db
+
+    - syndesis-prometheus
+
+    - syndesis-proxy
+
+    - syndesis-oauthproxy
+
+
+    ### Before you begin
+
+    You must configure authentication to Red Hat container registry before you
+    can import and use the Red Hat Fuse OpenShift Image Streams. Follow
+    instruction given below to configure the registration to container registry.
+
+
+    1. Log in to the OpenShift Server as an administrator, as follow:
+        ```
+        oc login -u system:admin
+        ```
+    2. Log in to the OpenShift project where you will be installing the
+    operator.
+        ```
+        oc project fuse-online
+        ```
+    3. Create a docker-registry secret using either Red Hat Customer Portal
+    account or Red Hat Developer Program account credentials.
+        ```
+        oc create secret docker-registry syndesis-pull-secret \
+          --docker-server=registry.redhat.io \
+          --docker-username=CUSTOMER_PORTAL_USERNAME \
+          --docker-password=CUSTOMER_PORTAL_PASSWORD \
+          --docker-email=EMAIL_ADDRESS
+        ```
+        NOTE: You need to create a docker-registry secret in every new namespace where the image streams reside and which use registry.redhat.io.
+
+        If you do not wish to use your Red Hat account username and password to create the secret, it is recommended to create an authentication token using a [registry service account](https://access.redhat.com/terms-based-registry/).
+
+    ### How to install
+
+    - When the operator is installed (you have created a subscription and the
+    operator is running in the selected namespace) and before you create a new
+    CR of Kind Syndesis, you have to link the secret created in the previous
+    section to the operator service account.
+
+    ```
+
+    oc secrets link syndesis-operator syndesis-pull-secret --for=pull
+
+    ```
+
+
+    - Create a new CR of Kind Syndesis (click the Create New button). The CR
+    spec contains all defaults (see below).
+
+
+    ### CR Defaults
+
+    The CR definition is pretty simple and an empy CR will trigger a base
+    installation.
+
+
+    Within the addons section, users are able to enable specific addons. The
+    available addons at the moment are:
+
+    - jaeger: enable jaeger
+
+    - ops: enables monitoring, requires extra CRDs
+
+    - todo: a simple todo application
+
+
+    To enable addons, set "addon_name": {"enabled": true} in the CR.
+
+    If you enable the todo addon, you should link the previously created
+    syndesis-pull-secret to the builder serviceAccount.
+
+    ```
+
+    oc secrets link builder syndesis-pull-secret --for=pull,mount
+
+    ```
+
+
+    For a more detailed set of instructions and a complete reference of config
+    options,
+
+    please refer to the product documentation at
+    https://access.redhat.com/documentation/en-us/red_hat_fuse
+  replaces: fuse-online-operator.v7.8.1
+  selector:
+    matchLabels:
+      name: fuse-online-operator
+  labels:
+    name: fuse-online-operator
+status:
+  conditions:
+    - lastTransitionTime: '2021-10-28T22:05:18Z'
+      lastUpdateTime: '2021-10-28T22:05:18Z'
+      message: requirements not yet checked
+      phase: Pending
+      reason: RequirementsUnknown
+    - lastTransitionTime: '2021-10-28T22:05:18Z'
+      lastUpdateTime: '2021-10-28T22:05:18Z'
+      message: one or more requirements couldn't be found
+      phase: Pending
+      reason: RequirementsNotMet
+    - lastTransitionTime: '2021-10-28T22:05:20Z'
+      lastUpdateTime: '2021-10-28T22:05:20Z'
+      message: 'all requirements found, attempting install'
+      phase: InstallReady
+      reason: AllRequirementsMet
+    - lastTransitionTime: '2021-10-28T22:05:20Z'
+      lastUpdateTime: '2021-10-28T22:05:20Z'
+      message: waiting for install components to report healthy
+      phase: Installing
+      reason: InstallSucceeded
+    - lastTransitionTime: '2021-10-28T22:05:20Z'
+      lastUpdateTime: '2021-10-28T22:05:21Z'
+      message: >-
+        installing: waiting for deployment fuse-online-operator to become ready:
+        waiting for spec update of deployment "fuse-online-operator" to be
+        observed...
+      phase: Installing
+      reason: InstallWaiting
+    - lastTransitionTime: '2021-10-28T22:05:26Z'
+      lastUpdateTime: '2021-10-28T22:05:26Z'
+      message: install strategy completed with no errors
+      phase: Succeeded
+      reason: InstallSucceeded
+  lastTransitionTime: '2021-10-28T22:05:26Z'
+  lastUpdateTime: '2021-10-28T22:05:26Z'
+  message: install strategy completed with no errors
+  phase: Succeeded
+  reason: InstallSucceeded
+  requirementStatus:
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      message: CRD is present and Established condition is true
+      name: syndesises.syndesis.io
+      status: Present
+      uuid: 907ca0fb-1f37-4aab-9661-41477d43c7e4
+      version: v1
+    - dependents:
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["impersonate"],"apiGroups":[""],"resources":["serviceaccounts"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get"],"apiGroups":[""],"resources":["namespaces"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get"],"apiGroups":["","project.openshift.io"],"resources":["projects"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","delete","update","watch","deletecollection"],"apiGroups":["batch","extensions"],"resources":["jobs"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch"],"apiGroups":[""],"resources":["pods","pods/exec","services","endpoints","persistentvolumeclaims","configmaps","secrets","serviceaccounts"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":[""],"resources":["replicationcontrollers","replicationcontrollers/scale"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["apps"],"resources":["daemonsets","deployments","deployments/scale","replicasets","replicasets/scale","statefulsets","statefulsets/scale"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["extensions"],"resources":["daemonsets","deployments","deployments/scale","ingresses","networkpolicies","replicasets","replicasets/scale","replicationcontrollers/scale"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["networking.k8s.io"],"resources":["ingresses"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","watch"],"apiGroups":[""],"resources":["bindings","events","limitranges","namespaces/status","pods/log","pods/status","replicationcontrollers/status","resourcequotas","resourcequotas/status"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["","build.openshift.io"],"resources":["buildconfigs","buildconfigs/webhooks","builds"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create"],"apiGroups":["","build.openshift.io"],"resources":["buildconfigs/instantiate","buildconfigs/instantiatebinary","builds/clone"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["update"],"apiGroups":["","build.openshift.io"],"resources":["builds/details"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","watch"],"apiGroups":["","build.openshift.io"],"resources":["builds/log"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["","apps.openshift.io"],"resources":["deploymentconfigs","deploymentconfigs/scale","deploymentconfigs/finalizers"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["list","get","watch","create","update"],"apiGroups":[""],"resources":["services","services/finalizers"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","create"],"apiGroups":["monitoring.coreos.com"],"resources":["servicemonitors"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["update"],"apiGroups":["apps"],"resources":["deployments/finalizers"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create"],"apiGroups":["","apps.openshift.io"],"resources":["deploymentconfigrollbacks","deploymentconfigs/instantiate","deploymentconfigs/rollback"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","watch"],"apiGroups":["","apps.openshift.io"],"resources":["deploymentconfigs/log","deploymentconfigs/status"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["","image.openshift.io"],"resources":["imagestreams","imagestreamimages","imagestreammappings","imagestreams/secrets","imagestreamtags"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create"],"apiGroups":["","image.openshift.io"],"resources":["imagestreamimports"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","watch"],"apiGroups":["","image.openshift.io"],"resources":["imagestreams/status"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["route.openshift.io"],"resources":["routes"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["","template.openshift.io"],"resources":["processedtemplates","templateconfigs","templateinstances","templates"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["","build.openshift.io"],"resources":["buildlogs"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["syndesis.io"],"resources":["*","*/finalizers"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch"],"apiGroups":[""],"resources":["pods","services","endpoints","persistentvolumeclaims","configmaps","secrets","serviceaccounts"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get"],"apiGroups":[""],"resources":["pods/log"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch"],"apiGroups":[""],"resources":["replicationcontrollers","replicationcontrollers/scale","replicationcontrollers/status"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch"],"apiGroups":["","build.openshift.io"],"resources":["builds","buildconfigs","builds/details","buildconfigs/webhooks","buildconfigs/instantiatebinary","builds/log"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["","apps.openshift.io"],"resources":["deploymentconfigs","deploymentconfigs/scale"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["create"],"apiGroups":["","apps.openshift.io"],"resources":["deploymentconfigrollbacks","deploymentconfigs/instantiate","deploymentconfigs/rollback"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","watch"],"apiGroups":["","apps.openshift.io"],"resources":["deploymentconfigs/log","deploymentconfigs/status"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["","image.openshift.io"],"resources":["imagestreams","imagestreamimages","imagestreammappings","imagestreams/secrets","imagestreamtags"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","watch"],"apiGroups":["","image.openshift.io"],"resources":["imagestreams/status","imagestreamimports"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list"],"apiGroups":[""],"resources":["events"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch"],"apiGroups":["rbac.authorization.k8s.io"],"resources":["roles","rolebindings"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["","template.openshift.io"],"resources":["processedtemplates","templateconfigs","templateinstances","templates"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch"],"apiGroups":["authorization.openshift.io"],"resources":["roles","rolebindings"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["route.openshift.io"],"resources":["routes","routes/custom-host"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch"],"apiGroups":["camel.apache.org"],"resources":["*"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch"],"apiGroups":["monitoring.coreos.com"],"resources":["alertmanagers","prometheuses","servicemonitors","prometheusrules"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch"],"apiGroups":["integreatly.org"],"resources":["grafanadashboards"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","watch"],"apiGroups":["serving.knative.dev"],"resources":["services"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["get","list","watch"],"apiGroups":["eventing.knative.dev"],"resources":["channels"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            namespaced
+            rule:{"verbs":["*"],"apiGroups":["jaegertracing.io"],"resources":["*"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["create"],"apiGroups":["authentication.k8s.io"],"resources":["tokenreviews"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["create"],"apiGroups":["authorization.k8s.io"],"resources":["subjectaccessreviews"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","list","create","update","delete"],"apiGroups":["rbac.authorization.k8s.io"],"resources":["clusterroles","clusterrolebindings","*/finalizers"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","list","create","update","delete","deletecollection","watch","patch"],"apiGroups":["syndesis.io"],"resources":["*","*/finalizers"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","create","update","delete"],"apiGroups":["console.openshift.io"],"resources":["consolelinks"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","list","watch"],"apiGroups":["kafka.strimzi.io"],"resources":["kafkas"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","list"],"apiGroups":["packages.operators.coreos.com"],"resources":["packagemanifests"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["create","delete","update","get","list","watch"],"apiGroups":["operators.coreos.com"],"resources":["operatorgroups","subscriptions","installplans"]}
+          status: Satisfied
+          version: v1
+        - group: rbac.authorization.k8s.io
+          kind: PolicyRule
+          message: >-
+            cluster
+            rule:{"verbs":["get","list","watch"],"apiGroups":["operators.coreos.com"],"resources":["clusterserviceversions"]}
+          status: Satisfied
+          version: v1
+      group: ''
+      kind: ServiceAccount
+      message: ''
+      name: syndesis-operator
+      status: Present
+      version: v1

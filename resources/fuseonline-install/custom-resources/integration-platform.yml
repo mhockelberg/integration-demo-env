@@ -1,4 +1,4 @@
-apiVersion: camel.apache.org/v1
+apiVersion: {{ camelk_api_version }}
 kind: IntegrationPlatform
 metadata:
   name: camel-k

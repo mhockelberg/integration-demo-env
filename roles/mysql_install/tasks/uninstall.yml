@@ -1,9 +1,16 @@
 ---
 
-- name: uninstall 3scale 
+- name: uninstall mysql deployment
   oc_obj:
     state: absent
     oc_binary: "{{ openshift_cli }}"
-    name: "apim-apimanager"
-    kind: apimanager
-    namespace: "{{ namespace }}"
+    name: "mysql57"
+    kind: Deployment
+    namespace: "{{ namespace_mysql }}"
+
+- name: uninstall mysql project
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ namespace_mysql }}"
+    kind: Project

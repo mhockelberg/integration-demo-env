@@ -1,62 +1,27 @@
-apiVersion: org.eclipse.che/v1
+apiVersion: {{ codeready_api_version }} 
 kind: CheCluster
 metadata:
-  name: codeready-workspaces
+  name: codeready-workspaces-cluster
   namespace: {{ namespace_codeready_operator }}
 spec:
   auth:
     externalIdentityProvider: false
-    identityProviderAdminUserName: ''
-    identityProviderClientId: ''
-    identityProviderPassword: ''
-    identityProviderRealm: ''
-    identityProviderURL: ''
     initialOpenShiftOAuthUser: true
-    oAuthClientName: ''
-    oAuthSecret: ''
     openShiftoAuth: true
   database:
-    chePostgresDb: ''
-    chePostgresHostName: ''
-    chePostgresPassword: ''
-    chePostgresPort: ''
-    chePostgresUser: ''
     externalDb: false
-    postgresImage: ''
   metrics:
     enable: true
   server:
-    allowUserDefinedWorkspaceNamespaces: false
-    cheClusterRoles: ''
     cheFlavor: codeready
-    cheImage: ''
-    cheImageTag: ''
     cheLogLevel: INFO
-    cheWorkspaceClusterRole: ''
     customCheProperties: 
       CHE_LIMITS_USER_WORKSPACES_RUN_COUNT: '3' # number of workspaces each user can create
-    devfileRegistryImage: ''
+    selfSignedCert: false
     gitSelfSignedCert: false
-    nonProxyHosts: ''
-    pluginRegistryImage: ''
-    proxyPassword: ''
-    proxyPort: ''
-    proxyURL: ''
-    proxyUser: ''
-    serverExposureStrategy: ''
-    serverMemoryLimit: ''
-    serverMemoryRequest: ''
-    serverTrustStoreConfigMapName: ''
-    singleHostGatewayConfigMapLabels: {}
-    singleHostGatewayConfigSidecarImage: ''
-    singleHostGatewayImage: ''
-    # tlsSupport: true # docs say deprecated in 2.6, but the operator is still using it
-    useInternalClusterSVCNames: true
     workspaceNamespaceDefault: <username>-codeready
   storage:
-    postgresPVCStorageClassName: ''
     preCreateSubPaths: true
     pvcClaimSize: 1Gi
-    pvcJobsImage: ''
     pvcStrategy: common
-    workspacePVCStorageClassName: ''
+  

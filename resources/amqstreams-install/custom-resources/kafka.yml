@@ -1,4 +1,4 @@
-apiVersion: kafka.strimzi.io/v1beta1
+apiVersion: {{ amqstreams_api_version }}
 kind: Kafka
 metadata:
   name: kafka-cluster

@@ -1,4 +1,4 @@
-apiVersion: kafka.strimzi.io/v1beta1
+apiVersion: {{ amqstreams_api_version }}
 kind: KafkaTopic
 metadata:
   name: topic-1

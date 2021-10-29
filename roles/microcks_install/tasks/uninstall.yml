@@ -1,0 +1,24 @@
+---
+
+- name: uninstall microcks 
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "microcks"
+    kind: MicrocksInstall
+    namespace: "{{ namespace_microcks_operator }}"
+
+- name: uninstall microcks operator subscription
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ microcks_operator_package_name }}"
+    kind: MicrocksInstall
+    namespace: "{{ namespace_microcks_operator }}"
+
+- name: uninstall microcks project
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ namespace_microcks_operator }}"
+    kind: MicrocksInstall

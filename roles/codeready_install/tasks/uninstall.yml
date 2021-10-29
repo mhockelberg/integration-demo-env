@@ -4,6 +4,21 @@
   oc_obj:
     state: absent
     oc_binary: "{{ openshift_cli }}"
-    name: "codeready-workspaces"
+    name: "codeready-workspaces-cluster"
     kind: CheCluster
     namespace: "{{ namespace_codeready_operator }}"
+
+- name: uninstall codeready operator subscription
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ codeready_operator_package_name }}"
+    kind: Subscription
+    namespace: "{{ namespace_codeready_operator }}"
+
+- name: uninstall codeready project
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ namespace_codeready_operator }}"
+    kind: Project

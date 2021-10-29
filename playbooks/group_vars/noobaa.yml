@@ -1,8 +1,12 @@
 ---
 
 namespace_noobaa_operator: noobaa-demo # project namespace for noobaa operator and application
-noobaa_operator_version_label: v5.6.0 # Community version of the noobaa operator
-noobaa_region: local-s3-region # (optional) provide a region for the location info of the s3 storage endpoints
-noobaa_bucket_name: local-s3-bucket # (optional) provide a bucket name for s3 storage endpoint
+noobaa_operator_name: noobaa-operator
+noobaa_operator_package_name: noobaa-operator
+noobaa_operator_version_label: v5.8.0 # Community version of the noobaa operator
+noobaa_region: local-s3-region # provide a region for the location info of the s3 storage endpoints
+#noobaa_bucket_name: local-s3-bucket-9c528735-160b-4819-822c-e5cefcbf321a # for testing ODF
+noobaa_bucket_name: local-s3-bucket # provide a bucket name for s3 storage endpoint
 noobaa_operator_channel: alpha
 noobaa_operator_approval_strategy: Automatic
+noobaa_api_version: noobaa.io/v1alpha1

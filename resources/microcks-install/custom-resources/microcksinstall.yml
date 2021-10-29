@@ -1,0 +1,20 @@
+apiVersion: {{ microcks_api_version }}
+kind: MicrocksInstall
+metadata:
+  name: microcks
+  namespace: {{ namespace_microcks_operator }}
+spec:
+  name: microcks
+  version: 1.4.1
+  microcks:
+    replicas: 1
+  postman:
+    replicas: 1
+  keycloak:
+    install: true
+    persistent: true
+    volumeSize: 1Gi
+  mongodb:
+    install: true
+    persistent: true
+    volumeSize: 2Gi

@@ -4,9 +4,9 @@ metadata:
   annotations:
     olm.skipRange: '>=7.7.0 <7.8.1'
     certified: 'false'
-    olm.targetNamespaces: apicurito-test
+    olm.targetNamespaces: apicurito-demo
     operatorframework.io/properties: >-
-      {"properties":[{"type":"olm.gvk","value":{"group":"apicur.io","kind":"Apicurito","version":"v1alpha1"}},{"type":"olm.package","value":{"packageName":"fuse-apicurito","version":"7.8.1"}}]}
+      {"properties":[{"type":"olm.gvk","value":{"group":"apicur.io","kind":"Apicurito","version":"v1alpha1"}},{"type":"olm.maxOpenShiftVersion","value":4.8},{"type":"olm.package","value":{"packageName":"fuse-apicurito","version":"7.8.1"}}]}
     repository: 'https://github.com/Apicurio/apicurio-operators/tree/master/apicurito'
     support: Apicurito Project
     alm-examples: |-
@@ -21,7 +21,7 @@ metadata:
               }
       }]
     capabilities: Seamless Upgrades
-    olm.operatorNamespace: apicurito-test
+    olm.operatorNamespace: apicurito-demo
     containerImage: >-
       registry.redhat.io/fuse7/fuse-apicurito-rhel7-operator@sha256:0d8542006816ad37e3c1f53e4a56d2e38701d33d8c62b0588451822aa089b6a7
     createdAt: '2020-10-06 12:48:47'
@@ -29,13 +29,13 @@ metadata:
     description: >-
       Manages the installation and upgrades of apicurito, a small/minimal
       version of Apicurio
-    olm.operatorGroup: apicurito-test-szs64
+    olm.operatorGroup: fuse-apicurito-operator-group
   selfLink: >-
-    /apis/operators.coreos.com/v1alpha1/namespaces/apicurito-test/clusterserviceversions/fuse-apicurito.v7.8.1
-  resourceVersion: '560890'
+    /apis/operators.coreos.com/v1alpha1/namespaces/apicurito-demo/clusterserviceversions/fuse-apicurito.v7.8.1
+  resourceVersion: '138197'
   name: fuse-apicurito.v7.8.1
-  uid: 2e4a6650-cf5d-4b04-b84d-4fa4864e1be4
-  creationTimestamp: '2021-07-09T20:00:15Z'
+  uid: 6aa5b39b-4178-4662-ad57-4760cf6f2389
+  creationTimestamp: '2021-10-26T19:55:22Z'
   generation: 1
   managedFields:
     - apiVersion: operators.coreos.com/v1alpha1
@@ -90,7 +90,7 @@ metadata:
           'f:keywords': {}
       manager: catalog
       operation: Update
-      time: '2021-07-09T20:00:15Z'
+      time: '2021-10-26T19:55:22Z'
     - apiVersion: operators.coreos.com/v1alpha1
       fieldsType: FieldsV1
       fieldsV1:
@@ -102,7 +102,7 @@ metadata:
           'f:labels':
             .: {}
             'f:olm.api.e5e0614b7a9f09b3': {}
-            'f:operators.coreos.com/fuse-apicurito.apicurito-test': {}
+            'f:operators.coreos.com/fuse-apicurito.apicurito-demo': {}
         'f:spec':
           'f:install':
             'f:spec':
@@ -118,11 +118,11 @@ metadata:
           'f:requirementStatus': {}
       manager: olm
       operation: Update
-      time: '2021-07-09T20:00:16Z'
-  namespace: apicurito-test
+      time: '2021-10-26T19:55:22Z'
+  namespace: apicurito-demo
   labels:
     olm.api.e5e0614b7a9f09b3: provided
-    operators.coreos.com/fuse-apicurito.apicurito-test: ''
+    operators.coreos.com/fuse-apicurito.apicurito-demo: ''
 spec:
   customresourcedefinitions:
     owned:
@@ -321,35 +321,35 @@ spec:
     name: fuse-apicurito
 status:
   conditions:
-    - lastTransitionTime: '2021-07-09T20:00:15Z'
-      lastUpdateTime: '2021-07-09T20:00:15Z'
+    - lastTransitionTime: '2021-10-26T19:55:22Z'
+      lastUpdateTime: '2021-10-26T19:55:22Z'
       message: requirements not yet checked
       phase: Pending
       reason: RequirementsUnknown
-    - lastTransitionTime: '2021-07-09T20:00:15Z'
-      lastUpdateTime: '2021-07-09T20:00:15Z'
+    - lastTransitionTime: '2021-10-26T19:55:22Z'
+      lastUpdateTime: '2021-10-26T19:55:22Z'
       message: 'all requirements found, attempting install'
       phase: InstallReady
       reason: AllRequirementsMet
-    - lastTransitionTime: '2021-07-09T20:00:15Z'
-      lastUpdateTime: '2021-07-09T20:00:15Z'
+    - lastTransitionTime: '2021-10-26T19:55:22Z'
+      lastUpdateTime: '2021-10-26T19:55:22Z'
       message: waiting for install components to report healthy
       phase: Installing
       reason: InstallSucceeded
-    - lastTransitionTime: '2021-07-09T20:00:15Z'
-      lastUpdateTime: '2021-07-09T20:00:16Z'
-      message: >
+    - lastTransitionTime: '2021-10-26T19:55:22Z'
+      lastUpdateTime: '2021-10-26T19:55:22Z'
+      message: >-
         installing: waiting for deployment fuse-apicurito to become ready:
-        Waiting for deployment spec update to be observed...
+        waiting for spec update of deployment "fuse-apicurito" to be observed...
       phase: Installing
       reason: InstallWaiting
-    - lastTransitionTime: '2021-07-09T20:00:25Z'
-      lastUpdateTime: '2021-07-09T20:00:25Z'
+    - lastTransitionTime: '2021-10-26T19:55:32Z'
+      lastUpdateTime: '2021-10-26T19:55:32Z'
       message: install strategy completed with no errors
       phase: Succeeded
       reason: InstallSucceeded
-  lastTransitionTime: '2021-07-09T20:00:25Z'
-  lastUpdateTime: '2021-07-09T20:00:25Z'
+  lastTransitionTime: '2021-10-26T19:55:32Z'
+  lastUpdateTime: '2021-10-26T19:55:32Z'
   message: install strategy completed with no errors
   phase: Succeeded
   reason: InstallSucceeded
@@ -359,7 +359,7 @@ status:
       message: CRD is present and Established condition is true
       name: apicuritoes.apicur.io
       status: Present
-      uuid: 4f78b74d-ab4c-4f54-b9be-20b391f616b1
+      uuid: 9f9b1931-ff03-4bb2-a0cd-1710e2f95431
       version: v1
     - dependents:
         - group: rbac.authorization.k8s.io

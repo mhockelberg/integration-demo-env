@@ -1,12 +1,12 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: amq-streams
+  name: {{ amqstreams_operator_package_name }}
   namespace: {{ namespace_amqstreams_operator }}
 spec:
   channel: {{ amqstreams_operator_channel }}
   installPlanApproval: {{ amqstreams_operator_approval_strategy }}
-  name: amq-streams
+  name: {{ amqstreams_operator_package_name }}
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: amqstreams.{{ amqstreams_operator_version_label }}
+  startingCSV: {{ amqstreams_operator_name }}.{{ amqstreams_operator_version_label }}

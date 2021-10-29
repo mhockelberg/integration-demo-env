@@ -28,7 +28,6 @@
     when: >
       (operatorhubio_status.stderr is defined and operatorhubio_status.stderr != "" and operatorhubio_status.rc != "0")
 
-
   - name: "Wait until operatorhubio-catalog Catalog Source is ready"
     shell: "{{ openshift_cli }} get catalogsources operatorhubio-catalog -o template --template={{ json_template }} -n openshift-marketplace"
     vars:
@@ -54,7 +53,7 @@
     shell: "{{ openshift_cli }} create -f {{ work_dir }}/noobaa-subscription.yml -n {{ namespace_noobaa_operator }}"
 
   - name: "Wait until Noobaa operator is installed"
-    shell: "{{ openshift_cli }} get csv noobaa-operator.{{ noobaa_operator_version_label }} -o template --template={{ json_template }} -n {{ namespace_noobaa_operator }}"
+    shell: "{{ openshift_cli }} get csv {{ noobaa_operator_name }}.{{ noobaa_operator_version_label }} -o template --template={{ json_template }} -n {{ namespace_noobaa_operator }}"
     vars:
       json_template: '\{\{.status.phase\}\}'
     register: result
@@ -62,6 +61,26 @@
     retries: 30
     delay: 15
     changed_when: false
+
+  - name: "Check Noobaa Security Context Constraints status"
+    shell: "{{ openshift_cli }} get scc | grep noobaa -n {{ namespace_noobaa_operator }}"
+    register: noobaascc_status
+    ignore_errors: true
+
+  - name: "Create Security Context Constraints if missing"
+    block:
+      - debug:
+          var: noobaascc_status
+
+      - name: "copy {{ resources_base_dir }}/noobaa-install/custom-resources/noobaa-scc.yml"
+        template:
+          src: "{{ resources_base_dir }}/noobaa-install/custom-resources/noobaa-scc.yml"
+          dest: "{{ work_dir }}/noobaa-scc.yml"
+
+      - name: "Create Noobaa SCC"
+        shell: "{{ openshift_cli }} create -f {{ work_dir }}/noobaa-scc.yml"
+    when: >
+      (noobaascc_status.stderr is defined and noobaascc_status.stderr != "" and noobaascc_status.rc != "0")
 
   - name: "Create Noobaa"
     template:

@@ -1,9 +1,24 @@
 ---
 
-- name: uninstall 3scale 
+- name: uninstall 3scale apimanager custom resource
   oc_obj:
     state: absent
     oc_binary: "{{ openshift_cli }}"
     name: "apim-apimanager"
-    kind: apimanager
-    namespace: "{{ namespace }}"
+    kind: APIManager
+    namespace: "{{ namespace_threescale_operator }}"
+
+- name: uninstall 3scale operator subscription
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ threescale_operator_package_name }}"
+    kind: Subscription
+    namespace: "{{ namespace_threescale_operator }}"
+
+- name: uninstall 3scale project
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ namespace_threescale_operator }}"
+    kind: Project

@@ -1,12 +1,12 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: rhsso-operator
+  name: {{ sso_operator_package_name }}
   namespace: {{ namespace_sso_operator }}
 spec:
   channel: {{ sso_operator_channel }}
   installPlanApproval: {{ sso_operator_approval_strategy }}
-  name: rhsso-operator
+  name: {{ sso_operator_package_name }}
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: rhsso-operator.{{ sso_operator_version_label }}
+  startingCSV: {{ sso_operator_name }}.{{ sso_operator_version_label }}

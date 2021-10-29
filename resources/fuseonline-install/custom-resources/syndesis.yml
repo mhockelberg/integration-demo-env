@@ -1,8 +1,10 @@
-apiVersion: syndesis.io/v1beta2
+apiVersion: {{ fuseonline_api_version }}
 kind: Syndesis
 metadata:
   name: syndesis-service
   namespace: {{ namespace_fuseonline_operator }}
+  labels:
+    app: syndesis
 spec:
   components:
     server:
@@ -16,4 +18,4 @@ spec:
     ops:
       enabled: false
     publicApi:
-      enabled: false
+      enabled: true

@@ -1,12 +1,12 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: red-hat-camel-k
+  name: {{ camelk_operator_package_name }}
   namespace: {{ namespace_fuseonline_operator }}
 spec:
   channel: {{ camelk_operator_channel }}
   installPlanApproval: {{ camelk_operator_approval_strategy }}
-  name: red-hat-camel-k
+  name: {{ camelk_operator_package_name }}
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: red-hat-camel-k-operator.{{ camelk_operator_version_label }}
+  startingCSV: {{ camelk_operator_name }}.{{ camelk_operator_version_label }}

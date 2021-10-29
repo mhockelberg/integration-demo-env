@@ -71,14 +71,16 @@
     work_dir_name: sso
   when: sso_install  
 
+- name: install Microcks
+  import_role:
+    name: microcks_install
+  vars:
+    namespace: "{{ namespace_microcks_operator }}"
+    resources_dir: "{{ resources_base_dir }}/microcks-install"
+    work_dir_name: microcks
+  when: microcks_install    
 
-#- name: install sso
-#  import_role:
-#    name: openshift_sso
-#  vars:
-#    namespace: "{{ namespace_sso }}"
-#    resources_dir: "{{ resources_base_dir }}/sso"
-#    work_dir_name: sso
+
 #
 #- name: assign user {{ cluster_provisioner }} as project admin in namespace sso
 #  oc_adm_policy_user:

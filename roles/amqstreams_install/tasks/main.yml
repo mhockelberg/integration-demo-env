@@ -27,15 +27,15 @@
   - name: "Create AMQ Streams operator subscription"
     shell: "{{ openshift_cli }} create -f {{ work_dir }}/subscription-amqstreams.yml -n {{ namespace_amqstreams_operator }}"
 
-  - name: "Wait until AMQ Streams operator is active"
-    shell: "{{ openshift_cli }} get deploy amq-streams-cluster-operator-{{ amqstreams_operator_version_label }} -o template --template={{ go_template }} -n {{ namespace_amqstreams_operator }}"
+  - name: "Wait until AMQ Streams operator is installed"
+    shell: "{{ openshift_cli }} get csv {{ amqstreams_operator_name }}.{{ amqstreams_operator_version_label }} -o template --template={{ json_template }} -n {{ namespace_amqstreams_operator }}"
     vars:
-      go_template: '\{\{.status.readyReplicas\}\}'
+      json_template: '\{\{.status.phase\}\}'
     register: result
-    until: result.stdout == "1"
+    until: result.stdout == "Succeeded"
     retries: 30
     delay: 20
-    changed_when: false
+    changed_when: false  
   
   - name: "Create Kafka custom resource"
     template:

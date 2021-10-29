@@ -1,7 +1,9 @@
 ---
 
 namespace_sso_operator: sso-demo # project namespace for SSO operator and application
-sso_operator_version_label: 7.4.7 # Red Hat version of the SSO operator
+sso_operator_name: rhsso-operator
+sso_operator_package_name: rhsso-operator
+sso_operator_version_label: 7.4.9 # Red Hat version of the SSO operator
 sso_operator_channel: alpha
 sso_operator_approval_strategy: Automatic
 

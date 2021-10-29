@@ -1,0 +1,12 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: {{ microcks_operator_package_name }}
+  namespace: {{ namespace_microcks_operator }}
+spec:
+  channel: {{ microcks_operator_channel }}
+  installPlanApproval: {{ microcks_operator_approval_strategy }}
+  name: {{ microcks_operator_package_name }}
+  source: community-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: {{ microcks_operator_name }}.{{ microcks_operator_version_label }}

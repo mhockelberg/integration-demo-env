@@ -1,9 +1,12 @@
 ---
 
 namespace_threescale_operator: 3scale-demo # project namespace for 3scale operator and application
-threescale_operator_version_label: v0.7.0 # Red Hat version of the 3scale operator | install 2.9
-threescale_operator_channel: threescale-2.10
+threescale_operator_name: 3scale-operator
+threescale_operator_package_name: 3scale-operator
+threescale_operator_version_label: v0.8.0-0.1634606167.p # Red Hat version of the 3scale operator | install 2.9
+threescale_operator_channel: threescale-2.11
 threescale_operator_approval_strategy: Automatic
+threescale_api_version: apps.3scale.net/v1alpha1
 
 # s3 configuration ... used only when s3 is positioned as RWX storage
 api_aws_region: changeme # s3 bucket region

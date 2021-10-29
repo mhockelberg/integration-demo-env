@@ -1,12 +1,12 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: 3scale-operator
+  name: {{ threescale_operator_package_name }}
   namespace: {{ namespace_threescale_operator }}
 spec:
   channel: {{ threescale_operator_channel }}
   installPlanApproval: {{ threescale_operator_approval_strategy }}
-  name: 3scale-operator
+  name: {{ threescale_operator_package_name }}
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: 3scale-operator.{{ threescale_operator_version_label }}
+  startingCSV: {{ threescale_operator_name }}.{{ threescale_operator_version_label }}

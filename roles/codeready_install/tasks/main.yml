@@ -20,15 +20,15 @@
   - name: "Create CodeReady Workspaces subscription"
     shell: "oc create -f {{ work_dir }}/codeready-subscription.yml -n {{ namespace_codeready_operator }}"
 
-  - name: "Wait until CodeReady Workspaces operator is active"
-    shell: "oc get deployment codeready-operator -o template --template={{ json_template }} -n {{ namespace_codeready_operator }}"
+  - name: "Wait until CodeReady Workspaces operator is installed"
+    shell: "{{ openshift_cli }} get csv {{ codeready_operator_name }}.{{ codeready_operator_version_label }} -o template --template={{ json_template }} -n {{ namespace_codeready_operator }}"
     vars:
-      json_template: '\{\{.status.readyReplicas\}\}'
+      json_template: '\{\{.status.phase\}\}'
     register: result
-    until: result.stdout == "1"
+    until: result.stdout == "Succeeded"
     retries: 30
-    delay: 15
-    changed_when: false
+    delay: 20
+    changed_when: false  
 
   - name: "Create CodeReady Workspaces Cluster"
     template:
@@ -37,7 +37,7 @@
   - shell: "oc create -f {{ work_dir }}/codeready-workspaces-cluster.yml -n {{ namespace_codeready_operator }}"
   
   - name: "Wait until CodeReady Workspaces Cluster is active"
-    shell: "oc get checluster codeready-workspaces -o template --template={{ json_template }} -n {{ namespace_codeready_operator }}"
+    shell: "oc get checluster codeready-workspaces-cluster -o template --template={{ json_template }} -n {{ namespace_codeready_operator }}"
     vars:
       json_template: '\{\{.status.cheClusterRunning\}\}'
     register: result

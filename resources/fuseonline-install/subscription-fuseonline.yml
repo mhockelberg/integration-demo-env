@@ -1,12 +1,12 @@
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: fuse-online
+  name: {{ fuseonline_operator_package_name }}
   namespace: {{ namespace_fuseonline_operator }}
 spec:
   channel: {{ fuseonline_operator_channel }}
   installPlanApproval: {{ fuseonline_operator_approval_strategy }}
-  name: fuse-online
+  name: {{ fuseonline_operator_package_name }}
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: fuse-online-operator.{{ fuseonline_operator_version_label }}
+  startingCSV: {{ fuseonline_operator_name }}.{{ fuseonline_operator_version_label }}

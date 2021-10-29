@@ -12,6 +12,7 @@
     - group_vars/codeready.yml
     - group_vars/fuseonline.yml
     - group_vars/amqstreams.yml
+    - group_vars/microcks.yml
     - group_vars/mysql.yml
     - group_vars/noobaa.yml
     - group_vars/sso.yml

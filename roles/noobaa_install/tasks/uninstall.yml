@@ -1,9 +1,40 @@
 ---
 
-- name: uninstall 3scale 
+- name: uninstall noobaa local-s3-bucket claim
   oc_obj:
     state: absent
     oc_binary: "{{ openshift_cli }}"
-    name: "apim-apimanager"
-    kind: apimanager
-    namespace: "{{ namespace }}"
+    name: "{{ noobaa_bucket_name }}-claim"
+    kind: ObjectBucketClaim
+    namespace: "{{ namespace_noobaa_operator }}"
+
+- name: uninstall noobaa security context constraint 
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "noobaa"
+    kind: SecurityContextConstraints
+    namespace: "{{ namespace_noobaa_operator }}"
+
+- name: uninstall noobaa custom resource 
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "noobaa"
+    kind: Noobaa
+    namespace: "{{ namespace_noobaa_operator }}"
+
+- name: uninstall noobaa operator subscription
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ noobaa_operator_package_name }}"
+    kind: Subscription
+    namespace: "{{ namespace_noobaa_operator }}"
+
+- name: uninstall noobaa project
+  oc_obj:
+    state: absent
+    oc_binary: "{{ openshift_cli }}"
+    name: "{{ namespace_noobaa_operator }}"
+    kind: Project
