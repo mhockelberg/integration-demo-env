@@ -18,7 +18,7 @@ Prerequisites:
     * libyaml = True 
 
 
-* access to an OpenShift 4.7 cluster
+* access to an OpenShift 4.8 cluster
 * the Operator ClusterServiceVersions (CSVs) listed above installed
 * the appropriate version of the OpenShift command-line `oc` client on the PATH
 * logged in into the cluster with a user with cluster admin rights
