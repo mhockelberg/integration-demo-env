@@ -1,6 +1,6 @@
 # Integration Demo Environment Installer
 
-A set of Ansible roles and playbooks that install an Integration Demo environment project on top of an OpenShift 4 cluster using operators.  This installer can be used to install the following components:
+A set of Ansible roles and playbooks that install an Integration Demo environment project on top of an OpenShift 4.8 cluster using operators.  This installer can be used to install the following components:
 * Red Hat 3scale API Management 2.11.0 (Operator 0.8.0-0.1634606167.p) 
 * Red Hat AMQ Streams 1.8.2 (Operator 1.8.2)
 * Red Hat API Designer 7.9.1 (Operator 7.9.1)
@@ -18,7 +18,7 @@ Prerequisites:
     * libyaml = True 
 
 
-* access to an OpenShift 4.7 cluster
+* access to an OpenShift 4.8 cluster
 * the Operator ClusterServiceVersions (CSVs) listed above installed
 * the appropriate version of the OpenShift command-line `oc` client on the PATH
 * logged in into the cluster with a user with cluster admin rights
