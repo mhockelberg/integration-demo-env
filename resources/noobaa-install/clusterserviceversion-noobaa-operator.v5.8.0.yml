@@ -108,7 +108,7 @@ metadata:
       manager: olm
       operation: Update
       time: '2021-10-28T17:06:35Z'
-  namespace: noobaa-demo1
+  namespace: noobaa-demo
   labels:
     olm.api.1cf66995ee5bab83: provided
     olm.api.3a054534430a3631: provided
