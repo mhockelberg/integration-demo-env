@@ -74,22 +74,6 @@
     delay: 20
     changed_when: false
 
-  - name: "Create Kafka Connect S2I custom resource"
-    template:
-      src: "{{ resources_base_dir }}/amqstreams-install/custom-resources/kafka-connect-s2i.yml"
-      dest: "{{ work_dir }}/kafka-connect-s2i.yml"
-  - shell: "{{ openshift_cli }} create -f {{ work_dir }}/kafka-connect-s2i.yml -n {{ namespace_amqstreams_operator }}"
-  
-  - name: "Wait until Kafka Connect S2I is active"
-    shell: "{{ openshift_cli }} get kafkaconnects2i kafka-connect-s2i-cluster -o template --template={{ go_template }} -n {{ namespace_amqstreams_operator }}"
-    vars:
-      go_template: '\{\{\(index\ .status.conditions\ 0\).type\}\}'
-    register: result
-    until: result.stdout == "Ready"
-    retries: 30
-    delay: 20
-    changed_when: false
-
   - name: "Create Kafka Bridge custom resource"
     template:
       src: "{{ resources_base_dir }}/amqstreams-install/custom-resources/kafka-bridge.yml"
